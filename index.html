@@ -14,6 +14,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700;800&display=swap"
           rel="stylesheet">
+    <link rel="preload" as="image" href="assets/images/hero-pizza.jpg">
 
     <style>
         /* =========================================================
@@ -95,6 +96,21 @@
         }
 
         button {
+            cursor: pointer;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible {
+            outline: 3px solid rgba(255,77,45,.35);
+            outline-offset: 3px;
+        }
+
+        .hero-location {
+            border-top: 0;
+            border-left: 0;
+            border-bottom: 0;
+            background: transparent;
             cursor: pointer;
         }
 
@@ -235,16 +251,48 @@
             min-width: max-content;
         }
 
-        .brand-mark {
+        .brand-logo-wrap {
             width: 42px;
             height: 42px;
             display: grid;
             place-items: center;
-            border-radius: 13px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            font-size: 22px;
-            box-shadow: 0 10px 25px rgba(255,77,45,.25);
+            flex: 0 0 42px;
+            overflow: hidden;
+        }
+
+        .brand-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .brand-logo-fallback {
+            display: none;
+            font-family: "Playfair Display", serif;
+            font-size: 19px;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .brand-logo-fallback span,
+        .loader-logo-fallback span {
+            color: var(--primary);
+        }
+
+        .loader-logo-img {
+            width: 170px;
+            max-height: 58px;
+            object-fit: contain;
+            margin: 0 auto 18px;
+        }
+
+        .loader-logo-fallback {
+            display: none;
+            font-family: "Playfair Display", serif;
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 18px;
         }
 
         .brand-name {
@@ -1974,9 +2022,14 @@
                 height: 66px;
             }
 
-            .brand-mark {
+            .brand-logo-wrap {
                 width: 37px;
                 height: 37px;
+                flex-basis: 37px;
+            }
+
+            .brand-logo-fallback {
+                font-size: 17px;
             }
 
             .brand-name {
@@ -2200,6 +2253,19 @@
                 max-width: none;
             }
         }
+    
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+        }
+
     </style>
 </head>
 
@@ -2212,7 +2278,11 @@
     <div class="loader" id="loader">
         <div class="loader-content">
             <div class="loader-logo">
-                eater<span>go</span>
+                <img src="assets/logos/eatergo-logo.svg"
+                     alt="Eatergo"
+                     class="loader-logo-img"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="loader-logo-fallback">eater<span>go</span></span>
             </div>
             <div class="loader-bar">
                 <div class="loader-progress"></div>
@@ -2266,13 +2336,13 @@
 
             <a href="index.html" class="brand">
 
-                <div class="brand-mark">
-                    🍴
-                </div>
-
-                <div class="brand-name">
-                    eater<span>go</span>
-                </div>
+                <span class="brand-logo-wrap">
+    <img src="assets/logos/eatergo-logo.svg"
+         alt="Eatergo"
+         class="brand-logo-img"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+    <span class="brand-logo-fallback">eater<span>go</span></span>
+</span>
 
             </a>
 
@@ -2293,14 +2363,14 @@
                 <button
                     class="icon-btn"
                     id="themeToggle"
-                    aria-label="Toggle theme">
+                    aria-label="Toggle theme" type="button">
                     🌙
                 </button>
 
                 <button
                     class="icon-btn"
                     id="cartButton"
-                    aria-label="Open cart">
+                    aria-label="Open cart" type="button">
                     🛒
                     <span class="cart-count" id="cartCount">0</span>
                 </button>
@@ -2314,7 +2384,7 @@
                 <button
                     class="hamburger"
                     id="hamburger"
-                    aria-label="Open menu">
+                    aria-label="Open menu" type="button">
                     ☰
                 </button>
 
@@ -2331,7 +2401,7 @@
 
     <div class="mobile-menu" id="mobileMenu">
 
-        <button class="icon-btn mobile-close" id="mobileClose">
+        <button class="icon-btn mobile-close" id="mobileClose" type="button">
             ×
         </button>
 
@@ -2393,11 +2463,11 @@
 
                     <div class="hero-search">
 
-                        <div class="hero-location">
+                        <button class="hero-location" id="locationButton" type="button" aria-label="Change delivery location">
                             <span>📍</span>
-                            <strong>Ahmedabad</strong>
-                            ▾
-                        </div>
+                            <strong id="locationName">Ahmedabad</strong>
+                            <span aria-hidden="true">▾</span>
+                        </button>
 
                         <input
                             type="text"
@@ -2440,10 +2510,10 @@
 
                 <div class="hero-dots">
 
-                    <button class="hero-dot active" data-slide="0"></button>
-                    <button class="hero-dot" data-slide="1"></button>
-                    <button class="hero-dot" data-slide="2"></button>
-                    <button class="hero-dot" data-slide="3"></button>
+                    <button class="hero-dot active" data-slide="0" type="button"></button>
+                    <button class="hero-dot" data-slide="1" type="button"></button>
+                    <button class="hero-dot" data-slide="2" type="button"></button>
+                    <button class="hero-dot" data-slide="3" type="button"></button>
 
                 </div>
 
@@ -2664,7 +2734,7 @@
                             <button
                                 class="heart-btn"
                                 aria-label="Favourite"
-                                onclick="toggleFavourite(this)">
+                                onclick="toggleFavourite(this)" type="button">
                                 ♡
                             </button>
 
@@ -2729,7 +2799,7 @@
 
                             <button
                                 class="heart-btn"
-                                onclick="toggleFavourite(this)">
+                                onclick="toggleFavourite(this)" type="button">
                                 ♡
                             </button>
 
@@ -2794,7 +2864,7 @@
 
                             <button
                                 class="heart-btn"
-                                onclick="toggleFavourite(this)">
+                                onclick="toggleFavourite(this)" type="button">
                                 ♡
                             </button>
 
@@ -2859,7 +2929,7 @@
 
                             <button
                                 class="heart-btn"
-                                onclick="toggleFavourite(this)">
+                                onclick="toggleFavourite(this)" type="button">
                                 ♡
                             </button>
 
@@ -2965,7 +3035,7 @@
 
                         <button
                             class="offer-apply"
-                            onclick="applyCoupon('GET50')">
+                            onclick="applyCoupon('GET50')" type="button">
                             Apply
                         </button>
 
@@ -2990,7 +3060,7 @@
 
                         <button
                             class="offer-apply"
-                            onclick="applyCoupon('EAT100')">
+                            onclick="applyCoupon('EAT100')" type="button">
                             Apply
                         </button>
 
@@ -3015,7 +3085,7 @@
 
                         <button
                             class="offer-apply"
-                            onclick="applyCoupon('FIRSTBITE')">
+                            onclick="applyCoupon('FIRSTBITE')" type="button">
                             Apply
                         </button>
 
@@ -3108,7 +3178,7 @@
                                     'Margherita Pizza',
                                     249,
                                     'assets/images/margherita-pizza.jpg'
-                                )">
+                                )" type="button">
                                 Add +
                             </button>
 
@@ -3158,7 +3228,7 @@
                                     'Paneer Tikka',
                                     289,
                                     'assets/images/paneer-tikka.jpg'
-                                )">
+                                )" type="button">
                                 Add +
                             </button>
 
@@ -3206,7 +3276,7 @@
                                     'Chicken Biryani',
                                     299,
                                     'assets/images/chicken-biryani.jpg'
-                                )">
+                                )" type="button">
                                 Add +
                             </button>
 
@@ -3254,7 +3324,7 @@
                                     'Classic Cheese Burger',
                                     199,
                                     'assets/images/cheese-burger.jpg'
-                                )">
+                                )" type="button">
                                 Add +
                             </button>
 
@@ -3474,7 +3544,7 @@
 
                                     <img
                                         src="assets/images/paneer-tikka.jpg"
-                                        alt="Paneer Tikka">
+                                        alt="Paneer Tikka" loading="lazy" decoding="async">
 
                                     <div class="phone-food-info">
 
@@ -3495,7 +3565,7 @@
 
                                     <img
                                         src="assets/images/margherita-pizza.jpg"
-                                        alt="Pizza">
+                                        alt="Pizza" loading="lazy" decoding="async">
 
                                     <div class="phone-food-info">
 
@@ -3660,13 +3730,13 @@
 
                     <a href="index.html" class="brand">
 
-                        <div class="brand-mark">
-                            🍴
-                        </div>
-
-                        <div class="brand-name">
-                            eater<span>go</span>
-                        </div>
+                        <span class="brand-logo-wrap">
+                            <img src="assets/logos/eatergo-logo.svg"
+                                 alt="Eatergo"
+                                 class="brand-logo-img"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <span class="brand-logo-fallback">eater<span>go</span></span>
+                        </span>
 
                     </a>
 
@@ -3763,7 +3833,7 @@
 
         <button
             class="bottom-item active"
-            onclick="window.scrollTo({top:0, behavior:'smooth'})">
+            onclick="window.scrollTo({top:0, behavior:'smooth'})" type="button">
 
             <span>🏠</span>
             <span>Home</span>
@@ -3773,7 +3843,7 @@
 
         <button
             class="bottom-item"
-            onclick="window.location.href='search.html'">
+            onclick="window.location.href='search.html'" type="button">
 
             <span>🔎</span>
             <span>Search</span>
@@ -3783,7 +3853,7 @@
 
         <button
             class="bottom-item"
-            onclick="showToast('Your favourite restaurants will appear here ❤️')">
+            onclick="showToast('Your favourite restaurants will appear here ❤️')" type="button">
 
             <span>❤️</span>
             <span>Favourites</span>
@@ -3793,7 +3863,7 @@
 
         <button
             class="bottom-item"
-            onclick="window.location.href='orders.html'">
+            onclick="window.location.href='orders.html'" type="button">
 
             <span>📦</span>
             <span>Orders</span>
@@ -3803,7 +3873,7 @@
 
         <button
             class="bottom-item"
-            onclick="window.location.href='profile.html'">
+            onclick="window.location.href='profile.html'" type="button">
 
             <span>👤</span>
             <span>Profile</span>
@@ -3829,7 +3899,7 @@
 
                 <button
                     class="icon-btn"
-                    id="closeCart">
+                    id="closeCart" type="button">
                     ×
                 </button>
 
@@ -3912,7 +3982,7 @@
 
                 <button
                     class="checkout-btn"
-                    onclick="goToCheckout()">
+                    onclick="goToCheckout()" type="button">
                     Proceed to Checkout →
                 </button>
 
@@ -4160,6 +4230,35 @@
             performSearch
         );
 
+        /* ========================================================
+           LOCATION SELECTOR
+        ======================================================== */
+        const locationButton = document.getElementById("locationButton");
+        const locationName = document.getElementById("locationName");
+
+        if (locationButton && locationName) {
+            locationButton.addEventListener("click", () => {
+                const nextLocation = window.prompt(
+                    "Enter your delivery city:",
+                    locationName.textContent
+                );
+
+                if (nextLocation && nextLocation.trim()) {
+                    locationName.textContent = nextLocation.trim();
+                    localStorage.setItem(
+                        "eatergo-location",
+                        nextLocation.trim()
+                    );
+                    showToast("Location updated to " + nextLocation.trim() + " 📍");
+                }
+            });
+
+            const savedLocation = localStorage.getItem("eatergo-location");
+            if (savedLocation) {
+                locationName.textContent = savedLocation;
+            }
+        }
+
 
         heroSearch.addEventListener(
             "keydown",
@@ -4359,7 +4458,7 @@
 
                                 <button
                                     class="qty-btn"
-                                    onclick="changeQuantity(${index}, -1)">
+                                    onclick="changeQuantity(${index}, -1)" type="button">
                                     −
                                 </button>
 
@@ -4369,7 +4468,7 @@
 
                                 <button
                                     class="qty-btn"
-                                    onclick="changeQuantity(${index}, 1)">
+                                    onclick="changeQuantity(${index}, 1)" type="button">
                                     +
                                 </button>
 
@@ -4526,6 +4625,8 @@
 
             }
 
+            cartOverlay.classList.remove("open");
+            document.body.classList.remove("no-scroll");
             window.location.href =
                 "checkout.html";
 
