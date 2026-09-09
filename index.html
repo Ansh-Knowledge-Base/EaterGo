@@ -265,6 +265,19 @@
             height: 100%;
             object-fit: contain;
         }
+        
+        .brand-logo-wrap {
+            background: transparent;
+        }
+
+        .brand-logo-img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .brand-logo-fallback {
+            white-space: nowrap;
+        }
 
         .brand-logo-fallback {
             display: none;
@@ -645,6 +658,165 @@
         .hero-search-btn:hover {
             background: var(--primary-dark);
             transform: translateY(-1px);
+        }
+
+        .hero-search {
+            position: relative;
+        }
+
+        .hero-search-input {
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-keywords {
+            position: absolute;
+            left: 185px;
+            right: 115px;
+            top: calc(100% + 8px);
+            z-index: 20;
+            display: none;
+            overflow: hidden;
+            border: 1px solid rgba(30,20,15,.10);
+            border-radius: 14px;
+            background: rgba(255,255,255,.98);
+            box-shadow: 0 18px 45px rgba(0,0,0,.18);
+            color: #222;
+            backdrop-filter: blur(14px);
+        }
+
+        .search-keywords.open {
+            display: block;
+        }
+
+        .search-keyword {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border: 0;
+            border-bottom: 1px solid #eee;
+            background: transparent;
+            color: #222;
+            text-align: left;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .search-keyword:last-child {
+            border-bottom: 0;
+        }
+
+        .search-keyword:hover,
+        .search-keyword:focus {
+            background: #fff3ef;
+            color: var(--primary);
+            outline: none;
+        }
+
+        .location-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 6000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0,0,0,.55);
+            backdrop-filter: blur(8px);
+        }
+
+        .location-modal.open {
+            display: flex;
+        }
+
+        .location-panel {
+            width: min(560px, 100%);
+            max-height: min(720px, 90vh);
+            overflow: auto;
+            padding: 26px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: var(--surface);
+            color: var(--text);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .location-panel-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .location-panel-head h3 {
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+            line-height: 1.1;
+        }
+
+        .location-panel-head p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .location-close {
+            flex: 0 0 auto;
+        }
+
+        .location-field {
+            margin-bottom: 15px;
+        }
+
+        .location-field label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .7px;
+        }
+
+        .location-field select {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--surface);
+            color: var(--text);
+            outline: none;
+        }
+
+        .location-field select:focus {
+            border-color: var(--primary);
+        }
+
+        .location-save {
+            width: 100%;
+            margin-top: 5px;
+            padding: 13px 16px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .location-save:hover {
+            background: var(--primary-dark);
+        }
+
+        .location-current {
+            margin-top: 12px;
+            padding: 11px 13px;
+            border-radius: 11px;
+            background: var(--surface-2);
+            color: var(--muted);
+            font-size: 11px;
         }
 
         .hero-actions {
@@ -2091,6 +2263,17 @@
                 width: 100%;
             }
 
+            .search-keywords {
+                left: 7px;
+                right: 7px;
+                top: calc(100% + 7px);
+            }
+
+            .location-panel {
+                padding: 20px;
+                border-radius: 20px;
+            }
+
             .hero-actions {
                 flex-wrap: wrap;
             }
@@ -2278,7 +2461,7 @@
     <div class="loader" id="loader">
         <div class="loader-content">
             <div class="loader-logo">
-                <img src="assets/logos/eatergo-logo.png"
+                <img src="assets/logos/eatergo-logo.svg"
                      alt="Eatergo"
                      class="loader-logo-img"
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -2337,7 +2520,7 @@
             <a href="index.html" class="brand">
 
                 <span class="brand-logo-wrap">
-    <img src="assets/logos/eatergo-logo.png"
+    <img src="assets/logos/eatergo-logo.svg"
          alt="Eatergo"
          class="brand-logo-img"
          onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -2722,7 +2905,7 @@
 
                     <!-- RESTAURANT 1 -->
 
-                    <article class="restaurant-card">
+                    <article class="restaurant-card" data-restaurant-id="pizza-house">
 
                         <div class="restaurant-image">
 
@@ -2774,7 +2957,7 @@
                                 </span>
 
                                 <a
-                                    href="restaurant.html"
+                                    href="restaurant.html?id=pizza-house"
                                     class="view-menu">
                                     View Menu →
                                 </a>
@@ -2788,7 +2971,7 @@
 
                     <!-- RESTAURANT 2 -->
 
-                    <article class="restaurant-card">
+                    <article class="restaurant-card" data-restaurant-id="burger-point">
 
                         <div class="restaurant-image">
 
@@ -2839,7 +3022,7 @@
                                 </span>
 
                                 <a
-                                    href="restaurant.html"
+                                    href="restaurant.html?id=burger-point"
                                     class="view-menu">
                                     View Menu →
                                 </a>
@@ -2853,7 +3036,7 @@
 
                     <!-- RESTAURANT 3 -->
 
-                    <article class="restaurant-card">
+                    <article class="restaurant-card" data-restaurant-id="spice-kitchen">
 
                         <div class="restaurant-image">
 
@@ -2904,7 +3087,7 @@
                                 </span>
 
                                 <a
-                                    href="restaurant.html"
+                                    href="restaurant.html?id=spice-kitchen"
                                     class="view-menu">
                                     View Menu →
                                 </a>
@@ -2918,7 +3101,7 @@
 
                     <!-- RESTAURANT 4 -->
 
-                    <article class="restaurant-card">
+                    <article class="restaurant-card" data-restaurant-id="cafe-brew">
 
                         <div class="restaurant-image">
 
@@ -2969,7 +3152,7 @@
                                 </span>
 
                                 <a
-                                    href="restaurant.html"
+                                    href="restaurant.html?id=cafe-brew"
                                     class="view-menu">
                                     View Menu →
                                 </a>
@@ -3731,7 +3914,7 @@
                     <a href="index.html" class="brand">
 
                         <span class="brand-logo-wrap">
-                            <img src="assets/logos/eatergo-logo.png"
+                            <img src="assets/logos/eatergo-logo.svg"
                                  alt="Eatergo"
                                  class="brand-logo-img"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
@@ -3997,6 +4180,38 @@
          TOAST
     ========================================================= -->
 
+    <!-- =========================================================
+         DELIVERY LOCATION MODAL
+    ========================================================== -->
+    <div class="location-modal" id="locationModal" aria-hidden="true">
+        <div class="location-panel" role="dialog" aria-modal="true" aria-labelledby="locationTitle">
+            <div class="location-panel-head">
+                <div>
+                    <h3 id="locationTitle">Choose delivery location</h3>
+                    <p>Select your State / UT first, then choose the matching District.</p>
+                </div>
+                <button class="icon-btn location-close" id="locationClose" type="button" aria-label="Close location selector">×</button>
+            </div>
+
+            <div class="location-field">
+                <label for="stateSelect">State / Union Territory</label>
+                <select id="stateSelect">
+                    <option value="">Select State / UT</option>
+                </select>
+            </div>
+
+            <div class="location-field">
+                <label for="districtSelect">District</label>
+                <select id="districtSelect" disabled>
+                    <option value="">Select State / UT first</option>
+                </select>
+            </div>
+
+            <button class="location-save" id="locationSave" type="button">Save Delivery Location</button>
+            <div class="location-current" id="locationCurrent">No delivery location selected.</div>
+        </div>
+    </div>
+
     <div
         class="toast"
         id="toast">
@@ -4191,87 +4406,387 @@
 
 
         /* ========================================================
-           HERO SEARCH
+           HERO SEARCH + KEYWORDS
         ======================================================== */
 
-        const heroSearch =
+        const heroSearchInput =
             document.getElementById("heroSearch");
 
         const heroSearchButton =
             document.getElementById("heroSearchButton");
 
+        const searchKeywords =
+            document.getElementById("searchKeywords");
 
-        function performSearch() {
+        const searchTerms = [
+            "Pizza",
+            "Burger",
+            "Biryani",
+            "North Indian",
+            "South Indian",
+            "Chinese",
+            "Momos",
+            "Paneer",
+            "Chicken",
+            "Cafe",
+            "Coffee",
+            "Desserts",
+            "Thali",
+            "Healthy Food",
+            "Late Night Food"
+        ];
 
-            const query =
-                heroSearch.value.trim();
+        function renderSearchKeywords(value = "") {
+            const query = value.trim().toLowerCase();
 
             if (!query) {
-
-                showToast(
-                    "Type a restaurant, dish or cuisine to search 🔎"
-                );
-
-                heroSearch.focus();
-
+                searchKeywords.classList.remove("open");
+                searchKeywords.innerHTML = "";
                 return;
+            }
 
+            const matches = searchTerms
+                .filter(term => term.toLowerCase().includes(query))
+                .slice(0, 6);
+
+            if (!matches.length) {
+                searchKeywords.classList.remove("open");
+                searchKeywords.innerHTML = "";
+                return;
+            }
+
+            searchKeywords.innerHTML = matches.map(term => `
+                <button class="search-keyword" type="button"
+                        role="option" data-keyword="${term.replace(/"/g, "&quot;")}">
+                    🔎 <span>${term}</span>
+                </button>
+            `).join("");
+
+            searchKeywords.classList.add("open");
+        }
+
+        function goToSearch(query) {
+            const cleanQuery = String(query || "").trim();
+
+            if (!cleanQuery) {
+                showToast("Type a restaurant, dish or cuisine to search 🔎");
+                heroSearchInput.focus();
+                return;
             }
 
             window.location.href =
-                "search.html?q=" +
-                encodeURIComponent(query);
-
+                "search.html?q=" + encodeURIComponent(cleanQuery);
         }
 
+        heroSearchInput.addEventListener("input", event => {
+            renderSearchKeywords(event.target.value);
+        });
 
-        heroSearchButton.addEventListener(
-            "click",
-            performSearch
-        );
+        heroSearchInput.addEventListener("focus", event => {
+            renderSearchKeywords(event.target.value);
+        });
+
+        heroSearchInput.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                goToSearch(heroSearchInput.value);
+            }
+
+            if (event.key === "Escape") {
+                searchKeywords.classList.remove("open");
+            }
+        });
+
+        searchKeywords.addEventListener("click", event => {
+            const option = event.target.closest(".search-keyword");
+            if (!option) return;
+            goToSearch(option.dataset.keyword);
+        });
+
+        heroSearchButton.addEventListener("click", event => {
+            event.preventDefault();
+            goToSearch(heroSearchInput.value);
+        });
+
+        document.addEventListener("click", event => {
+            if (!event.target.closest(".hero-search")) {
+                searchKeywords.classList.remove("open");
+            }
+        });
+
 
         /* ========================================================
-           LOCATION SELECTOR
+           DELIVERY LOCATION — INDIA STATE + DISTRICT
         ======================================================== */
-        const locationButton = document.getElementById("locationButton");
-        const locationName = document.getElementById("locationName");
 
-        if (locationButton && locationName) {
-            locationButton.addEventListener("click", () => {
-                const nextLocation = window.prompt(
-                    "Enter your delivery city:",
-                    locationName.textContent
-                );
+        const locationButton =
+            document.getElementById("locationButton");
 
-                if (nextLocation && nextLocation.trim()) {
-                    locationName.textContent = nextLocation.trim();
-                    localStorage.setItem(
-                        "eatergo-location",
-                        nextLocation.trim()
-                    );
-                    showToast("Location updated to " + nextLocation.trim() + " 📍");
+        const locationName =
+            document.getElementById("locationName");
+
+        const locationModal =
+            document.getElementById("locationModal");
+
+        const locationClose =
+            document.getElementById("locationClose");
+
+        const stateSelect =
+            document.getElementById("stateSelect");
+
+        const districtSelect =
+            document.getElementById("districtSelect");
+
+        const locationSave =
+            document.getElementById("locationSave");
+
+        const locationCurrent =
+            document.getElementById("locationCurrent");
+
+        /*
+         * State list is kept locally so the selector works without
+         * waiting for an external service. Districts are loaded from
+         * the current Eatergo location data endpoint when a state is
+         * selected, with a local fallback for common states.
+         */
+        const indiaStates = [
+            "Andaman and Nicobar Islands",
+            "Andhra Pradesh",
+            "Arunachal Pradesh",
+            "Assam",
+            "Bihar",
+            "Chandigarh",
+            "Chhattisgarh",
+            "Dadra and Nagar Haveli and Daman and Diu",
+            "Delhi",
+            "Goa",
+            "Gujarat",
+            "Haryana",
+            "Himachal Pradesh",
+            "Jammu and Kashmir",
+            "Jharkhand",
+            "Karnataka",
+            "Kerala",
+            "Ladakh",
+            "Lakshadweep",
+            "Madhya Pradesh",
+            "Maharashtra",
+            "Manipur",
+            "Meghalaya",
+            "Mizoram",
+            "Nagaland",
+            "Odisha",
+            "Puducherry",
+            "Punjab",
+            "Rajasthan",
+            "Sikkim",
+            "Tamil Nadu",
+            "Telangana",
+            "Tripura",
+            "Uttar Pradesh",
+            "Uttarakhand",
+            "West Bengal"
+        ];
+
+        const districtFallback = {
+            "Gujarat": [
+                "Ahmedabad","Amreli","Anand","Aravalli","Banaskantha","Bharuch",
+                "Bhavnagar","Botad","Chhota Udaipur","Dahod","Dang","Devbhumi Dwarka",
+                "Gandhinagar","Gir Somnath","Jamnagar","Junagadh","Kachchh","Kheda",
+                "Mahisagar","Mehsana","Morbi","Narmada","Navsari","Panchmahal",
+                "Patan","Porbandar","Rajkot","Sabarkantha","Surat","Surendranagar","Valsad"
+            ],
+            "Maharashtra": [
+                "Ahilyanagar","Akola","Amravati","Beed","Bhandara","Buldhana",
+                "Chandrapur","Chhatrapati Sambhajinagar","Dharashiv","Dhule","Gadchiroli",
+                "Gondia","Hingoli","Jalgaon","Jalna","Kolhapur","Latur","Mumbai",
+                "Mumbai Suburban","Nagpur","Nanded","Nandurbar","Nashik","Palghar",
+                "Parbhani","Pune","Raigad","Ratnagiri","Sangli","Satara","Sindhudurg",
+                "Solapur","Thane","Wardha","Washim","Yavatmal"
+            ],
+            "Delhi": [
+                "Central Delhi","East Delhi","New Delhi","North Delhi","North East Delhi",
+                "North West Delhi","Shahdara","South Delhi","South East Delhi",
+                "South West Delhi","West Delhi"
+            ],
+            "Rajasthan": [
+                "Ajmer","Alwar","Balotra","Banswara","Baran","Barmer","Beawar","Bharatpur",
+                "Bhilwara","Bikaner","Bundi","Chittorgarh","Churu","Dausa","Deeg","Dholpur",
+                "Didwana-Kuchaman","Dudu","Dungarpur","Ganganagar","Hanumangarh","Jaipur",
+                "Jaisalmer","Jalore","Jhalawar","Jhunjhunu","Jodhpur","Karauli","Khairthal-Tijara",
+                "Kota","Kotputli-Behror","Nagaur","Neem Ka Thana","Pali","Pratapgarh",
+                "Rajsamand","Salumbar","Sawai Madhopur","Sikar","Sirohi","Tonk","Udaipur"
+            ],
+            "Uttar Pradesh": [
+                "Agra","Aligarh","Ambedkar Nagar","Amethi","Amroha","Auraiya","Ayodhya",
+                "Azamgarh","Baghpat","Bahraich","Ballia","Balrampur","Banda","Barabanki",
+                "Bareilly","Basti","Bhadohi","Bijnor","Budaun","Bulandshahr","Chandauli",
+                "Chitrakoot","Deoria","Etah","Etawah","Farrukhabad","Fatehpur","Firozabad",
+                "Gautam Buddha Nagar","Ghaziabad","Ghazipur","Gonda","Gorakhpur","Hamirpur",
+                "Hapur","Hardoi","Hathras","Jalaun","Jaunpur","Jhansi","Kannauj","Kanpur Dehat",
+                "Kanpur Nagar","Kasganj","Kaushambi","Kheri","Kushinagar","Lalitpur","Lucknow",
+                "Maharajganj","Mahoba","Mainpuri","Mathura","Mau","Meerut","Mirzapur","Moradabad",
+                "Muzaffarnagar","Pilibhit","Pratapgarh","Prayagraj","Raebareli","Rampur",
+                "Saharanpur","Sambhal","Sant Kabir Nagar","Shahjahanpur","Shamli","Shravasti",
+                "Siddharthnagar","Sitapur","Sonbhadra","Sultanpur","Unnao","Varanasi"
+            ]
+        };
+
+        indiaStates.forEach(state => {
+            const option = document.createElement("option");
+            option.value = state;
+            option.textContent = state;
+            stateSelect.appendChild(option);
+        });
+
+        function setDistrictOptions(districts, selected = "") {
+            districtSelect.innerHTML =
+                '<option value="">Select District</option>';
+
+            [...new Set((districts || []).filter(Boolean))]
+                .sort((a,b) => a.localeCompare(b))
+                .forEach(district => {
+                    const option = document.createElement("option");
+                    option.value = district;
+                    option.textContent = district;
+                    if (district === selected) option.selected = true;
+                    districtSelect.appendChild(option);
+                });
+
+            districtSelect.disabled = !districts || !districts.length;
+        }
+
+        async function loadDistricts(state) {
+            setDistrictOptions([], "");
+
+            if (!state) {
+                districtSelect.innerHTML =
+                    '<option value="">Select State / UT first</option>';
+                districtSelect.disabled = true;
+                return;
+            }
+
+            const local = districtFallback[state];
+
+            if (local) {
+                setDistrictOptions(local);
+            } else {
+                districtSelect.innerHTML =
+                    '<option value="">Loading districts…</option>';
+                districtSelect.disabled = true;
+            }
+
+            try {
+                const apiUrl =
+                    "https://restindia.herokuapp.com/" +
+                    encodeURIComponent(state) +
+                    "/all";
+
+                const response = await fetch(apiUrl, {
+                    method: "GET",
+                    headers: { "Accept": "application/json" }
+                });
+
+                if (!response.ok) throw new Error("District API unavailable");
+
+                const data = await response.json();
+
+                const districts = Array.isArray(data)
+                    ? data.map(item => item.name).filter(Boolean)
+                    : [];
+
+                if (districts.length) {
+                    setDistrictOptions(districts);
+                } else if (!local) {
+                    setDistrictOptions([]);
+                    districtSelect.innerHTML =
+                        '<option value="">District data unavailable</option>';
+                    districtSelect.disabled = true;
                 }
-            });
-
-            const savedLocation = localStorage.getItem("eatergo-location");
-            if (savedLocation) {
-                locationName.textContent = savedLocation;
+            } catch (error) {
+                if (!local) {
+                    districtSelect.innerHTML =
+                        '<option value="">Unable to load districts. Please retry.</option>';
+                    districtSelect.disabled = true;
+                }
             }
         }
 
+        function openLocationModal() {
+            locationModal.classList.add("open");
+            locationModal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("no-scroll");
+            stateSelect.focus();
+        }
 
-        heroSearch.addEventListener(
-            "keydown",
-            event => {
+        function closeLocationModal() {
+            locationModal.classList.remove("open");
+            locationModal.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("no-scroll");
+        }
 
-                if (event.key === "Enter") {
-                    performSearch();
-                }
+        locationButton.addEventListener("click", openLocationModal);
+        locationClose.addEventListener("click", closeLocationModal);
 
+        locationModal.addEventListener("click", event => {
+            if (event.target === locationModal) {
+                closeLocationModal();
             }
-        );
+        });
 
+        stateSelect.addEventListener("change", () => {
+            loadDistricts(stateSelect.value);
+        });
 
+        locationSave.addEventListener("click", () => {
+            const state = stateSelect.value;
+            const district = districtSelect.value;
+
+            if (!state || !district) {
+                showToast("Please select both State and District 📍");
+                return;
+            }
+
+            const locationData = { state, district };
+
+            localStorage.setItem(
+                "eatergo-location",
+                JSON.stringify(locationData)
+            );
+
+            locationName.textContent = district + ", " + state;
+            locationCurrent.textContent =
+                "Delivery location: " + district + ", " + state;
+
+            closeLocationModal();
+            showToast("Delivery location saved 📍");
+        });
+
+        const savedLocationRaw =
+            localStorage.getItem("eatergo-location");
+
+        if (savedLocationRaw) {
+            try {
+                const saved = JSON.parse(savedLocationRaw);
+
+                if (saved.state && saved.district) {
+                    locationName.textContent =
+                        saved.district + ", " + saved.state;
+
+                    locationCurrent.textContent =
+                        "Delivery location: " +
+                        saved.district + ", " +
+                        saved.state;
+
+                    stateSelect.value = saved.state;
+                    loadDistricts(saved.state).then(() => {
+                        districtSelect.value = saved.district;
+                    });
+                }
+            } catch {
+                localStorage.removeItem("eatergo-location");
+            }
+        }
         /* ========================================================
            SMART FOOD FINDER
         ======================================================== */
@@ -4319,6 +4834,27 @@
             }
         );
 
+
+
+
+        /* ========================================================
+           RESTAURANT CARD NAVIGATION
+        ======================================================== */
+
+        document
+            .querySelectorAll(".restaurant-card[data-restaurant-id]")
+            .forEach(card => {
+                card.addEventListener("click", event => {
+                    if (event.target.closest("button, a")) return;
+
+                    const id = card.dataset.restaurantId;
+                    if (id) {
+                        window.location.href =
+                            "restaurant.html?id=" +
+                            encodeURIComponent(id);
+                    }
+                });
+            });
 
         /* ========================================================
            FAVOURITES
@@ -4882,7 +5418,7 @@
 
                     event.preventDefault();
 
-                    heroSearch.focus();
+                    heroSearchInput.focus();
 
                 }
 
