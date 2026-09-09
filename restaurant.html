@@ -1,1 +1,3113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>Pizza House | Eatergo</title>
+  <meta
+    name="description"
+    content="Explore Pizza House menu, offers, dishes and reviews on Eatergo."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --primary: #ff4d2d;
+      --primary-dark: #e63d20;
+      --accent: #ffb000;
+      --dark: #171717;
+      --text: #222;
+      --muted: #777;
+      --light: #f7f7f7;
+      --white: #fff;
+      --border: #e9e9e9;
+      --green: #159957;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+      --radius: 18px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      color: var(--text);
+      background: #fafafa;
+      line-height: 1.5;
+    }
+
+    body.no-scroll {
+      overflow: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    /* =========================
+       LOADER
+    ========================= */
+
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .page-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-inner {
+      text-align: center;
+    }
+
+    .loader-logo {
+      width: 120px;
+      height: 55px;
+      object-fit: contain;
+      margin: 0 auto 18px;
+    }
+
+    .loader-fallback {
+      display: none;
+      font-size: 34px;
+      font-weight: 800;
+    }
+
+    .loader-fallback span {
+      color: var(--primary);
+    }
+
+    .loader-spinner {
+      width: 34px;
+      height: 34px;
+      border: 3px solid #eee;
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      margin: auto;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       ANNOUNCEMENT
+    ========================= */
+
+    .announcement {
+      background: var(--dark);
+      color: #fff;
+      text-align: center;
+      padding: 9px 0;
+      font-size: 13px;
+    }
+
+    .announcement strong {
+      color: #fff;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    .navbar {
+      height: 76px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    .brand {
+      min-width: 145px;
+      display: flex;
+      align-items: center;
+    }
+
+    .brand-logo {
+      width: 125px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .brand-fallback {
+      display: none;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .brand-fallback span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      position: relative;
+      transition: 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      background: #eee;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 18px;
+      height: 18px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+    }
+
+    /* =========================
+       BREADCRUMB
+    ========================= */
+
+    .breadcrumb {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .breadcrumb-inner {
+      padding: 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .breadcrumb a:hover {
+      color: var(--primary);
+    }
+
+    /* =========================
+       RESTAURANT HERO
+    ========================= */
+
+    .restaurant-hero {
+      background: #fff;
+      padding: 25px 0 30px;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .restaurant-cover {
+      height: 255px;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background: #eee;
+    }
+
+    .restaurant-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cover-overlay {
+      position: absolute;
+      inset: auto 0 0;
+      padding: 30px 18px 16px;
+      background: linear-gradient(
+        transparent,
+        rgba(0, 0, 0, 0.65)
+      );
+      color: #fff;
+    }
+
+    .cover-overlay span {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .restaurant-details {
+      position: relative;
+    }
+
+    .restaurant-details h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(34px, 4vw, 48px);
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .cuisine-line {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 13px;
+    }
+
+    .location-line {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .restaurant-stats {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat strong {
+      font-size: 15px;
+    }
+
+    .stat span {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .stat-rating {
+      background: var(--green);
+      color: #fff;
+      padding: 7px 9px;
+      border-radius: 7px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .hero-actions {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      gap: 8px;
+    }
+
+    .round-action {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #f5f5f5;
+      font-size: 18px;
+    }
+
+    .round-action.active {
+      color: var(--primary);
+      background: #fff1ed;
+    }
+
+    /* =========================
+       INFO STRIP
+    ========================= */
+
+    .info-strip {
+      background: #fff;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .info-item {
+      padding: 18px 20px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .info-item:last-child {
+      border-right: 0;
+    }
+
+    .info-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #fff2ee;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .info-item strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .info-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .restaurant-main {
+      padding: 40px 0 100px;
+    }
+
+    .restaurant-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 35px;
+      align-items: start;
+    }
+
+    /* =========================
+       MENU NAV
+    ========================= */
+
+    .menu-nav {
+      position: sticky;
+      top: 76px;
+      background: #fafafa;
+      padding: 0 0 16px;
+      z-index: 20;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .menu-nav-inner {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .menu-nav button {
+      background: transparent;
+      padding: 9px 15px;
+      border-radius: 50px;
+      color: #666;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .menu-nav button:hover,
+    .menu-nav button.active {
+      color: #fff;
+      background: var(--primary);
+    }
+
+    /* =========================
+       MENU SECTION
+    ========================= */
+
+    .menu-section {
+      margin-bottom: 42px;
+      scroll-margin-top: 155px;
+    }
+
+    .menu-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .menu-section-header h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+    }
+
+    .menu-section-header span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .food-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 15px;
+      display: grid;
+      grid-template-columns: 1fr 135px;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    .food-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .veg-mark {
+      width: 15px;
+      height: 15px;
+      border: 1px solid var(--green);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .veg-mark::after {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .nonveg-mark {
+      border-color: #b42b2b;
+    }
+
+    .nonveg-mark::after {
+      background: #b42b2b;
+    }
+
+    .food-details h3 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .food-price {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 7px;
+    }
+
+    .food-description {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      max-width: 550px;
+    }
+
+    .food-image {
+      height: 125px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      background: #eee;
+    }
+
+    .food-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .add-btn {
+      position: absolute;
+      left: 50%;
+      bottom: -1px;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 1px solid #eee;
+      color: var(--primary);
+      min-width: 80px;
+      padding: 7px 15px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .add-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* =========================
+       OFFER
+    ========================= */
+
+    .restaurant-offer {
+      background: #fff7e5;
+      border: 1px solid #ffe0a0;
+      border-radius: 15px;
+      padding: 17px;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .offer-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+    }
+
+    .restaurant-offer strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .restaurant-offer span {
+      display: block;
+      color: #777;
+      font-size: 11px;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 18px;
+      position: sticky;
+      top: 105px;
+    }
+
+    .sidebar-card + .sidebar-card {
+      position: static;
+    }
+
+    .sidebar-card h3 {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .sidebar-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 12px;
+    }
+
+    .sidebar-row:last-child {
+      border-bottom: 0;
+    }
+
+    .sidebar-row span:first-child {
+      color: var(--muted);
+    }
+
+    .open-status {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .sidebar-list {
+      list-style: none;
+    }
+
+    .sidebar-list li {
+      padding: 8px 0;
+      color: #666;
+      font-size: 12px;
+    }
+
+    /* =========================
+       REVIEWS
+    ========================= */
+
+    .reviews-section {
+      margin-top: 50px;
+      scroll-margin-top: 150px;
+    }
+
+    .reviews-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    .reviews-header h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 29px;
+    }
+
+    .review-summary {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .review-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 18px;
+      margin-bottom: 12px;
+    }
+
+    .review-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 9px;
+    }
+
+    .review-user {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .review-date {
+      color: #aaa;
+      font-size: 11px;
+    }
+
+    .review-stars {
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    .review-card p {
+      color: #666;
+      font-size: 12px;
+    }
+
+    /* =========================
+       CART BAR
+    ========================= */
+
+    .cart-bar {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translate(-50%, 120px);
+      width: min(600px, calc(100% - 30px));
+      background: var(--dark);
+      color: #fff;
+      border-radius: 15px;
+      padding: 12px 14px 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      z-index: 1200;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      transition: 0.3s ease;
+    }
+
+    .cart-bar.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+
+    .cart-summary strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .cart-summary span {
+      color: #aaa;
+      font-size: 11px;
+    }
+
+    .view-cart-btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 11px 17px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background: var(--dark);
+      color: #fff;
+      padding: 55px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+    }
+
+    .footer-brand img {
+      width: 120px;
+      height: 45px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      margin-bottom: 15px;
+    }
+
+    .footer-brand p {
+      color: #aaa;
+      font-size: 13px;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #aaa;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #333;
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      color: #888;
+      font-size: 12px;
+    }
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 100px;
+      transform: translate(-50%, 30px);
+      background: var(--dark);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 9px;
+      font-size: 12px;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    /* =========================
+       MOBILE NAV
+    ========================= */
+
+    .mobile-bottom-nav {
+      display: none;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 950px) {
+      .hero-layout {
+        grid-template-columns: 300px 1fr;
+      }
+
+      .restaurant-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar-card {
+        position: static;
+      }
+
+      .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .info-item:nth-child(2) {
+        border-right: 0;
+      }
+
+      .info-item:nth-child(3),
+      .info-item:nth-child(4) {
+        border-top: 1px solid var(--border);
+      }
+    }
+
+    @media (max-width: 780px) {
+      .container {
+        width: min(100% - 28px, 600px);
+      }
+
+      .navbar {
+        height: 68px;
+      }
+
+      .nav-links {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 68px;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+        background: #fff;
+        padding: 20px;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .theme-btn {
+        display: none;
+      }
+
+      .hero-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .restaurant-cover {
+        height: 230px;
+      }
+
+      .hero-actions {
+        top: -2px;
+      }
+
+      .restaurant-details {
+        padding-top: 5px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .info-item {
+        padding: 15px 10px;
+      }
+
+      .restaurant-main {
+        padding-bottom: 90px;
+      }
+
+      .food-card {
+        grid-template-columns: 1fr 115px;
+        gap: 12px;
+      }
+
+      .food-image {
+        height: 115px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .mobile-bottom-nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 62px;
+        background: #fff;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1100;
+      }
+
+      .mobile-bottom-nav a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        font-size: 10px;
+        color: #777;
+      }
+
+      .mobile-bottom-nav a.active {
+        color: var(--primary);
+      }
+
+      .mobile-bottom-nav span {
+        font-size: 18px;
+      }
+
+      footer {
+        padding-bottom: 85px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .announcement {
+        font-size: 11px;
+      }
+
+      .brand-logo {
+        width: 105px;
+      }
+
+      .restaurant-details h1 {
+        font-size: 35px;
+        padding-right: 70px;
+      }
+
+      .restaurant-stats {
+        gap: 12px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .info-item {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .info-item:last-child {
+        border-bottom: 0;
+      }
+
+      .food-card {
+        grid-template-columns: 1fr 105px;
+        padding: 12px;
+      }
+
+      .food-image {
+        height: 105px;
+      }
+
+      .food-description {
+        font-size: 11px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       LOADER
+  ========================= -->
+
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-inner">
+
+      <img
+        src="assets/logos/eatergo-logo.svg"
+        alt="Eatergo"
+        class="loader-logo"
+        onerror="this.style.display='none'; document.getElementById('loaderFallback').style.display='block';"
+      />
+
+      <div class="loader-fallback" id="loaderFallback">
+        eater<span>go</span>
+      </div>
+
+      <div class="loader-spinner"></div>
+
+    </div>
+  </div>
+
+
+  <!-- =========================
+       ANNOUNCEMENT
+  ========================= -->
+
+  <div class="announcement">
+    <div class="container">
+      <strong>Hungry?</strong> Great food is just a few clicks away.
+    </div>
+  </div>
+
+
+  <!-- =========================
+       NAVBAR
+  ========================= -->
+
+  <header class="navbar">
+
+    <div class="container nav-inner">
+
+      <a href="index.html" class="brand">
+
+        <img
+          src="assets/logos/eatergo-logo.svg"
+          alt="Eatergo"
+          class="brand-logo"
+          onerror="this.style.display='none'; document.getElementById('brandFallback').style.display='block';"
+        />
+
+        <span class="brand-fallback" id="brandFallback">
+          eater<span>go</span>
+        </span>
+
+      </a>
+
+
+      <nav class="nav-links" id="navLinks">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="restaurants.html" class="active">
+          Restaurants
+        </a>
+
+        <a href="offers.html">
+          Offers
+        </a>
+
+        <a href="collections.html">
+          Collections
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+      </nav>
+
+
+      <div class="nav-actions">
+
+        <button
+          class="icon-btn theme-btn"
+          id="themeBtn"
+          aria-label="Toggle theme"
+        >
+          ◐
+        </button>
+
+        <button
+          class="icon-btn"
+          id="favoriteBtn"
+          aria-label="Favorites"
+        >
+          ♡
+        </button>
+
+        <button
+          class="icon-btn"
+          id="cartBtn"
+          aria-label="Cart"
+        >
+          🛒
+          <span class="cart-count" id="cartCount">
+            0
+          </span>
+        </button>
+
+        <button
+          class="icon-btn mobile-menu-btn"
+          id="mobileMenuBtn"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       BREADCRUMB
+  ========================= -->
+
+  <div class="breadcrumb">
+
+    <div class="container breadcrumb-inner">
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <span>›</span>
+
+      <a href="restaurants.html">
+        Restaurants
+      </a>
+
+      <span>›</span>
+
+      <span id="breadcrumbName">
+        Pizza House
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       RESTAURANT HERO
+  ========================= -->
+
+  <section class="restaurant-hero">
+
+    <div class="container hero-layout">
+
+      <div class="restaurant-cover">
+
+        <img
+          src="assets/images/pizza-house.jpg"
+          alt="Pizza House"
+        />
+
+        <div class="cover-overlay">
+          <span>
+            30% OFF • Limited Time
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="restaurant-details">
+
+        <div class="hero-actions">
+
+          <button
+            class="round-action"
+            id="heroFavorite"
+            aria-label="Favorite restaurant"
+          >
+            ♡
+          </button>
+
+          <button
+            class="round-action"
+            id="shareBtn"
+            aria-label="Share restaurant"
+          >
+            ↗
+          </button>
+
+        </div>
+
+        <h1 id="restaurantName">
+          Pizza House
+        </h1>
+
+        <p class="cuisine-line">
+          Italian • Pizza • Fast Food
+        </p>
+
+        <p class="location-line">
+          📍 Vesu, Surat • 1.2 km away
+        </p>
+
+
+        <div class="restaurant-stats">
+
+          <div>
+            <span class="stat-rating">
+              ★ 4.7
+            </span>
+          </div>
+
+          <div class="stat">
+            <strong>2.4k+</strong>
+            <span>Ratings</span>
+          </div>
+
+          <div class="stat">
+            <strong>25 min</strong>
+            <span>Delivery</span>
+          </div>
+
+          <div class="stat">
+            <strong>₹550</strong>
+            <span>For two</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       INFO STRIP
+  ========================= -->
+
+  <section class="info-strip">
+
+    <div class="container info-grid">
+
+      <div class="info-item">
+
+        <div class="info-icon">
+          ⚡
+        </div>
+
+        <div>
+          <strong>Fast Delivery</strong>
+          <span>25–30 minutes</span>
+        </div>
+
+      </div>
+
+
+      <div class="info-item">
+
+        <div class="info-icon">
+          ✓
+        </div>
+
+        <div>
+          <strong>Highly Rated</strong>
+          <span>4.7 out of 5</span>
+        </div>
+
+      </div>
+
+
+      <div class="info-item">
+
+        <div class="info-icon">
+          %
+        </div>
+
+        <div>
+          <strong>Offers Available</strong>
+          <span>Save more today</span>
+        </div>
+
+      </div>
+
+
+      <div class="info-item">
+
+        <div class="info-icon">
+          🛵
+        </div>
+
+        <div>
+          <strong>Delivery</strong>
+          <span>Available now</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       MAIN RESTAURANT AREA
+  ========================= -->
+
+  <main class="restaurant-main">
+
+    <div class="container restaurant-grid">
+
+
+      <!-- =========================
+           LEFT MENU
+      ========================= -->
+
+      <section>
+
+        <!-- MENU NAV -->
+
+        <nav class="menu-nav">
+
+          <div class="menu-nav-inner">
+
+            <button
+              class="menu-tab active"
+              data-target="recommended"
+            >
+              Recommended
+            </button>
+
+            <button
+              class="menu-tab"
+              data-target="pizza"
+            >
+              Pizza
+            </button>
+
+            <button
+              class="menu-tab"
+              data-target="starters"
+            >
+              Starters
+            </button>
+
+            <button
+              class="menu-tab"
+              data-target="pasta"
+            >
+              Pasta
+            </button>
+
+            <button
+              class="menu-tab"
+              data-target="drinks"
+            >
+              Drinks
+            </button>
+
+            <button
+              class="menu-tab"
+              data-target="desserts"
+            >
+              Desserts
+            </button>
+
+            <button
+              class="menu-tab"
+              data-target="reviews"
+            >
+              Reviews
+            </button>
+
+          </div>
+
+        </nav>
+
+
+        <!-- OFFER -->
+
+        <div class="restaurant-offer">
+
+          <div class="offer-icon">
+            %
+          </div>
+
+          <div>
+
+            <strong>
+              30% OFF up to ₹150
+            </strong>
+
+            <span>
+              Use code EATER30 • Valid on orders above ₹399
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             RECOMMENDED
+        ========================= -->
+
+        <section
+          class="menu-section"
+          id="recommended"
+        >
+
+          <div class="menu-section-header">
+
+            <div>
+              <h2>Recommended</h2>
+              <span>Customer favourites</span>
+            </div>
+
+            <span>6 items</span>
+
+          </div>
+
+
+          <!-- FOOD 1 -->
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="veg-mark"></span>
+
+              <h3>
+                Margherita Pizza
+              </h3>
+
+              <div class="food-price">
+                ₹249
+              </div>
+
+              <p class="food-description">
+                Classic Italian pizza topped with tomato sauce,
+                mozzarella and fresh basil.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/margherita-pizza.jpg"
+                alt="Margherita Pizza"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Margherita Pizza"
+                data-price="249"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <!-- FOOD 2 -->
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="veg-mark"></span>
+
+              <h3>
+                Paneer Tikka Pizza
+              </h3>
+
+              <div class="food-price">
+                ₹329
+              </div>
+
+              <p class="food-description">
+                Loaded with paneer tikka, onion, capsicum,
+                mozzarella and signature pizza sauce.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/paneer-tikka.jpg"
+                alt="Paneer Tikka Pizza"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Paneer Tikka Pizza"
+                data-price="329"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <!-- FOOD 3 -->
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="nonveg-mark veg-mark"></span>
+
+              <h3>
+                Chicken Loaded Pizza
+              </h3>
+
+              <div class="food-price">
+                ₹399
+              </div>
+
+              <p class="food-description">
+                Tender chicken, mozzarella, jalapeño and
+                premium toppings on a crisp crust.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/hero-pizza.jpg"
+                alt="Chicken Loaded Pizza"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Chicken Loaded Pizza"
+                data-price="399"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- =========================
+             PIZZA
+        ========================= -->
+
+        <section
+          class="menu-section"
+          id="pizza"
+        >
+
+          <div class="menu-section-header">
+
+            <div>
+              <h2>Pizza</h2>
+              <span>Freshly baked</span>
+            </div>
+
+            <span>4 items</span>
+
+          </div>
+
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="veg-mark"></span>
+
+              <h3>
+                Farmhouse Pizza
+              </h3>
+
+              <div class="food-price">
+                ₹349
+              </div>
+
+              <p class="food-description">
+                Onion, capsicum, mushroom, tomato and
+                mozzarella on our signature crust.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/hero-pizza.jpg"
+                alt="Farmhouse Pizza"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Farmhouse Pizza"
+                data-price="349"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="veg-mark"></span>
+
+              <h3>
+                Four Cheese Pizza
+              </h3>
+
+              <div class="food-price">
+                ₹379
+              </div>
+
+              <p class="food-description">
+                A rich blend of four cheeses with herbs
+                and a golden baked crust.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/margherita-pizza.jpg"
+                alt="Four Cheese Pizza"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Four Cheese Pizza"
+                data-price="379"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- =========================
+             STARTERS
+        ========================= -->
+
+        <section
+          class="menu-section"
+          id="starters"
+        >
+
+          <div class="menu-section-header">
+
+            <div>
+              <h2>Starters</h2>
+              <span>Perfect to begin with</span>
+            </div>
+
+            <span>3 items</span>
+
+          </div>
+
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="veg-mark"></span>
+
+              <h3>
+                Paneer Tikka
+              </h3>
+
+              <div class="food-price">
+                ₹299
+              </div>
+
+              <p class="food-description">
+                Soft paneer cubes marinated with spices,
+                grilled with onions and peppers.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/paneer-tikka.jpg"
+                alt="Paneer Tikka"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Paneer Tikka"
+                data-price="299"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="veg-mark"></span>
+
+              <h3>
+                Garlic Bread
+              </h3>
+
+              <div class="food-price">
+                ₹159
+              </div>
+
+              <p class="food-description">
+                Freshly baked bread brushed with garlic butter
+                and herbs.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/margherita-pizza.jpg"
+                alt="Garlic Bread"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Garlic Bread"
+                data-price="159"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- =========================
+             PASTA
+        ========================= -->
+
+        <section
+          class="menu-section"
+          id="pasta"
+        >
+
+          <div class="menu-section-header">
+
+            <div>
+              <h2>Pasta</h2>
+              <span>Italian comfort food</span>
+            </div>
+
+            <span>3 items</span>
+
+          </div>
+
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="veg-mark"></span>
+
+              <h3>
+                Creamy Alfredo Pasta
+              </h3>
+
+              <div class="food-price">
+                ₹289
+              </div>
+
+              <p class="food-description">
+                Creamy white sauce pasta finished with herbs,
+                parmesan and cracked pepper.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/cafe-brew.jpg"
+                alt="Alfredo Pasta"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Creamy Alfredo Pasta"
+                data-price="289"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="nonveg-mark veg-mark"></span>
+
+              <h3>
+                Chicken Arrabbiata
+              </h3>
+
+              <div class="food-price">
+                ₹329
+              </div>
+
+              <p class="food-description">
+                Spicy tomato sauce pasta with tender chicken
+                and Italian herbs.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/hero-pizza.jpg"
+                alt="Chicken Arrabbiata"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Chicken Arrabbiata"
+                data-price="329"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- =========================
+             DRINKS
+        ========================= -->
+
+        <section
+          class="menu-section"
+          id="drinks"
+        >
+
+          <div class="menu-section-header">
+
+            <div>
+              <h2>Drinks</h2>
+              <span>Chilled & refreshing</span>
+            </div>
+
+            <span>3 items</span>
+
+          </div>
+
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="veg-mark"></span>
+
+              <h3>
+                Classic Cold Coffee
+              </h3>
+
+              <div class="food-price">
+                ₹149
+              </div>
+
+              <p class="food-description">
+                Smooth chilled coffee blended with milk
+                and a touch of sweetness.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/cafe-brew.jpg"
+                alt="Cold Coffee"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Classic Cold Coffee"
+                data-price="149"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- =========================
+             DESSERTS
+        ========================= -->
+
+        <section
+          class="menu-section"
+          id="desserts"
+        >
+
+          <div class="menu-section-header">
+
+            <div>
+              <h2>Desserts</h2>
+              <span>Something sweet</span>
+            </div>
+
+            <span>3 items</span>
+
+          </div>
+
+
+          <article class="food-card">
+
+            <div class="food-details">
+
+              <span class="veg-mark"></span>
+
+              <h3>
+                Chocolate Lava Cake
+              </h3>
+
+              <div class="food-price">
+                ₹199
+              </div>
+
+              <p class="food-description">
+                Warm chocolate cake with a rich molten
+                chocolate centre.
+              </p>
+
+            </div>
+
+            <div class="food-image">
+
+              <img
+                src="assets/images/collection-family.jpg"
+                alt="Chocolate Lava Cake"
+                loading="lazy"
+              />
+
+              <button
+                class="add-btn"
+                data-name="Chocolate Lava Cake"
+                data-price="199"
+              >
+                ADD
+              </button>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- =========================
+             REVIEWS
+        ========================= -->
+
+        <section
+          class="reviews-section"
+          id="reviews"
+        >
+
+          <div class="reviews-header">
+
+            <div>
+              <h2>Customer Reviews</h2>
+
+              <div class="review-summary">
+                ★ 4.7 • 2,400+ ratings
+              </div>
+            </div>
+
+          </div>
+
+
+          <article class="review-card">
+
+            <div class="review-top">
+
+              <div>
+
+                <div class="review-user">
+                  Rahul S.
+                </div>
+
+                <div class="review-date">
+                  2 days ago
+                </div>
+
+              </div>
+
+              <div class="review-stars">
+                ★★★★★
+              </div>
+
+            </div>
+
+            <p>
+              Really good pizza and the delivery was surprisingly
+              quick. The crust was fresh and toppings were generous.
+            </p>
+
+          </article>
+
+
+          <article class="review-card">
+
+            <div class="review-top">
+
+              <div>
+
+                <div class="review-user">
+                  Neha P.
+                </div>
+
+                <div class="review-date">
+                  5 days ago
+                </div>
+
+              </div>
+
+              <div class="review-stars">
+                ★★★★★
+              </div>
+
+            </div>
+
+            <p>
+              Margherita pizza was excellent. Good packaging and
+              the food arrived hot.
+            </p>
+
+          </article>
+
+
+          <article class="review-card">
+
+            <div class="review-top">
+
+              <div>
+
+                <div class="review-user">
+                  Amit R.
+                </div>
+
+                <div class="review-date">
+                  1 week ago
+                </div>
+
+              </div>
+
+              <div class="review-stars">
+                ★★★★☆
+              </div>
+
+            </div>
+
+            <p>
+              Nice place for a casual dinner. The offers on Eatergo
+              make it even better.
+            </p>
+
+          </article>
+
+        </section>
+
+      </section>
+
+
+      <!-- =========================
+           SIDEBAR
+      ========================= -->
+
+      <aside>
+
+        <div class="sidebar-card">
+
+          <h3>
+            Restaurant Info
+          </h3>
+
+          <div class="sidebar-row">
+            <span>Status</span>
+            <span class="open-status">
+              Open
+            </span>
+          </div>
+
+          <div class="sidebar-row">
+            <span>Delivery</span>
+            <span>
+              25–30 min
+            </span>
+          </div>
+
+          <div class="sidebar-row">
+            <span>Distance</span>
+            <span>
+              1.2 km
+            </span>
+          </div>
+
+          <div class="sidebar-row">
+            <span>Cost for two</span>
+            <span>
+              ₹550
+            </span>
+          </div>
+
+          <div class="sidebar-row">
+            <span>Payment</span>
+            <span>
+              Online / COD
+            </span>
+          </div>
+
+        </div>
+
+
+        <div class="sidebar-card">
+
+          <h3>
+            Popular at Pizza House
+          </h3>
+
+          <ul class="sidebar-list">
+
+            <li>
+              🍕 Margherita Pizza
+            </li>
+
+            <li>
+              🍕 Paneer Tikka Pizza
+            </li>
+
+            <li>
+              🧀 Four Cheese Pizza
+            </li>
+
+            <li>
+              🥖 Garlic Bread
+            </li>
+
+            <li>
+              🍫 Chocolate Lava Cake
+            </li>
+
+          </ul>
+
+        </div>
+
+
+        <div class="sidebar-card">
+
+          <h3>
+            Restaurant Timings
+          </h3>
+
+          <div class="sidebar-row">
+            <span>Monday</span>
+            <span>11 AM – 11 PM</span>
+          </div>
+
+          <div class="sidebar-row">
+            <span>Tuesday</span>
+            <span>11 AM – 11 PM</span>
+          </div>
+
+          <div class="sidebar-row">
+            <span>Wednesday</span>
+            <span>11 AM – 11 PM</span>
+          </div>
+
+          <div class="sidebar-row">
+            <span>Thursday</span>
+            <span>11 AM – 11 PM</span>
+          </div>
+
+          <div class="sidebar-row">
+            <span>Friday</span>
+            <span>11 AM – 12 AM</span>
+          </div>
+
+          <div class="sidebar-row">
+            <span>Saturday</span>
+            <span>11 AM – 12 AM</span>
+          </div>
+
+          <div class="sidebar-row">
+            <span>Sunday</span>
+            <span>11 AM – 11 PM</span>
+          </div>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+
+  <!-- =========================
+       CART BAR
+  ========================= -->
+
+  <div class="cart-bar" id="cartBar">
+
+    <div class="cart-summary">
+
+      <strong id="cartItemsText">
+        0 items in cart
+      </strong>
+
+      <span id="cartTotalText">
+        ₹0
+      </span>
+
+    </div>
+
+    <button
+      class="view-cart-btn"
+      id="viewCartBtn"
+    >
+      View Cart →
+    </button>
+
+  </div>
+
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+
+          <img
+            src="assets/logos/eatergo-logo.svg"
+            alt="Eatergo"
+          />
+
+          <p>
+            Discover restaurants, explore great food and get
+            your favourites delivered with Eatergo.
+          </p>
+
+        </div>
+
+
+        <div class="footer-col">
+
+          <h4>Explore</h4>
+
+          <a href="index.html">
+            Home
+          </a>
+
+          <a href="restaurants.html">
+            Restaurants
+          </a>
+
+          <a href="offers.html">
+            Offers
+          </a>
+
+          <a href="collections.html">
+            Collections
+          </a>
+
+        </div>
+
+
+        <div class="footer-col">
+
+          <h4>Company</h4>
+
+          <a href="about.html">
+            About Us
+          </a>
+
+          <a href="#">
+            Careers
+          </a>
+
+          <a href="#">
+            Partner With Us
+          </a>
+
+          <a href="#">
+            Contact
+          </a>
+
+        </div>
+
+
+        <div class="footer-col">
+
+          <h4>Support</h4>
+
+          <a href="#">
+            Help Center
+          </a>
+
+          <a href="#">
+            Privacy
+          </a>
+
+          <a href="#">
+            Terms
+          </a>
+
+          <a href="#">
+            Refund Policy
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        <span>
+          © 2026 Eatergo. All rights reserved.
+        </span>
+
+        <span>
+          Made for food lovers.
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================
+       MOBILE BOTTOM NAV
+  ========================= -->
+
+  <nav class="mobile-bottom-nav">
+
+    <a href="index.html">
+      <span>⌂</span>
+      Home
+    </a>
+
+    <a href="search.html">
+      <span>⌕</span>
+      Search
+    </a>
+
+    <a href="restaurants.html" class="active">
+      <span>🍽</span>
+      Restaurants
+    </a>
+
+    <a href="favorites.html">
+      <span>♡</span>
+      Favorites
+    </a>
+
+    <a href="cart.html">
+      <span>🛒</span>
+      Cart
+    </a>
+
+  </nav>
+
+
+  <!-- =========================
+       TOAST
+  ========================= -->
+
+  <div class="toast" id="toast"></div>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+      /* =========================
+         LOADER
+      ========================= */
+
+      const loader =
+        document.getElementById("pageLoader");
+
+      setTimeout(() => {
+        loader.classList.add("hidden");
+      }, 500);
+
+
+      /* =========================
+         ELEMENTS
+      ========================= */
+
+      const cartCount =
+        document.getElementById("cartCount");
+
+      const cartBar =
+        document.getElementById("cartBar");
+
+      const cartItemsText =
+        document.getElementById("cartItemsText");
+
+      const cartTotalText =
+        document.getElementById("cartTotalText");
+
+      const toast =
+        document.getElementById("toast");
+
+
+      /* =========================
+         TOAST
+      ========================= */
+
+      let toastTimer;
+
+      function showToast(message) {
+
+        toast.textContent = message;
+
+        toast.classList.add("show");
+
+        clearTimeout(toastTimer);
+
+        toastTimer = setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2200);
+
+      }
+
+
+      /* =========================
+         CART
+      ========================= */
+
+      let cart =
+        JSON.parse(
+          localStorage.getItem(
+            "eatergoCart"
+          ) || "[]"
+        );
+
+
+      function updateCart() {
+
+        const count =
+          cart.reduce(
+            (total, item) =>
+              total + (item.quantity || 1),
+            0
+          );
+
+        const total =
+          cart.reduce(
+            (sum, item) =>
+              sum +
+              Number(item.price || 0) *
+              (item.quantity || 1),
+            0
+          );
+
+
+        cartCount.textContent = count;
+
+        cartItemsText.textContent =
+          `${count} item${count !== 1 ? "s" : ""} in cart`;
+
+        cartTotalText.textContent =
+          `₹${total}`;
+
+
+        cartBar.classList.toggle(
+          "show",
+          count > 0
+        );
+
+      }
+
+
+      /* =========================
+         ADD FOOD
+      ========================= */
+
+      document
+        .querySelectorAll(".add-btn")
+        .forEach(button => {
+
+          button.addEventListener(
+            "click",
+            () => {
+
+              const name =
+                button.dataset.name;
+
+              const price =
+                Number(button.dataset.price);
+
+
+              const existing =
+                cart.find(
+                  item => item.name === name
+                );
+
+
+              if (existing) {
+
+                existing.quantity =
+                  (existing.quantity || 1) + 1;
+
+              } else {
+
+                cart.push({
+                  name,
+                  price,
+                  quantity: 1,
+                  restaurant: "Pizza House"
+                });
+
+              }
+
+
+              localStorage.setItem(
+                "eatergoCart",
+                JSON.stringify(cart)
+              );
+
+
+              updateCart();
+
+
+              showToast(
+                `${name} added to cart`
+              );
+
+            }
+          );
+
+        });
+
+
+      updateCart();
+
+
+      /* =========================
+         CART BUTTON
+      ========================= */
+
+      document
+        .getElementById("cartBtn")
+        .addEventListener(
+          "click",
+          () => {
+
+            window.location.href =
+              "cart.html";
+
+          }
+        );
+
+
+      document
+        .getElementById("viewCartBtn")
+        .addEventListener(
+          "click",
+          () => {
+
+            window.location.href =
+              "cart.html";
+
+          }
+        );
+
+
+      /* =========================
+         FAVORITES
+      ========================= */
+
+      let favorites =
+        JSON.parse(
+          localStorage.getItem(
+            "eatergoFavorites"
+          ) || "[]"
+        );
+
+
+      const restaurantName =
+        "Pizza House";
+
+
+      const favoriteButtons = [
+        document.getElementById("favoriteBtn"),
+        document.getElementById("heroFavorite")
+      ];
+
+
+      function updateFavorites() {
+
+        const active =
+          favorites.includes(
+            restaurantName
+          );
+
+
+        favoriteButtons.forEach(button => {
+
+          if (!button) return;
+
+          button.classList.toggle(
+            "active",
+            active
+          );
+
+          button.textContent =
+            active ? "♥" : "♡";
+
+        });
+
+      }
+
+
+      function toggleFavorite() {
+
+        if (
+          favorites.includes(
+            restaurantName
+          )
+        ) {
+
+          favorites =
+            favorites.filter(
+              item =>
+                item !== restaurantName
+            );
+
+          showToast(
+            "Removed from favorites"
+          );
+
+        } else {
+
+          favorites.push(
+            restaurantName
+          );
+
+          showToast(
+            "Added to favorites"
+          );
+
+        }
+
+
+        localStorage.setItem(
+          "eatergoFavorites",
+          JSON.stringify(favorites)
+        );
+
+
+        updateFavorites();
+
+      }
+
+
+      favoriteButtons.forEach(button => {
+
+        if (!button) return;
+
+        button.addEventListener(
+          "click",
+          toggleFavorite
+        );
+
+      });
+
+
+      updateFavorites();
+
+
+      /* =========================
+         SHARE
+      ========================= */
+
+      document
+        .getElementById("shareBtn")
+        .addEventListener(
+          "click",
+          async () => {
+
+            const shareData = {
+              title: "Pizza House | Eatergo",
+              text:
+                "Check out Pizza House on Eatergo.",
+              url:
+                window.location.href
+            };
+
+
+            if (
+              navigator.share
+            ) {
+
+              try {
+
+                await navigator.share(
+                  shareData
+                );
+
+              } catch (error) {
+                /* User cancelled share */
+              }
+
+            } else {
+
+              try {
+
+                await navigator.clipboard.writeText(
+                  window.location.href
+                );
+
+                showToast(
+                  "Restaurant link copied"
+                );
+
+              } catch (error) {
+
+                showToast(
+                  "Unable to copy link"
+                );
+
+              }
+
+            }
+
+          }
+        );
+
+
+      /* =========================
+         MENU NAVIGATION
+      ========================= */
+
+      const menuTabs =
+        document.querySelectorAll(
+          ".menu-tab"
+        );
+
+
+      menuTabs.forEach(tab => {
+
+        tab.addEventListener(
+          "click",
+          () => {
+
+            const target =
+              document.getElementById(
+                tab.dataset.target
+              );
+
+
+            if (!target) return;
+
+
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+
+
+            menuTabs.forEach(item =>
+              item.classList.remove(
+                "active"
+              )
+            );
+
+
+            tab.classList.add(
+              "active"
+            );
+
+          }
+        );
+
+      });
+
+
+      /* =========================
+         MOBILE MENU
+      ========================= */
+
+      const mobileMenuBtn =
+        document.getElementById(
+          "mobileMenuBtn"
+        );
+
+      const navLinks =
+        document.getElementById(
+          "navLinks"
+        );
+
+
+      mobileMenuBtn.addEventListener(
+        "click",
+        () => {
+
+          navLinks.classList.toggle(
+            "open"
+          );
+
+        }
+      );
+
+
+      document
+        .querySelectorAll(".nav-links a")
+        .forEach(link => {
+
+          link.addEventListener(
+            "click",
+            () => {
+
+              navLinks.classList.remove(
+                "open"
+              );
+
+            }
+          );
+
+        });
+
+
+      /* =========================
+         THEME BUTTON
+      ========================= */
+
+      document
+        .getElementById("themeBtn")
+        .addEventListener(
+          "click",
+          () => {
+
+            showToast(
+              "Theme settings coming soon"
+            );
+
+          }
+        );
+
+
+      /* =========================
+         SCROLL ACTIVE MENU
+      ========================= */
+
+      const sections =
+        document.querySelectorAll(
+          ".menu-section, .reviews-section"
+        );
+
+
+      const observer =
+        new IntersectionObserver(
+          entries => {
+
+            entries.forEach(entry => {
+
+              if (!entry.isIntersecting) {
+                return;
+              }
+
+
+              const id =
+                entry.target.id;
+
+
+              menuTabs.forEach(tab => {
+
+                tab.classList.toggle(
+                  "active",
+                  tab.dataset.target === id
+                );
+
+              });
+
+            });
+
+          },
+          {
+            rootMargin:
+              "-140px 0px -60% 0px"
+          }
+        );
+
+
+      sections.forEach(section =>
+        observer.observe(section)
+      );
+
+    });
+
+  </script>
+
+</body>
+</html>
