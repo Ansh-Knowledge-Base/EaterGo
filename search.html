@@ -1,1 +1,3425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>Search Food & Restaurants | Eatergo</title>
+  <meta
+    name="description"
+    content="Search restaurants, dishes and cuisines near you with Eatergo."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --primary: #ff4d2d;
+      --primary-dark: #e63d20;
+      --accent: #ffb000;
+      --dark: #171717;
+      --dark-2: #242424;
+      --text: #222;
+      --muted: #777;
+      --light: #f7f7f7;
+      --white: #fff;
+      --border: #e9e9e9;
+      --success: #159957;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+      --radius: 18px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: #fafafa;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    body.no-scroll {
+      overflow: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    /* =========================
+       LOADER
+    ========================= */
+
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .page-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-inner {
+      text-align: center;
+    }
+
+    .loader-logo {
+      width: 120px;
+      height: 55px;
+      object-fit: contain;
+      margin: auto auto 18px;
+    }
+
+    .loader-wordmark {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .loader-wordmark span {
+      color: var(--primary);
+    }
+
+    .loader-spinner {
+      width: 34px;
+      height: 34px;
+      border: 3px solid #eee;
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      margin: 20px auto 0;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* =========================
+       TOP BAR
+    ========================= */
+
+    .announcement {
+      background: var(--dark);
+      color: #fff;
+      font-size: 13px;
+      padding: 9px 0;
+      text-align: center;
+    }
+
+    .announcement strong {
+      color: #fff;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    .navbar {
+      height: 76px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      min-width: 150px;
+    }
+
+    .brand-logo {
+      width: 125px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .brand-fallback {
+      display: none;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .brand-fallback span {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-size: 18px;
+      transition: 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      background: #eee;
+      transform: translateY(-1px);
+    }
+
+    .cart-count {
+      position: absolute;
+      right: -2px;
+      top: -2px;
+      background: var(--primary);
+      color: #fff;
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+    }
+
+    /* =========================
+       SEARCH HERO
+    ========================= */
+
+    .search-hero {
+      background:
+        linear-gradient(
+          90deg,
+          rgba(20, 20, 20, 0.94),
+          rgba(20, 20, 20, 0.74)
+        ),
+        url("assets/images/hero-pizza.jpg") center/cover no-repeat;
+      min-height: 330px;
+      display: flex;
+      align-items: center;
+      color: #fff;
+    }
+
+    .search-hero-content {
+      max-width: 850px;
+      margin: auto;
+      text-align: center;
+      padding: 60px 0;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      color: #fff;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      opacity: 0.9;
+    }
+
+    .search-hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(38px, 5vw, 62px);
+      line-height: 1.05;
+      margin-bottom: 14px;
+    }
+
+    .search-hero p {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 16px;
+      margin-bottom: 28px;
+    }
+
+    .main-search {
+      background: #fff;
+      padding: 7px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      max-width: 780px;
+      margin: auto;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.22);
+    }
+
+    .search-location {
+      padding: 0 17px;
+      border-right: 1px solid #e8e8e8;
+      color: #555;
+      font-size: 14px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .main-search input {
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      outline: none;
+      padding: 15px 16px;
+      color: #222;
+      font-size: 15px;
+    }
+
+    .main-search button {
+      background: var(--primary);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 11px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .main-search button:hover {
+      background: var(--primary-dark);
+    }
+
+    /* =========================
+       SEARCH SUGGESTIONS
+    ========================= */
+
+    .popular-searches {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+
+    .popular-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .popular-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #555;
+      margin-right: 5px;
+    }
+
+    .suggestion {
+      background: #f5f5f5;
+      border: 1px solid #eee;
+      padding: 8px 14px;
+      border-radius: 50px;
+      font-size: 13px;
+      transition: 0.2s ease;
+    }
+
+    .suggestion:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #fff;
+    }
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .search-content {
+      padding: 45px 0 80px;
+    }
+
+    .results-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .results-heading h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 34px;
+      margin-bottom: 5px;
+    }
+
+    .results-heading p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .sort-select {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 15px;
+      outline: none;
+      min-width: 170px;
+      cursor: pointer;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 245px 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    /* =========================
+       FILTERS
+    ========================= */
+
+    .filters {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      position: sticky;
+      top: 100px;
+    }
+
+    .filter-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .filter-title h3 {
+      font-size: 17px;
+    }
+
+    .clear-filter {
+      color: var(--primary);
+      background: none;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .filter-group {
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .filter-group:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .filter-group h4 {
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 11px;
+      cursor: pointer;
+    }
+
+    .filter-option input {
+      accent-color: var(--primary);
+    }
+
+    .price-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+
+    .price-option {
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 9px 5px;
+      border-radius: 8px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .price-option.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* =========================
+       QUICK FILTERS
+    ========================= */
+
+    .quick-filters {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .quick-chip {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 9px 15px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      transition: 0.2s ease;
+    }
+
+    .quick-chip:hover,
+    .quick-chip.active {
+      color: #fff;
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* =========================
+       RESULT CARDS
+    ========================= */
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .restaurant-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .restaurant-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+
+    .restaurant-image {
+      height: 205px;
+      position: relative;
+      overflow: hidden;
+      background: #eee;
+    }
+
+    .restaurant-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s ease;
+    }
+
+    .restaurant-card:hover .restaurant-image img {
+      transform: scale(1.05);
+    }
+
+    .discount-badge {
+      position: absolute;
+      left: 13px;
+      bottom: 13px;
+      background: var(--primary);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .favorite-btn {
+      position: absolute;
+      right: 13px;
+      top: 13px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.95);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .favorite-btn.active {
+      color: var(--primary);
+    }
+
+    .restaurant-info {
+      padding: 17px;
+    }
+
+    .restaurant-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .restaurant-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .restaurant-cuisine {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .rating {
+      background: var(--success);
+      color: #fff;
+      padding: 5px 7px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .restaurant-meta {
+      display: flex;
+      gap: 13px;
+      margin-top: 15px;
+      padding-top: 13px;
+      border-top: 1px solid #eee;
+      color: #666;
+      font-size: 12px;
+    }
+
+    .restaurant-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .restaurant-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .tag {
+      background: #f5f5f5;
+      color: #666;
+      padding: 5px 8px;
+      border-radius: 5px;
+      font-size: 10px;
+    }
+
+    /* =========================
+       DISH RESULTS
+    ========================= */
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 45px 0 18px;
+    }
+
+    .section-label h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+    }
+
+    .dish-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .dish-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px;
+      display: flex;
+      gap: 13px;
+      transition: 0.2s ease;
+    }
+
+    .dish-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .dish-image {
+      width: 90px;
+      height: 90px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #eee;
+    }
+
+    .dish-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .dish-info {
+      padding: 4px 2px;
+      min-width: 0;
+    }
+
+    .dish-info h4 {
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    .dish-info p {
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+
+    .dish-price {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .add-dish {
+      margin-left: 5px;
+      color: var(--primary);
+      background: #fff4f1;
+      padding: 5px 9px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       EMPTY STATE
+    ========================= */
+
+    .empty-state {
+      display: none;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      padding: 70px 25px;
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .empty-state h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+      margin-bottom: 7px;
+    }
+
+    .empty-state p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 450px;
+      margin: auto auto 22px;
+    }
+
+    .reset-btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 9px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background: var(--dark);
+      color: #fff;
+      padding: 55px 0 25px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+    }
+
+    .footer-brand img {
+      width: 120px;
+      height: 45px;
+      object-fit: contain;
+      margin-bottom: 16px;
+      filter: brightness(0) invert(1);
+    }
+
+    .footer-brand p {
+      color: #aaa;
+      font-size: 13px;
+      max-width: 290px;
+    }
+
+    .footer-col h4 {
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #aaa;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .footer-col a:hover {
+      color: #fff;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #333;
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #888;
+      font-size: 12px;
+    }
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      background: var(--dark);
+      color: #fff;
+      padding: 13px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      z-index: 9998;
+      transform: translateY(100px);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* =========================
+       MOBILE BOTTOM NAV
+    ========================= */
+
+    .mobile-bottom-nav {
+      display: none;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1000px) {
+      .content-grid {
+        grid-template-columns: 210px 1fr;
+      }
+
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dish-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-links {
+        gap: 18px;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .container {
+        width: min(100% - 28px, 600px);
+      }
+
+      .navbar {
+        height: 68px;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 68px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 20px;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .nav-actions .theme-btn {
+        display: none;
+      }
+
+      .search-hero {
+        min-height: auto;
+      }
+
+      .search-hero-content {
+        padding: 45px 0;
+      }
+
+      .search-hero h1 {
+        font-size: 42px;
+      }
+
+      .main-search {
+        flex-wrap: wrap;
+      }
+
+      .search-location {
+        width: 100%;
+        border-right: 0;
+        border-bottom: 1px solid #eee;
+        padding: 10px 12px;
+      }
+
+      .main-search input {
+        width: calc(100% - 100px);
+      }
+
+      .main-search button {
+        padding: 12px 18px;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filters {
+        position: static;
+      }
+
+      .filter-group {
+        display: none;
+      }
+
+      .filter-title {
+        margin-bottom: 0;
+      }
+
+      .results-heading {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .sort-select {
+        width: 100%;
+      }
+
+      .dish-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .mobile-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 62px;
+        background: #fff;
+        border-top: 1px solid var(--border);
+        z-index: 999;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      .mobile-bottom-nav a {
+        color: #777;
+        font-size: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+      }
+
+      .mobile-bottom-nav a.active {
+        color: var(--primary);
+      }
+
+      .mobile-bottom-nav span {
+        font-size: 18px;
+      }
+
+      footer {
+        padding-bottom: 90px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .announcement {
+        font-size: 11px;
+      }
+
+      .brand-logo {
+        width: 105px;
+      }
+
+      .nav-actions {
+        gap: 5px;
+      }
+
+      .icon-btn {
+        width: 38px;
+        height: 38px;
+      }
+
+      .search-hero h1 {
+        font-size: 35px;
+      }
+
+      .search-hero p {
+        font-size: 14px;
+      }
+
+      .restaurant-image {
+        height: 190px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       PAGE LOADER
+  ========================= -->
+
+  <div class="page-loader" id="pageLoader">
+    <div class="loader-inner">
+      <img
+        src="assets/logos/eatergo-logo.svg"
+        alt="Eatergo"
+        class="loader-logo"
+        onerror="this.style.display='none'; document.getElementById('loaderFallback').style.display='block';"
+      />
+
+      <div class="loader-wordmark" id="loaderFallback" style="display:none;">
+        eater<span>go</span>
+      </div>
+
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+
+  <!-- =========================
+       ANNOUNCEMENT
+  ========================= -->
+
+  <div class="announcement">
+    <div class="container">
+      <strong>Hungry?</strong> Discover great food near you on Eatergo.
+    </div>
+  </div>
+
+  <!-- =========================
+       NAVBAR
+  ========================= -->
+
+  <header class="navbar">
+    <div class="container nav-inner">
+
+      <a href="index.html" class="brand">
+        <img
+          src="assets/logos/eatergo-logo.svg"
+          alt="Eatergo"
+          class="brand-logo"
+          onerror="this.style.display='none'; document.getElementById('brandFallback').style.display='block';"
+        />
+
+        <span class="brand-fallback" id="brandFallback">
+          eater<span>go</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="restaurants.html">Restaurants</a>
+        <a href="offers.html">Offers</a>
+        <a href="collections.html">Collections</a>
+        <a href="about.html">About</a>
+      </nav>
+
+      <div class="nav-actions">
+
+        <button
+          class="icon-btn theme-btn"
+          id="themeBtn"
+          aria-label="Toggle theme"
+          title="Toggle theme"
+        >
+          ◐
+        </button>
+
+        <button
+          class="icon-btn"
+          id="favoriteNavBtn"
+          aria-label="Favorites"
+          title="Favorites"
+        >
+          ♡
+        </button>
+
+        <button
+          class="icon-btn"
+          id="cartBtn"
+          aria-label="Shopping cart"
+          title="Cart"
+        >
+          🛒
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+
+        <button
+          class="icon-btn mobile-menu-btn"
+          id="mobileMenuBtn"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- =========================
+       SEARCH HERO
+  ========================= -->
+
+  <section class="search-hero">
+    <div class="container">
+      <div class="search-hero-content">
+
+        <span class="eyebrow">Eatergo Search</span>
+
+        <h1>Find food you'll love.</h1>
+
+        <p>
+          Search restaurants, dishes, cuisines and everything delicious.
+        </p>
+
+        <form class="main-search" id="searchForm">
+
+          <div class="search-location">
+            📍
+            <span id="locationText">Surat</span>
+          </div>
+
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Search for restaurants, dishes or cuisines..."
+            autocomplete="off"
+          />
+
+          <button type="submit">
+            Search
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       POPULAR SEARCHES
+  ========================= -->
+
+  <section class="popular-searches">
+    <div class="container">
+
+      <div class="popular-row">
+
+        <span class="popular-label">
+          Popular:
+        </span>
+
+        <button class="suggestion" data-search="pizza">
+          Pizza
+        </button>
+
+        <button class="suggestion" data-search="burger">
+          Burger
+        </button>
+
+        <button class="suggestion" data-search="biryani">
+          Biryani
+        </button>
+
+        <button class="suggestion" data-search="cafe">
+          Cafe
+        </button>
+
+        <button class="suggestion" data-search="thali">
+          Thali
+        </button>
+
+        <button class="suggestion" data-search="dessert">
+          Desserts
+        </button>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================
+       SEARCH CONTENT
+  ========================= -->
+
+  <main class="search-content">
+
+    <div class="container">
+
+      <div class="results-heading">
+
+        <div>
+          <h2 id="resultsTitle">
+            Search results
+          </h2>
+
+          <p id="resultsCount">
+            Discover restaurants and dishes near you.
+          </p>
+        </div>
+
+        <select id="sortSelect" class="sort-select">
+          <option value="recommended">Recommended</option>
+          <option value="rating">Highest Rated</option>
+          <option value="delivery">Fastest Delivery</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+        </select>
+
+      </div>
+
+      <div class="content-grid">
+
+        <!-- =========================
+             FILTER SIDEBAR
+        ========================= -->
+
+        <aside class="filters">
+
+          <div class="filter-title">
+            <h3>Filters</h3>
+
+            <button
+              class="clear-filter"
+              id="clearFilters"
+              type="button"
+            >
+              Clear all
+            </button>
+          </div>
+
+          <div class="filter-group">
+
+            <h4>Cuisine</h4>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="cuisine"
+                value="Indian"
+              />
+              Indian
+            </label>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="cuisine"
+                value="Italian"
+              />
+              Italian
+            </label>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="cuisine"
+                value="Chinese"
+              />
+              Chinese
+            </label>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="cuisine"
+                value="North Indian"
+              />
+              North Indian
+            </label>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="cuisine"
+                value="Cafe"
+              />
+              Cafe
+            </label>
+
+          </div>
+
+          <div class="filter-group">
+
+            <h4>Rating</h4>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="rating"
+                value="4.5"
+              />
+              ⭐ 4.5+
+            </label>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                name="rating"
+                value="4"
+              />
+              ⭐ 4.0+
+            </label>
+
+          </div>
+
+          <div class="filter-group">
+
+            <h4>Price for two</h4>
+
+            <div class="price-options">
+
+              <button
+                class="price-option"
+                data-price="under300"
+                type="button"
+              >
+                Under ₹300
+              </button>
+
+              <button
+                class="price-option"
+                data-price="300-600"
+                type="button"
+              >
+                ₹300–₹600
+              </button>
+
+              <button
+                class="price-option"
+                data-price="600-1000"
+                type="button"
+              >
+                ₹600–₹1000
+              </button>
+
+              <button
+                class="price-option"
+                data-price="1000+"
+                type="button"
+              >
+                ₹1000+
+              </button>
+
+            </div>
+
+          </div>
+
+          <div class="filter-group">
+
+            <h4>Features</h4>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                id="pureVeg"
+              />
+              Pure Veg
+            </label>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                id="fastDelivery"
+              />
+              Fast Delivery
+            </label>
+
+            <label class="filter-option">
+              <input
+                type="checkbox"
+                id="offers"
+              />
+              Offers Available
+            </label>
+
+          </div>
+
+        </aside>
+
+        <!-- =========================
+             RESULTS
+        ========================= -->
+
+        <section>
+
+          <div class="quick-filters">
+
+            <button
+              class="quick-chip active"
+              data-quick="all"
+              type="button"
+            >
+              All
+            </button>
+
+            <button
+              class="quick-chip"
+              data-quick="top"
+              type="button"
+            >
+              ⭐ Top Rated
+            </button>
+
+            <button
+              class="quick-chip"
+              data-quick="fast"
+              type="button"
+            >
+              ⚡ Fast Delivery
+            </button>
+
+            <button
+              class="quick-chip"
+              data-quick="offers"
+              type="button"
+            >
+              🔥 Offers
+            </button>
+
+            <button
+              class="quick-chip"
+              data-quick="veg"
+              type="button"
+            >
+              🥬 Pure Veg
+            </button>
+
+          </div>
+
+          <div class="results-grid" id="restaurantResults">
+
+            <!-- RESTAURANT 1 -->
+
+            <article
+              class="restaurant-card"
+              data-name="Pizza House"
+              data-cuisine="Italian"
+              data-rating="4.7"
+              data-price="550"
+              data-delivery="25"
+              data-tags="pizza italian fast offers"
+              data-veg="false"
+              data-offers="true"
+            >
+
+              <div class="restaurant-image">
+
+                <img
+                  src="assets/images/pizza-house.jpg"
+                  alt="Pizza House"
+                  loading="lazy"
+                />
+
+                <span class="discount-badge">
+                  30% OFF
+                </span>
+
+                <button
+                  class="favorite-btn"
+                  type="button"
+                  aria-label="Add Pizza House to favorites"
+                >
+                  ♡
+                </button>
+
+              </div>
+
+              <div class="restaurant-info">
+
+                <div class="restaurant-top">
+
+                  <div>
+                    <h3 class="restaurant-name">
+                      Pizza House
+                    </h3>
+
+                    <p class="restaurant-cuisine">
+                      Italian • Pizza • Fast Food
+                    </p>
+                  </div>
+
+                  <span class="rating">
+                    ★ 4.7
+                  </span>
+
+                </div>
+
+                <div class="restaurant-meta">
+
+                  <span>⏱ 25 min</span>
+                  <span>₹550 for two</span>
+                  <span>1.2 km</span>
+
+                </div>
+
+                <div class="restaurant-tags">
+                  <span class="tag">Fast Delivery</span>
+                  <span class="tag">Offers</span>
+                </div>
+
+              </div>
+
+            </article>
+
+            <!-- RESTAURANT 2 -->
+
+            <article
+              class="restaurant-card"
+              data-name="Burger Point"
+              data-cuisine="Fast Food"
+              data-rating="4.5"
+              data-price="450"
+              data-delivery="22"
+              data-tags="burger fast food fast offers"
+              data-veg="false"
+              data-offers="true"
+            >
+
+              <div class="restaurant-image">
+
+                <img
+                  src="assets/images/burger-point.jpg"
+                  alt="Burger Point"
+                  loading="lazy"
+                />
+
+                <span class="discount-badge">
+                  20% OFF
+                </span>
+
+                <button
+                  class="favorite-btn"
+                  type="button"
+                  aria-label="Add Burger Point to favorites"
+                >
+                  ♡
+                </button>
+
+              </div>
+
+              <div class="restaurant-info">
+
+                <div class="restaurant-top">
+
+                  <div>
+                    <h3 class="restaurant-name">
+                      Burger Point
+                    </h3>
+
+                    <p class="restaurant-cuisine">
+                      Burgers • Fast Food
+                    </p>
+                  </div>
+
+                  <span class="rating">
+                    ★ 4.5
+                  </span>
+
+                </div>
+
+                <div class="restaurant-meta">
+                  <span>⏱ 22 min</span>
+                  <span>₹450 for two</span>
+                  <span>1.8 km</span>
+                </div>
+
+                <div class="restaurant-tags">
+                  <span class="tag">Fast Delivery</span>
+                  <span class="tag">Offers</span>
+                </div>
+
+              </div>
+
+            </article>
+
+            <!-- RESTAURANT 3 -->
+
+            <article
+              class="restaurant-card"
+              data-name="Spice Kitchen"
+              data-cuisine="North Indian"
+              data-rating="4.8"
+              data-price="700"
+              data-delivery="32"
+              data-tags="indian north indian thali biryani top"
+              data-veg="true"
+              data-offers="false"
+            >
+
+              <div class="restaurant-image">
+
+                <img
+                  src="assets/images/spice-kitchen.jpg"
+                  alt="Spice Kitchen"
+                  loading="lazy"
+                />
+
+                <button
+                  class="favorite-btn"
+                  type="button"
+                  aria-label="Add Spice Kitchen to favorites"
+                >
+                  ♡
+                </button>
+
+              </div>
+
+              <div class="restaurant-info">
+
+                <div class="restaurant-top">
+
+                  <div>
+                    <h3 class="restaurant-name">
+                      Spice Kitchen
+                    </h3>
+
+                    <p class="restaurant-cuisine">
+                      North Indian • Thali
+                    </p>
+                  </div>
+
+                  <span class="rating">
+                    ★ 4.8
+                  </span>
+
+                </div>
+
+                <div class="restaurant-meta">
+                  <span>⏱ 32 min</span>
+                  <span>₹700 for two</span>
+                  <span>2.1 km</span>
+                </div>
+
+                <div class="restaurant-tags">
+                  <span class="tag">Pure Veg</span>
+                  <span class="tag">Top Rated</span>
+                </div>
+
+              </div>
+
+            </article>
+
+            <!-- RESTAURANT 4 -->
+
+            <article
+              class="restaurant-card"
+              data-name="Cafe Brew"
+              data-cuisine="Cafe"
+              data-rating="4.6"
+              data-price="500"
+              data-delivery="28"
+              data-tags="cafe coffee dessert fast"
+              data-veg="true"
+              data-offers="false"
+            >
+
+              <div class="restaurant-image">
+
+                <img
+                  src="assets/images/cafe-brew.jpg"
+                  alt="Cafe Brew"
+                  loading="lazy"
+                />
+
+                <button
+                  class="favorite-btn"
+                  type="button"
+                  aria-label="Add Cafe Brew to favorites"
+                >
+                  ♡
+                </button>
+
+              </div>
+
+              <div class="restaurant-info">
+
+                <div class="restaurant-top">
+
+                  <div>
+                    <h3 class="restaurant-name">
+                      Cafe Brew
+                    </h3>
+
+                    <p class="restaurant-cuisine">
+                      Cafe • Coffee • Desserts
+                    </p>
+                  </div>
+
+                  <span class="rating">
+                    ★ 4.6
+                  </span>
+
+                </div>
+
+                <div class="restaurant-meta">
+                  <span>⏱ 28 min</span>
+                  <span>₹500 for two</span>
+                  <span>1.5 km</span>
+                </div>
+
+                <div class="restaurant-tags">
+                  <span class="tag">Pure Veg</span>
+                  <span class="tag">Cafe</span>
+                </div>
+
+              </div>
+
+            </article>
+
+            <!-- RESTAURANT 5 -->
+
+            <article
+              class="restaurant-card"
+              data-name="Royal Thali"
+              data-cuisine="Indian"
+              data-rating="4.4"
+              data-price="350"
+              data-delivery="35"
+              data-tags="indian thali veg"
+              data-veg="true"
+              data-offers="false"
+            >
+
+              <div class="restaurant-image">
+
+                <img
+                  src="assets/images/royal-thali.jpg"
+                  alt="Royal Thali"
+                  loading="lazy"
+                />
+
+                <button
+                  class="favorite-btn"
+                  type="button"
+                  aria-label="Add Royal Thali to favorites"
+                >
+                  ♡
+                </button>
+
+              </div>
+
+              <div class="restaurant-info">
+
+                <div class="restaurant-top">
+
+                  <div>
+                    <h3 class="restaurant-name">
+                      Royal Thali
+                    </h3>
+
+                    <p class="restaurant-cuisine">
+                      Indian • Gujarati • Thali
+                    </p>
+                  </div>
+
+                  <span class="rating">
+                    ★ 4.4
+                  </span>
+
+                </div>
+
+                <div class="restaurant-meta">
+                  <span>⏱ 35 min</span>
+                  <span>₹350 for two</span>
+                  <span>2.7 km</span>
+                </div>
+
+                <div class="restaurant-tags">
+                  <span class="tag">Pure Veg</span>
+                </div>
+
+              </div>
+
+            </article>
+
+            <!-- RESTAURANT 6 -->
+
+            <article
+              class="restaurant-card"
+              data-name="Wok House"
+              data-cuisine="Chinese"
+              data-rating="4.3"
+              data-price="650"
+              data-delivery="27"
+              data-tags="chinese noodles asian fast"
+              data-veg="false"
+              data-offers="true"
+            >
+
+              <div class="restaurant-image">
+
+                <img
+                  src="assets/images/wok-house.jpg"
+                  alt="Wok House"
+                  loading="lazy"
+                />
+
+                <span class="discount-badge">
+                  15% OFF
+                </span>
+
+                <button
+                  class="favorite-btn"
+                  type="button"
+                  aria-label="Add Wok House to favorites"
+                >
+                  ♡
+                </button>
+
+              </div>
+
+              <div class="restaurant-info">
+
+                <div class="restaurant-top">
+
+                  <div>
+                    <h3 class="restaurant-name">
+                      Wok House
+                    </h3>
+
+                    <p class="restaurant-cuisine">
+                      Chinese • Asian • Noodles
+                    </p>
+                  </div>
+
+                  <span class="rating">
+                    ★ 4.3
+                  </span>
+
+                </div>
+
+                <div class="restaurant-meta">
+                  <span>⏱ 27 min</span>
+                  <span>₹650 for two</span>
+                  <span>1.9 km</span>
+                </div>
+
+                <div class="restaurant-tags">
+                  <span class="tag">Fast Delivery</span>
+                  <span class="tag">Offers</span>
+                </div>
+
+              </div>
+
+            </article>
+
+            <!-- RESTAURANT 7 -->
+
+            <article
+              class="restaurant-card"
+              data-name="Biryani Junction"
+              data-cuisine="Indian"
+              data-rating="4.6"
+              data-price="600"
+              data-delivery="30"
+              data-tags="biryani indian mughlai top"
+              data-veg="false"
+              data-offers="true"
+            >
+
+              <div class="restaurant-image">
+
+                <img
+                  src="assets/images/hero-biryani.jpg"
+                  alt="Biryani Junction"
+                  loading="lazy"
+                />
+
+                <span class="discount-badge">
+                  25% OFF
+                </span>
+
+                <button
+                  class="favorite-btn"
+                  type="button"
+                  aria-label="Add Biryani Junction to favorites"
+                >
+                  ♡
+                </button>
+
+              </div>
+
+              <div class="restaurant-info">
+
+                <div class="restaurant-top">
+
+                  <div>
+                    <h3 class="restaurant-name">
+                      Biryani Junction
+                    </h3>
+
+                    <p class="restaurant-cuisine">
+                      Biryani • Mughlai • Indian
+                    </p>
+                  </div>
+
+                  <span class="rating">
+                    ★ 4.6
+                  </span>
+
+                </div>
+
+                <div class="restaurant-meta">
+                  <span>⏱ 30 min</span>
+                  <span>₹600 for two</span>
+                  <span>2.3 km</span>
+                </div>
+
+                <div class="restaurant-tags">
+                  <span class="tag">Offers</span>
+                  <span class="tag">Top Rated</span>
+                </div>
+
+              </div>
+
+            </article>
+
+            <!-- RESTAURANT 8 -->
+
+            <article
+              class="restaurant-card"
+              data-name="Dessert Lab"
+              data-cuisine="Cafe"
+              data-rating="4.5"
+              data-price="400"
+              data-delivery="24"
+              data-tags="dessert cafe cakes sweet fast"
+              data-veg="true"
+              data-offers="true"
+            >
+
+              <div class="restaurant-image">
+
+                <img
+                  src="assets/images/dessert-lab.jpg"
+                  alt="Dessert Lab"
+                  loading="lazy"
+                />
+
+                <span class="discount-badge">
+                  20% OFF
+                </span>
+
+                <button
+                  class="favorite-btn"
+                  type="button"
+                  aria-label="Add Dessert Lab to favorites"
+                >
+                  ♡
+                </button>
+
+              </div>
+
+              <div class="restaurant-info">
+
+                <div class="restaurant-top">
+
+                  <div>
+                    <h3 class="restaurant-name">
+                      Dessert Lab
+                    </h3>
+
+                    <p class="restaurant-cuisine">
+                      Desserts • Cafe • Cakes
+                    </p>
+                  </div>
+
+                  <span class="rating">
+                    ★ 4.5
+                  </span>
+
+                </div>
+
+                <div class="restaurant-meta">
+                  <span>⏱ 24 min</span>
+                  <span>₹400 for two</span>
+                  <span>1.4 km</span>
+                </div>
+
+                <div class="restaurant-tags">
+                  <span class="tag">Pure Veg</span>
+                  <span class="tag">Offers</span>
+                </div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+          <!-- EMPTY -->
+
+          <div class="empty-state" id="emptyState">
+
+            <div class="empty-icon">
+              🔎
+            </div>
+
+            <h3>
+              No delicious matches found
+            </h3>
+
+            <p>
+              Try another restaurant, dish, cuisine or remove some filters
+              to discover more options.
+            </p>
+
+            <button
+              class="reset-btn"
+              id="emptyReset"
+              type="button"
+            >
+              Clear Search & Filters
+            </button>
+
+          </div>
+
+          <!-- =========================
+               DISH RESULTS
+          ========================= -->
+
+          <div class="section-label">
+            <h3>Popular dishes</h3>
+          </div>
+
+          <div class="dish-grid">
+
+            <article
+              class="dish-card"
+              data-dish="margherita pizza"
+            >
+
+              <div class="dish-image">
+                <img
+                  src="assets/images/margherita-pizza.jpg"
+                  alt="Margherita Pizza"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="dish-info">
+                <h4>Margherita Pizza</h4>
+                <p>Pizza House</p>
+
+                <span class="dish-price">
+                  ₹249
+                </span>
+
+                <button
+                  class="add-dish"
+                  type="button"
+                  data-item="Margherita Pizza"
+                >
+                  ADD
+                </button>
+              </div>
+
+            </article>
+
+            <article
+              class="dish-card"
+              data-dish="paneer tikka"
+            >
+
+              <div class="dish-image">
+                <img
+                  src="assets/images/paneer-tikka.jpg"
+                  alt="Paneer Tikka"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="dish-info">
+                <h4>Paneer Tikka</h4>
+                <p>Spice Kitchen</p>
+
+                <span class="dish-price">
+                  ₹299
+                </span>
+
+                <button
+                  class="add-dish"
+                  type="button"
+                  data-item="Paneer Tikka"
+                >
+                  ADD
+                </button>
+              </div>
+
+            </article>
+
+            <article
+              class="dish-card"
+              data-dish="chicken biryani"
+            >
+
+              <div class="dish-image">
+                <img
+                  src="assets/images/chicken-biryani.jpg"
+                  alt="Chicken Biryani"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="dish-info">
+                <h4>Chicken Biryani</h4>
+                <p>Biryani Junction</p>
+
+                <span class="dish-price">
+                  ₹329
+                </span>
+
+                <button
+                  class="add-dish"
+                  type="button"
+                  data-item="Chicken Biryani"
+                >
+                  ADD
+                </button>
+              </div>
+
+            </article>
+
+            <article
+              class="dish-card"
+              data-dish="cheese burger"
+            >
+
+              <div class="dish-image">
+                <img
+                  src="assets/images/cheese-burger.jpg"
+                  alt="Cheese Burger"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="dish-info">
+                <h4>Cheese Burger</h4>
+                <p>Burger Point</p>
+
+                <span class="dish-price">
+                  ₹199
+                </span>
+
+                <button
+                  class="add-dish"
+                  type="button"
+                  data-item="Cheese Burger"
+                >
+                  ADD
+                </button>
+              </div>
+
+            </article>
+
+            <article
+              class="dish-card"
+              data-dish="dessert cake"
+            >
+
+              <div class="dish-image">
+                <img
+                  src="assets/images/collection-family.jpg"
+                  alt="Dessert"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="dish-info">
+                <h4>Chocolate Dessert</h4>
+                <p>Dessert Lab</p>
+
+                <span class="dish-price">
+                  ₹179
+                </span>
+
+                <button
+                  class="add-dish"
+                  type="button"
+                  data-item="Chocolate Dessert"
+                >
+                  ADD
+                </button>
+              </div>
+
+            </article>
+
+            <article
+              class="dish-card"
+              data-dish="thali"
+            >
+
+              <div class="dish-image">
+                <img
+                  src="assets/images/collection-budget.jpg"
+                  alt="Indian Thali"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="dish-info">
+                <h4>Special Thali</h4>
+                <p>Royal Thali</p>
+
+                <span class="dish-price">
+                  ₹229
+                </span>
+
+                <button
+                  class="add-dish"
+                  type="button"
+                  data-item="Special Thali"
+                >
+                  ADD
+                </button>
+              </div>
+
+            </article>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand">
+
+          <img
+            src="assets/logos/eatergo-logo.svg"
+            alt="Eatergo"
+          />
+
+          <p>
+            Discover restaurants, explore great food and get your favourites
+            delivered with Eatergo.
+          </p>
+
+        </div>
+
+        <div class="footer-col">
+
+          <h4>Explore</h4>
+
+          <a href="index.html">Home</a>
+          <a href="restaurants.html">Restaurants</a>
+          <a href="offers.html">Offers</a>
+          <a href="collections.html">Collections</a>
+
+        </div>
+
+        <div class="footer-col">
+
+          <h4>Company</h4>
+
+          <a href="about.html">About Us</a>
+          <a href="#">Careers</a>
+          <a href="#">Partner With Us</a>
+          <a href="#">Contact</a>
+
+        </div>
+
+        <div class="footer-col">
+
+          <h4>Support</h4>
+
+          <a href="#">Help Center</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Refund Policy</a>
+
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+
+        <span>
+          © 2026 Eatergo. All rights reserved.
+        </span>
+
+        <span>
+          Made for food lovers.
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+  <!-- =========================
+       MOBILE NAV
+  ========================= -->
+
+  <nav class="mobile-bottom-nav">
+
+    <a href="index.html">
+      <span>⌂</span>
+      Home
+    </a>
+
+    <a href="search.html" class="active">
+      <span>⌕</span>
+      Search
+    </a>
+
+    <a href="restaurants.html">
+      <span>🍽</span>
+      Restaurants
+    </a>
+
+    <a href="#">
+      <span>♡</span>
+      Favorites
+    </a>
+
+    <a href="#">
+      <span>🛒</span>
+      Cart
+    </a>
+
+  </nav>
+
+  <!-- =========================
+       TOAST
+  ========================= -->
+
+  <div class="toast" id="toast"></div>
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const loader = document.getElementById("pageLoader");
+
+      setTimeout(() => {
+        loader.classList.add("hidden");
+      }, 500);
+
+
+      /* =========================
+         ELEMENTS
+      ========================= */
+
+      const searchForm = document.getElementById("searchForm");
+      const searchInput = document.getElementById("searchInput");
+      const restaurantResults =
+        document.getElementById("restaurantResults");
+
+      const restaurantCards = [
+        ...document.querySelectorAll(".restaurant-card")
+      ];
+
+      const dishCards = [
+        ...document.querySelectorAll(".dish-card")
+      ];
+
+      const resultsTitle =
+        document.getElementById("resultsTitle");
+
+      const resultsCount =
+        document.getElementById("resultsCount");
+
+      const sortSelect =
+        document.getElementById("sortSelect");
+
+      const emptyState =
+        document.getElementById("emptyState");
+
+      const clearFilters =
+        document.getElementById("clearFilters");
+
+      const emptyReset =
+        document.getElementById("emptyReset");
+
+      const toast =
+        document.getElementById("toast");
+
+
+      /* =========================
+         TOAST
+      ========================= */
+
+      let toastTimer;
+
+      function showToast(message) {
+
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(toastTimer);
+
+        toastTimer = setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2200);
+      }
+
+
+      /* =========================
+         URL SEARCH
+      ========================= */
+
+      const params =
+        new URLSearchParams(window.location.search);
+
+      const initialQuery =
+        params.get("q") || params.get("search") || "";
+
+      if (initialQuery) {
+        searchInput.value = initialQuery;
+      }
+
+
+      /* =========================
+         SEARCH + FILTER
+      ========================= */
+
+      let activeQuickFilter = "all";
+      let activePrice = null;
+
+      function getSelectedCuisines() {
+
+        return [
+          ...document.querySelectorAll(
+            'input[name="cuisine"]:checked'
+          )
+        ].map(input => input.value.toLowerCase());
+
+      }
+
+
+      function getRatingFilter() {
+
+        return [
+          ...document.querySelectorAll(
+            'input[name="rating"]:checked'
+          )
+        ].map(input => Number(input.value));
+
+      }
+
+
+      function matchesPrice(price) {
+
+        if (!activePrice) {
+          return true;
+        }
+
+        if (activePrice === "under300") {
+          return price < 300;
+        }
+
+        if (activePrice === "300-600") {
+          return price >= 300 && price <= 600;
+        }
+
+        if (activePrice === "600-1000") {
+          return price > 600 && price <= 1000;
+        }
+
+        if (activePrice === "1000+") {
+          return price > 1000;
+        }
+
+        return true;
+      }
+
+
+      function applyFilters() {
+
+        const query =
+          searchInput.value.trim().toLowerCase();
+
+        const cuisines =
+          getSelectedCuisines();
+
+        const ratings =
+          getRatingFilter();
+
+        const pureVeg =
+          document.getElementById("pureVeg").checked;
+
+        const fastDelivery =
+          document.getElementById("fastDelivery").checked;
+
+        const offers =
+          document.getElementById("offers").checked;
+
+        let visible = [];
+
+        restaurantCards.forEach(card => {
+
+          const name =
+            card.dataset.name.toLowerCase();
+
+          const cuisine =
+            card.dataset.cuisine.toLowerCase();
+
+          const tags =
+            card.dataset.tags.toLowerCase();
+
+          const rating =
+            Number(card.dataset.rating);
+
+          const price =
+            Number(card.dataset.price);
+
+          const delivery =
+            Number(card.dataset.delivery);
+
+          const isVeg =
+            card.dataset.veg === "true";
+
+          const hasOffers =
+            card.dataset.offers === "true";
+
+
+          const searchMatch =
+            !query ||
+            name.includes(query) ||
+            cuisine.includes(query) ||
+            tags.includes(query);
+
+          const cuisineMatch =
+            cuisines.length === 0 ||
+            cuisines.some(c =>
+              cuisine.includes(c) ||
+              tags.includes(c)
+            );
+
+          const ratingMatch =
+            ratings.length === 0 ||
+            ratings.some(r => rating >= r);
+
+          const priceMatch =
+            matchesPrice(price);
+
+          const vegMatch =
+            !pureVeg || isVeg;
+
+          const fastMatch =
+            !fastDelivery || delivery <= 30;
+
+          const offersMatch =
+            !offers || hasOffers;
+
+
+          let quickMatch = true;
+
+          if (activeQuickFilter === "top") {
+            quickMatch = rating >= 4.5;
+          }
+
+          if (activeQuickFilter === "fast") {
+            quickMatch = delivery <= 30;
+          }
+
+          if (activeQuickFilter === "offers") {
+            quickMatch = hasOffers;
+          }
+
+          if (activeQuickFilter === "veg") {
+            quickMatch = isVeg;
+          }
+
+
+          const shouldShow =
+            searchMatch &&
+            cuisineMatch &&
+            ratingMatch &&
+            priceMatch &&
+            vegMatch &&
+            fastMatch &&
+            offersMatch &&
+            quickMatch;
+
+
+          card.style.display =
+            shouldShow ? "" : "none";
+
+          if (shouldShow) {
+            visible.push(card);
+          }
+
+        });
+
+
+        /* =========================
+           SORT
+        ========================= */
+
+        const sort =
+          sortSelect.value;
+
+        visible.sort((a, b) => {
+
+          const ratingA =
+            Number(a.dataset.rating);
+
+          const ratingB =
+            Number(b.dataset.rating);
+
+          const priceA =
+            Number(a.dataset.price);
+
+          const priceB =
+            Number(b.dataset.price);
+
+          const deliveryA =
+            Number(a.dataset.delivery);
+
+          const deliveryB =
+            Number(b.dataset.delivery);
+
+
+          if (sort === "rating") {
+            return ratingB - ratingA;
+          }
+
+          if (sort === "delivery") {
+            return deliveryA - deliveryB;
+          }
+
+          if (sort === "price-low") {
+            return priceA - priceB;
+          }
+
+          if (sort === "price-high") {
+            return priceB - priceA;
+          }
+
+          return ratingB - ratingA;
+
+        });
+
+
+        visible.forEach(card => {
+          restaurantResults.appendChild(card);
+        });
+
+
+        /* =========================
+           DISH SEARCH
+        ========================= */
+
+        let visibleDishes = 0;
+
+        dishCards.forEach(card => {
+
+          const dish =
+            card.dataset.dish.toLowerCase();
+
+          const dishMatch =
+            !query || dish.includes(query);
+
+          card.style.display =
+            dishMatch ? "" : "none";
+
+          if (dishMatch) {
+            visibleDishes++;
+          }
+
+        });
+
+
+        /* =========================
+           RESULT TEXT
+        ========================= */
+
+        if (query) {
+
+          resultsTitle.textContent =
+            `Results for "${searchInput.value.trim()}"`;
+
+        } else {
+
+          resultsTitle.textContent =
+            "Search results";
+
+        }
+
+
+        resultsCount.textContent =
+          `${visible.length} restaurant${visible.length !== 1 ? "s" : ""} found`;
+
+
+        emptyState.classList.toggle(
+          "show",
+          visible.length === 0 && visibleDishes === 0
+        );
+
+      }
+
+
+      searchForm.addEventListener(
+        "submit",
+        event => {
+
+          event.preventDefault();
+
+          const query =
+            searchInput.value.trim();
+
+          const url =
+            new URL(window.location.href);
+
+          if (query) {
+            url.searchParams.set("q", query);
+          } else {
+            url.searchParams.delete("q");
+          }
+
+          window.history.replaceState(
+            {},
+            "",
+            url
+          );
+
+          applyFilters();
+
+        }
+      );
+
+
+      searchInput.addEventListener(
+        "input",
+        applyFilters
+      );
+
+
+      sortSelect.addEventListener(
+        "change",
+        applyFilters
+      );
+
+
+      /* =========================
+         CUISINE / RATING FILTERS
+      ========================= */
+
+      document
+        .querySelectorAll(
+          'input[name="cuisine"], input[name="rating"]'
+        )
+        .forEach(input => {
+
+          input.addEventListener(
+            "change",
+            applyFilters
+          );
+
+        });
+
+
+      [
+        "pureVeg",
+        "fastDelivery",
+        "offers"
+      ].forEach(id => {
+
+        document
+          .getElementById(id)
+          .addEventListener(
+            "change",
+            applyFilters
+          );
+
+      });
+
+
+      /* =========================
+         PRICE FILTER
+      ========================= */
+
+      document
+        .querySelectorAll(".price-option")
+        .forEach(button => {
+
+          button.addEventListener(
+            "click",
+            () => {
+
+              const selected =
+                button.dataset.price;
+
+              if (activePrice === selected) {
+
+                activePrice = null;
+                button.classList.remove("active");
+
+              } else {
+
+                activePrice = selected;
+
+                document
+                  .querySelectorAll(".price-option")
+                  .forEach(btn =>
+                    btn.classList.remove("active")
+                  );
+
+                button.classList.add("active");
+
+              }
+
+              applyFilters();
+
+            }
+          );
+
+        });
+
+
+      /* =========================
+         QUICK FILTERS
+      ========================= */
+
+      document
+        .querySelectorAll(".quick-chip")
+        .forEach(chip => {
+
+          chip.addEventListener(
+            "click",
+            () => {
+
+              document
+                .querySelectorAll(".quick-chip")
+                .forEach(item =>
+                  item.classList.remove("active")
+                );
+
+              chip.classList.add("active");
+
+              activeQuickFilter =
+                chip.dataset.quick;
+
+              applyFilters();
+
+            }
+          );
+
+        });
+
+
+      /* =========================
+         CLEAR FILTERS
+      ========================= */
+
+      function resetFilters() {
+
+        searchInput.value = "";
+
+        document
+          .querySelectorAll(
+            'input[name="cuisine"], input[name="rating"]'
+          )
+          .forEach(input =>
+            input.checked = false
+          );
+
+        document.getElementById("pureVeg").checked = false;
+        document.getElementById("fastDelivery").checked = false;
+        document.getElementById("offers").checked = false;
+
+        activePrice = null;
+        activeQuickFilter = "all";
+
+        document
+          .querySelectorAll(".price-option")
+          .forEach(btn =>
+            btn.classList.remove("active")
+          );
+
+        document
+          .querySelectorAll(".quick-chip")
+          .forEach(chip =>
+            chip.classList.remove("active")
+          );
+
+        document
+          .querySelector('[data-quick="all"]')
+          .classList.add("active");
+
+        sortSelect.value = "recommended";
+
+        const url =
+          new URL(window.location.href);
+
+        url.searchParams.delete("q");
+
+        window.history.replaceState(
+          {},
+          "",
+          url
+        );
+
+        applyFilters();
+
+      }
+
+
+      clearFilters.addEventListener(
+        "click",
+        resetFilters
+      );
+
+      emptyReset.addEventListener(
+        "click",
+        resetFilters
+      );
+
+
+      /* =========================
+         POPULAR SEARCH
+      ========================= */
+
+      document
+        .querySelectorAll(".suggestion")
+        .forEach(button => {
+
+          button.addEventListener(
+            "click",
+            () => {
+
+              searchInput.value =
+                button.dataset.search;
+
+              applyFilters();
+
+              searchInput.focus();
+
+              const url =
+                new URL(window.location.href);
+
+              url.searchParams.set(
+                "q",
+                button.dataset.search
+              );
+
+              window.history.replaceState(
+                {},
+                "",
+                url
+              );
+
+            }
+          );
+
+        });
+
+
+      /* =========================
+         FAVORITES
+      ========================= */
+
+      let favorites =
+        JSON.parse(
+          localStorage.getItem(
+            "eatergoFavorites"
+          ) || "[]"
+        );
+
+
+      function updateFavoriteButtons() {
+
+        document
+          .querySelectorAll(".favorite-btn")
+          .forEach(button => {
+
+            const card =
+              button.closest(".restaurant-card");
+
+            const name =
+              card.dataset.name;
+
+            const isFavorite =
+              favorites.includes(name);
+
+            button.classList.toggle(
+              "active",
+              isFavorite
+            );
+
+            button.textContent =
+              isFavorite ? "♥" : "♡";
+
+          });
+
+      }
+
+
+      document
+        .querySelectorAll(".favorite-btn")
+        .forEach(button => {
+
+          button.addEventListener(
+            "click",
+            event => {
+
+              event.stopPropagation();
+
+              const card =
+                button.closest(".restaurant-card");
+
+              const name =
+                card.dataset.name;
+
+              if (favorites.includes(name)) {
+
+                favorites =
+                  favorites.filter(
+                    item => item !== name
+                  );
+
+                showToast(
+                  `${name} removed from favorites`
+                );
+
+              } else {
+
+                favorites.push(name);
+
+                showToast(
+                  `${name} added to favorites`
+                );
+
+              }
+
+              localStorage.setItem(
+                "eatergoFavorites",
+                JSON.stringify(favorites)
+              );
+
+              updateFavoriteButtons();
+
+            }
+          );
+
+        });
+
+
+      updateFavoriteButtons();
+
+
+      /* =========================
+         CART
+      ========================= */
+
+      let cart =
+        JSON.parse(
+          localStorage.getItem(
+            "eatergoCart"
+          ) || "[]"
+        );
+
+
+      function updateCartCount() {
+
+        const count =
+          cart.reduce(
+            (total, item) =>
+              total + (item.quantity || 1),
+            0
+          );
+
+        document.getElementById(
+          "cartCount"
+        ).textContent = count;
+
+      }
+
+
+      document
+        .querySelectorAll(".add-dish")
+        .forEach(button => {
+
+          button.addEventListener(
+            "click",
+            () => {
+
+              const item =
+                button.dataset.item;
+
+              const existing =
+                cart.find(
+                  cartItem =>
+                    cartItem.name === item
+                );
+
+              if (existing) {
+
+                existing.quantity =
+                  (existing.quantity || 1) + 1;
+
+              } else {
+
+                cart.push({
+                  name: item,
+                  quantity: 1
+                });
+
+              }
+
+              localStorage.setItem(
+                "eatergoCart",
+                JSON.stringify(cart)
+              );
+
+              updateCartCount();
+
+              showToast(
+                `${item} added to cart`
+              );
+
+            }
+          );
+
+        });
+
+
+      updateCartCount();
+
+
+      /* =========================
+         CART BUTTON
+      ========================= */
+
+      document
+        .getElementById("cartBtn")
+        .addEventListener(
+          "click",
+          () => {
+
+            window.location.href =
+              "cart.html";
+
+          }
+        );
+
+
+      /* =========================
+         FAVORITES NAV
+      ========================= */
+
+      document
+        .getElementById("favoriteNavBtn")
+        .addEventListener(
+          "click",
+          () => {
+
+            window.location.href =
+              "favorites.html";
+
+          }
+        );
+
+
+      /* =========================
+         THEME
+      ========================= */
+
+      const themeBtn =
+        document.getElementById("themeBtn");
+
+      let darkMode =
+        localStorage.getItem(
+          "eatergoTheme"
+        ) === "dark";
+
+
+      function applyTheme() {
+
+        if (darkMode) {
+
+          document.body.style.background =
+            "#111";
+
+          document.body.style.color =
+            "#f5f5f5";
+
+        } else {
+
+          document.body.style.background =
+            "#fafafa";
+
+          document.body.style.color =
+            "#222";
+
+        }
+
+      }
+
+
+      /*
+        Theme button is intentionally kept
+        compatible with the existing Eatergo
+        theme system.
+      */
+
+      themeBtn.addEventListener(
+        "click",
+        () => {
+
+          darkMode = !darkMode;
+
+          localStorage.setItem(
+            "eatergoTheme",
+            darkMode ? "dark" : "light"
+          );
+
+          showToast(
+            darkMode
+              ? "Dark theme selected"
+              : "Light theme selected"
+          );
+
+        }
+      );
+
+
+      /* =========================
+         MOBILE MENU
+      ========================= */
+
+      const mobileMenuBtn =
+        document.getElementById(
+          "mobileMenuBtn"
+        );
+
+      const navLinks =
+        document.getElementById(
+          "navLinks"
+        );
+
+
+      mobileMenuBtn.addEventListener(
+        "click",
+        () => {
+
+          navLinks.classList.toggle(
+            "open"
+          );
+
+        }
+      );
+
+
+      document
+        .querySelectorAll(".nav-links a")
+        .forEach(link => {
+
+          link.addEventListener(
+            "click",
+            () => {
+              navLinks.classList.remove(
+                "open"
+              );
+            }
+          );
+
+        });
+
+
+      /* =========================
+         LOCATION
+      ========================= */
+
+      const savedLocation =
+        localStorage.getItem(
+          "eatergoLocation"
+        );
+
+      if (savedLocation) {
+
+        document.getElementById(
+          "locationText"
+        ).textContent =
+          savedLocation;
+
+      }
+
+
+      /* =========================
+         INITIAL FILTER
+      ========================= */
+
+      applyFilters();
+
+    });
+  </script>
+
+</body>
+</html>
