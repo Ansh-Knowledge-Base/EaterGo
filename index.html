@@ -2,51 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <meta
     name="description"
-    content="EaterGo - Discover restaurants, order delicious food and get it delivered to your doorstep."
+    content="EaterGo - Discover restaurants, order delicious food and track your delivery."
   >
 
-  <title>EaterGo — Food, Delivered Better</title>
+  <title>EaterGo — Food Delivered Better</title>
+
+  <!-- =========================================================
+       GOOGLE FONTS
+       ========================================================= -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
     rel="stylesheet"
   >
 
+
+  <!-- =========================================================
+       FIREBASE
+       ========================================================= -->
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
+
   <style>
 
+    /* =========================================================
+       ROOT
+       ========================================================= */
+
     :root {
+
       --primary: #ff4d2d;
+
       --primary-dark: #e63b1e;
+
       --secondary: #ff8a3d;
 
       --bg: #fffaf7;
+
       --white: #ffffff;
 
-      --text: #1c1c1c;
-      --muted: #707070;
+      --text: #191919;
+
+      --text-soft: #555555;
+
+      --muted: #858585;
 
       --border: #eeeeee;
 
-      --green: #159447;
+      --dark: #18100e;
 
-      --shadow-sm: 0 8px 25px rgba(0, 0, 0, 0.06);
-      --shadow-md: 0 15px 40px rgba(0, 0, 0, 0.09);
+      --green: #16803c;
 
-      --radius: 18px;
+      --shadow-sm:
+        0 8px 25px rgba(0,0,0,0.06);
+
+      --shadow-md:
+        0 18px 50px rgba(0,0,0,0.09);
+
+      --shadow-lg:
+        0 30px 80px rgba(0,0,0,0.14);
+
       --radius-sm: 12px;
+
+      --radius-md: 18px;
+
+      --radius-lg: 28px;
+
+      --max-width: 1240px;
+
     }
 
+
+    /* =========================================================
+       RESET
+       ========================================================= */
+
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     html {
@@ -54,10 +109,17 @@
     }
 
     body {
+
       font-family: "DM Sans", sans-serif;
+
       background: var(--bg);
+
       color: var(--text);
+
+      line-height: 1.5;
+
       overflow-x: hidden;
+
     }
 
     a {
@@ -67,7 +129,13 @@
 
     button,
     input {
+
       font: inherit;
+
+    }
+
+    button {
+      cursor: pointer;
     }
 
     img {
@@ -75,482 +143,828 @@
       display: block;
     }
 
+
+    /* =========================================================
+       COMMON
+       ========================================================= */
+
     .container {
-      width: min(1180px, calc(100% - 40px));
+
+      width: min(
+        calc(100% - 40px),
+        var(--max-width)
+      );
+
       margin: auto;
+
     }
 
+    .section {
 
-    /* =====================================================
-       HEADER
-    ===================================================== */
+      padding: 85px 0;
 
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-
-      background: rgba(255, 250, 247, 0.94);
-      backdrop-filter: blur(16px);
-
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
 
-    .nav {
-      height: 76px;
+    .section-head {
 
       display: flex;
-      align-items: center;
+
       justify-content: space-between;
 
-      gap: 25px;
+      align-items: flex-end;
+
+      gap: 20px;
+
+      margin-bottom: 35px;
+
+    }
+
+    .section-title {
+
+      font-family: "Playfair Display", serif;
+
+      font-size: 38px;
+
+      line-height: 1.1;
+
+      letter-spacing: -0.5px;
+
+    }
+
+    .section-subtitle {
+
+      margin-top: 8px;
+
+      color: var(--muted);
+
+      font-size: 15px;
+
+    }
+
+    .view-all {
+
+      color: var(--primary);
+
+      font-size: 14px;
+
+      font-weight: 800;
+
+      white-space: nowrap;
+
+    }
+
+    .view-all:hover {
+      color: var(--primary-dark);
+    }
+
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
+    .header {
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 1000;
+
+      height: 78px;
+
+      background:
+        rgba(255,250,247,0.94);
+
+      backdrop-filter: blur(18px);
+
+      border-bottom:
+        1px solid rgba(0,0,0,0.06);
+
+    }
+
+    .header-inner {
+
+      height: 100%;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 28px;
+
+    }
+
+    .logo {
+
+      flex-shrink: 0;
+
+      display: flex;
+
+      align-items: center;
+
     }
 
     .logo img {
-      width: 145px;
+
+      width: 126px;
+
       height: auto;
+
+      object-fit: contain;
+
     }
 
-    .nav-links {
+
+    /* LOCATION */
+
+    .location-btn {
+
       display: flex;
+
       align-items: center;
-      gap: 27px;
-    }
 
-    .nav-links a {
-      font-size: 14px;
-      font-weight: 700;
-      color: #333;
+      gap: 9px;
 
-      transition: 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-btn {
       border: none;
-      cursor: pointer;
 
-      min-height: 42px;
-      padding: 0 18px;
-
-      border-radius: 10px;
-
-      font-weight: 800;
-      font-size: 13px;
-
-      transition: 0.2s ease;
-    }
-
-    .login-btn {
       background: transparent;
-      color: var(--primary);
-      border: 1px solid rgba(255, 77, 45, 0.35);
+
+      color: var(--text);
+
+      padding: 9px 4px;
+
+      min-width: 160px;
+
+      text-align: left;
+
     }
 
-    .login-btn:hover {
-      background: rgba(255, 77, 45, 0.07);
-    }
+    .location-icon {
 
-    .signup-btn {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 7px 18px rgba(255, 77, 45, 0.20);
-    }
+      width: 34px;
 
-    .signup-btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .cart-btn {
-      position: relative;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      width: 42px;
-      height: 42px;
-
-      border-radius: 10px;
-
-      background: white;
-      border: 1px solid var(--border);
-
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .cart-count {
-      position: absolute;
-
-      top: -6px;
-      right: -6px;
-
-      min-width: 19px;
-      height: 19px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      padding: 0 5px;
-
-      background: var(--primary);
-      color: white;
+      height: 34px;
 
       border-radius: 50%;
 
-      font-size: 10px;
-      font-weight: 800;
+      display: grid;
+
+      place-items: center;
+
+      background: #fff0eb;
+
+      color: var(--primary);
+
+      font-size: 16px;
+
     }
 
-    .mobile-menu {
-      display: none;
+    .location-content {
 
-      width: 42px;
+      display: flex;
+
+      flex-direction: column;
+
+      line-height: 1.15;
+
+    }
+
+    .location-label {
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      font-weight: 700;
+
+      text-transform: uppercase;
+
+      letter-spacing: .6px;
+
+    }
+
+    .location-name {
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+    }
+
+
+    /* NAV */
+
+    .nav {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 24px;
+
+      margin-left: auto;
+
+    }
+
+    .nav a {
+
+      color: #333;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      transition: .2s;
+
+    }
+
+    .nav a:hover {
+
+      color: var(--primary);
+
+    }
+
+
+    /* HEADER ACTIONS */
+
+    .header-actions {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+    }
+
+    .header-btn {
+
       height: 42px;
 
+      padding: 0 17px;
+
+      border-radius: 12px;
+
       border: 1px solid var(--border);
+
+      background: var(--white);
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+      transition: .2s;
+
+    }
+
+    .header-btn:hover {
+
+      border-color: var(--primary);
+
+      color: var(--primary);
+
+    }
+
+    .signup-btn {
+
+      background: var(--primary);
+
+      color: white;
+
+      border-color: var(--primary);
+
+      box-shadow:
+        0 8px 20px rgba(255,77,45,.20);
+
+    }
+
+    .signup-btn:hover {
+
+      color: white;
+
+      background: var(--primary-dark);
+
+      border-color: var(--primary-dark);
+
+    }
+
+
+    /* CART */
+
+    .cart-btn {
+
+      position: relative;
+
+      width: 44px;
+
+      height: 44px;
+
+      border-radius: 12px;
+
+      border: 1px solid var(--border);
+
       background: white;
+
+      display: grid;
+
+      place-items: center;
+
+      font-size: 19px;
+
+    }
+
+    .cart-count {
+
+      position: absolute;
+
+      top: -6px;
+
+      right: -5px;
+
+      min-width: 19px;
+
+      height: 19px;
+
+      padding: 0 5px;
+
+      border-radius: 20px;
+
+      background: var(--primary);
+
+      color: white;
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      display: grid;
+
+      place-items: center;
+
+      border: 2px solid var(--bg);
+
+    }
+
+
+    /* PROFILE */
+
+    .profile-wrap {
+
+      position: relative;
+
+      display: none;
+
+    }
+
+    .profile-wrap.show {
+
+      display: block;
+
+    }
+
+    .profile-btn {
+
+      height: 44px;
+
+      padding: 0 10px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 13px;
+
+      background: white;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+    }
+
+    .profile-avatar {
+
+      width: 28px;
+
+      height: 28px;
+
+      border-radius: 50%;
+
+      background: var(--primary);
+
+      color: white;
+
+      display: grid;
+
+      place-items: center;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      overflow: hidden;
+
+    }
+
+    .profile-avatar img {
+
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
+
+    }
+
+    .profile-name {
+
+      max-width: 90px;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      white-space: nowrap;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+    }
+
+    .profile-menu {
+
+      position: absolute;
+
+      top: calc(100% + 12px);
+
+      right: 0;
+
+      width: 235px;
+
+      background: white;
+
+      border: 1px solid var(--border);
+
+      border-radius: 17px;
+
+      box-shadow: var(--shadow-lg);
+
+      padding: 9px;
+
+      display: none;
+
+    }
+
+    .profile-menu.open {
+
+      display: block;
+
+    }
+
+    .profile-user {
+
+      padding: 13px;
+
+      border-bottom: 1px solid var(--border);
+
+      margin-bottom: 5px;
+
+    }
+
+    .profile-user strong {
+
+      display: block;
+
+      font-size: 13px;
+
+    }
+
+    .profile-user span {
+
+      display: block;
+
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+    }
+
+    .profile-menu a,
+
+    .profile-menu button {
+
+      width: 100%;
+
+      border: none;
+
+      background: transparent;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 11px;
+
+      padding: 11px 12px;
 
       border-radius: 10px;
 
-      cursor: pointer;
-      font-size: 20px;
+      text-align: left;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+    }
+
+    .profile-menu a:hover,
+
+    .profile-menu button:hover {
+
+      background: #fff4f0;
+
+      color: var(--primary);
+
+    }
+
+    .logout-btn {
+
+      color: #d93025;
+
     }
 
 
-    /* =====================================================
+    /* MOBILE MENU */
+
+    .mobile-menu-btn {
+
+      display: none;
+
+      width: 42px;
+
+      height: 42px;
+
+      border: 1px solid var(--border);
+
+      background: white;
+
+      border-radius: 12px;
+
+      font-size: 20px;
+
+    }
+
+
+    /* =========================================================
        HERO
-    ===================================================== */
+       ========================================================= */
 
     .hero {
-      padding: 42px 0 65px;
+
+      padding: 32px 0 0;
+
     }
 
-    .hero-grid {
-      min-height: 570px;
+    .hero-box {
 
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      min-height: 555px;
 
-      border-radius: 28px;
+      border-radius: 34px;
+
       overflow: hidden;
 
-      background: #111;
+      display: grid;
 
-      box-shadow: var(--shadow-md);
+      grid-template-columns: 44% 56%;
+
+      background: #1b0d09;
+
+      box-shadow: var(--shadow-lg);
+
     }
 
     .hero-content {
+
+      padding: 72px 48px;
+
       display: flex;
-      flex-direction: column;
+
       justify-content: center;
 
-      padding: 65px;
+      flex-direction: column;
 
       color: white;
 
-      background:
-        linear-gradient(
-          135deg,
-          #111 0%,
-          #24100b 55%,
-          #35170d 100%
-        );
     }
 
     .hero-badge {
+
       width: fit-content;
 
-      padding: 9px 14px;
+      display: inline-flex;
 
-      margin-bottom: 20px;
+      align-items: center;
 
-      border-radius: 999px;
+      gap: 8px;
 
-      background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.14);
+      padding: 8px 13px;
 
-      font-size: 13px;
-      font-weight: 800;
+      border: 1px solid rgba(255,255,255,.18);
 
-      color: #ffd3c9;
+      background: rgba(255,255,255,.08);
+
+      border-radius: 30px;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      margin-bottom: 25px;
+
     }
 
-    .hero h1 {
+    .hero-title {
+
       font-family: "Playfair Display", serif;
 
-      font-size: clamp(44px, 5vw, 72px);
+      font-size: clamp(48px, 5vw, 70px);
 
-      line-height: 1.03;
+      line-height: .98;
 
-      margin-bottom: 20px;
+      letter-spacing: -2px;
+
     }
 
-    .hero h1 span {
-      color: #ff755b;
+    .hero-title span {
+
+      color: #ff6849;
+
     }
 
     .hero-description {
-      max-width: 520px;
 
-      color: rgba(255,255,255,0.78);
+      max-width: 510px;
 
-      font-size: 16px;
-      line-height: 1.7;
+      margin-top: 25px;
 
-      margin-bottom: 30px;
+      color: rgba(255,255,255,.72);
+
+      font-size: 15px;
+
+      line-height: 1.75;
+
     }
 
     .hero-actions {
+
       display: flex;
+
       flex-wrap: wrap;
+
       gap: 12px;
+
+      margin-top: 32px;
+
     }
 
     .hero-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
 
-      min-height: 52px;
+      border: none;
 
-      padding: 0 23px;
+      background: var(--primary);
+
+      color: white;
+
+      padding: 15px 21px;
 
       border-radius: 12px;
 
-      background: var(--primary);
-      color: white;
-
-      font-size: 14px;
       font-weight: 800;
 
-      box-shadow: 0 12px 28px rgba(255,77,45,0.25);
+      font-size: 13px;
 
-      transition: 0.2s ease;
+      box-shadow:
+        0 12px 28px rgba(255,77,45,.24);
+
     }
 
     .hero-primary:hover {
+
       background: var(--primary-dark);
-      transform: translateY(-2px);
+
     }
 
     .hero-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
 
-      min-height: 52px;
+      border: 1px solid rgba(255,255,255,.20);
 
-      padding: 0 23px;
-
-      border-radius: 12px;
-
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,.08);
 
       color: white;
 
-      font-size: 14px;
+      padding: 15px 21px;
+
+      border-radius: 12px;
+
       font-weight: 800;
 
-      transition: 0.2s ease;
+      font-size: 13px;
+
     }
 
     .hero-secondary:hover {
-      background: rgba(255,255,255,0.15);
+
+      background: rgba(255,255,255,.14);
+
     }
 
     .hero-image {
-      position: relative;
-      min-height: 570px;
 
-      background:
+      position: relative;
+
+      min-height: 555px;
+
+      background-image:
+
         linear-gradient(
           90deg,
-          rgba(0,0,0,0.20),
-          transparent 50%
+          rgba(27,13,9,.25),
+          transparent 35%
         ),
-        url("assets/images/hero-biryani (2).jpg")
-        center / cover no-repeat;
+
+        url("assets/images/hero-biryani (2).jpg");
+
+      background-size: cover;
+
+      background-position: center;
+
     }
 
-    .hero-image::after {
-      content: "";
+    .hero-floating-card {
 
       position: absolute;
-      inset: 0;
-
-      background:
-        linear-gradient(
-          180deg,
-          transparent 55%,
-          rgba(0,0,0,0.45)
-        );
-    }
-
-    .hero-image-card {
-      position: absolute;
-
-      z-index: 2;
 
       left: 28px;
+
       bottom: 28px;
 
       padding: 15px 18px;
 
-      border-radius: 14px;
+      min-width: 190px;
 
-      background: rgba(255,255,255,0.94);
+      background: rgba(255,255,255,.94);
+
       backdrop-filter: blur(12px);
 
+      border-radius: 15px;
+
       box-shadow: var(--shadow-md);
 
-      min-width: 205px;
     }
 
-    .hero-image-card strong {
+    .hero-floating-card strong {
+
       display: block;
 
-      font-size: 14px;
-      margin-bottom: 4px;
+      font-size: 13px;
+
     }
 
-    .hero-image-card span {
-      color: var(--muted);
-      font-size: 12px;
-    }
+    .hero-floating-card span {
 
-
-    /* =====================================================
-       SECTION
-    ===================================================== */
-
-    .section {
-      padding: 65px 0;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-
-      gap: 20px;
-
-      margin-bottom: 28px;
-    }
-
-    .section-title {
-      font-family: "Playfair Display", serif;
-
-      font-size: 36px;
-      line-height: 1.15;
-    }
-
-    .section-subtitle {
       color: var(--muted);
 
-      margin-top: 7px;
+      font-size: 11px;
 
-      font-size: 14px;
-    }
-
-    .view-all {
-      color: var(--primary);
-
-      font-size: 13px;
-      font-weight: 800;
     }
 
 
-    /* =====================================================
-       CATEGORIES
-    ===================================================== */
+    /* =========================================================
+       SEARCH
+       ========================================================= */
 
-    .categories {
-      display: grid;
+    .search-section {
 
-      grid-template-columns:
-        repeat(6, 1fr);
+      margin-top: -28px;
 
-      gap: 15px;
-    }
-
-    .category-card {
-      background: white;
-
-      border: 1px solid var(--border);
-
-      border-radius: var(--radius);
-
-      padding: 22px 12px;
-
-      text-align: center;
-
-      box-shadow: var(--shadow-sm);
-
-      transition: 0.22s ease;
-    }
-
-    .category-card:hover {
-      transform: translateY(-5px);
-
-      border-color: rgba(255,77,45,0.25);
-
-      box-shadow: var(--shadow-md);
-    }
-
-    .category-icon {
-      width: 62px;
-      height: 62px;
-
-      margin: 0 auto 13px;
-
-      border-radius: 50%;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background: #fff2ed;
-
-      font-size: 29px;
-    }
-
-    .category-card h3 {
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-
-    /* =====================================================
-       RESTAURANTS
-    ===================================================== */
-
-    .restaurants-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 22px;
-    }
-
-    .restaurant-card {
       position: relative;
 
-      overflow: hidden;
+      z-index: 10;
+
+    }
+
+    .search-box {
+
+      max-width: 900px;
+
+      margin: auto;
 
       background: white;
 
@@ -558,546 +972,879 @@
 
       border-radius: 18px;
 
-      box-shadow: var(--shadow-sm);
+      padding: 9px;
 
-      transition: 0.22s ease;
+      box-shadow: var(--shadow-lg);
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+    }
+
+    .search-icon {
+
+      width: 45px;
+
+      height: 45px;
+
+      display: grid;
+
+      place-items: center;
+
+      color: var(--muted);
+
+      font-size: 19px;
+
+    }
+
+    .search-input {
+
+      flex: 1;
+
+      min-width: 0;
+
+      border: none;
+
+      outline: none;
+
+      font-size: 14px;
+
+      color: var(--text);
+
+    }
+
+    .search-input::placeholder {
+
+      color: #999;
+
+    }
+
+    .search-submit {
+
+      height: 45px;
+
+      border: none;
+
+      border-radius: 12px;
+
+      padding: 0 22px;
+
+      background: var(--primary);
+
+      color: white;
+
+      font-weight: 800;
+
+      font-size: 13px;
+
+    }
+
+
+    /* =========================================================
+       CATEGORIES
+       ========================================================= */
+
+    .category-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(6, 1fr);
+
+      gap: 15px;
+
+    }
+
+    .category-card {
+
+      background: white;
+
+      border: 1px solid var(--border);
+
+      border-radius: 18px;
+
+      padding: 20px 12px;
+
+      text-align: center;
+
+      transition: .25s;
 
       cursor: pointer;
+
+    }
+
+    .category-card:hover {
+
+      transform: translateY(-5px);
+
+      box-shadow: var(--shadow-md);
+
+      border-color: #ffd5cc;
+
+    }
+
+    .category-image {
+
+      width: 78px;
+
+      height: 78px;
+
+      border-radius: 50%;
+
+      margin: auto auto 13px;
+
+      object-fit: cover;
+
+      background: #fff1ec;
+
+    }
+
+    .category-name {
+
+      font-size: 13px;
+
+      font-weight: 800;
+
+    }
+
+    .category-count {
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      margin-top: 3px;
+
+    }
+
+
+    /* =========================================================
+       RESTAURANTS
+       ========================================================= */
+
+    .restaurant-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 22px;
+
+    }
+
+    .restaurant-card {
+
+      background: white;
+
+      border: 1px solid var(--border);
+
+      border-radius: 21px;
+
+      overflow: hidden;
+
+      cursor: pointer;
+
+      transition: .25s;
+
     }
 
     .restaurant-card:hover {
-      transform: translateY(-5px);
+
+      transform: translateY(-6px);
+
       box-shadow: var(--shadow-md);
+
     }
 
     .restaurant-image {
+
+      height: 210px;
+
       position: relative;
 
-      height: 220px;
-
       overflow: hidden;
+
+      background: #eee;
+
     }
 
     .restaurant-image img {
+
       width: 100%;
+
       height: 100%;
 
       object-fit: cover;
 
-      transition: 0.35s ease;
+      transition: .4s;
+
     }
 
-    .restaurant-card:hover .restaurant-image img {
+    .restaurant-card:hover
+    .restaurant-image img {
+
       transform: scale(1.05);
+
     }
 
-    .offer-badge {
+    .restaurant-offer {
+
       position: absolute;
 
-      top: 14px;
-      left: 14px;
+      left: 12px;
+
+      bottom: 12px;
+
+      background: var(--primary);
+
+      color: white;
 
       padding: 7px 10px;
 
       border-radius: 8px;
 
-      background: var(--primary);
+      font-size: 10px;
 
-      color: white;
-
-      font-size: 11px;
       font-weight: 800;
+
     }
 
-    .heart-btn {
+    .restaurant-heart {
+
       position: absolute;
 
-      top: 13px;
-      right: 13px;
+      right: 12px;
+
+      top: 12px;
 
       width: 36px;
-      height: 36px;
 
-      border: none;
+      height: 36px;
 
       border-radius: 50%;
 
-      background: rgba(255,255,255,0.94);
+      border: none;
 
-      cursor: pointer;
+      background: rgba(255,255,255,.94);
 
-      font-size: 17px;
+      font-size: 16px;
 
-      box-shadow: var(--shadow-sm);
     }
 
     .restaurant-body {
+
       padding: 18px;
+
     }
 
-    .restaurant-top {
+    .restaurant-title-row {
+
       display: flex;
+
+      align-items: flex-start;
 
       justify-content: space-between;
 
-      gap: 12px;
+      gap: 10px;
+
     }
 
     .restaurant-name {
-      font-size: 18px;
+
+      font-size: 17px;
+
       font-weight: 800;
+
     }
 
     .rating {
-      white-space: nowrap;
 
-      color: #fff;
+      flex-shrink: 0;
 
-      background: var(--green);
+      background: #16803c;
+
+      color: white;
 
       border-radius: 7px;
 
-      padding: 5px 7px;
+      padding: 4px 7px;
 
-      font-size: 11px;
+      font-size: 10px;
+
       font-weight: 800;
+
     }
 
     .restaurant-meta {
-      color: var(--muted);
-
-      font-size: 13px;
 
       margin-top: 7px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+
     }
 
     .restaurant-bottom {
+
+      margin-top: 13px;
+
+      padding-top: 13px;
+
+      border-top: 1px solid var(--border);
+
       display: flex;
 
       justify-content: space-between;
 
-      margin-top: 15px;
-
-      padding-top: 13px;
-
-      border-top: 1px solid #f0f0f0;
-
       color: #666;
 
-      font-size: 12px;
+      font-size: 11px;
+
+      font-weight: 600;
+
     }
 
 
-    /* =====================================================
-       PROMO
-    ===================================================== */
+    /* =========================================================
+       OFFERS
+       ========================================================= */
 
-    .promo {
-      padding: 0 0 65px;
+    .offers-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 20px;
+
     }
 
-    .promo-box {
-      min-height: 260px;
+    .offer-card {
 
-      border-radius: 22px;
+      position: relative;
+
+      min-height: 190px;
 
       overflow: hidden;
 
-      display: flex;
-      align-items: center;
+      border-radius: 22px;
 
-      padding: 45px;
+      padding: 27px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #24120d,
+          #4a1b10
+        );
+
+      color: white;
+
+    }
+
+    .offer-card.orange {
 
       background:
         linear-gradient(
           135deg,
           #ff4d2d,
-          #ff7c43
+          #d9341c
         );
 
-      color: white;
-
-      position: relative;
     }
 
-    .promo-content {
-      position: relative;
-      z-index: 2;
+    .offer-card.light {
 
-      max-width: 620px;
+      background:
+        linear-gradient(
+          135deg,
+          #fff0e8,
+          #ffe2d5
+        );
+
+      color: var(--text);
+
     }
 
-    .promo-content h2 {
+    .offer-small {
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+      opacity: .72;
+
+    }
+
+    .offer-title {
+
+      margin-top: 8px;
+
       font-family: "Playfair Display", serif;
 
-      font-size: 42px;
+      font-size: 27px;
 
-      margin-bottom: 10px;
+      line-height: 1.1;
+
     }
 
-    .promo-content p {
-      color: rgba(255,255,255,0.88);
+    .offer-text {
 
-      line-height: 1.6;
+      margin-top: 8px;
 
-      font-size: 14px;
+      font-size: 11px;
 
-      margin-bottom: 22px;
+      opacity: .75;
+
     }
 
-    .promo-button {
-      display: inline-flex;
+    .offer-button {
 
-      align-items: center;
-      justify-content: center;
+      display: inline-block;
 
-      min-height: 46px;
+      margin-top: 18px;
 
-      padding: 0 20px;
+      padding: 9px 13px;
 
-      border-radius: 10px;
+      border-radius: 9px;
+
+      border: 1px solid rgba(255,255,255,.25);
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+    }
+
+    .light .offer-button {
+
+      border-color: rgba(0,0,0,.10);
+
+    }
+
+
+    /* =========================================================
+       FEATURES
+       ========================================================= */
+
+    .feature-section {
 
       background: white;
 
-      color: var(--primary);
+      border-top: 1px solid var(--border);
 
-      font-size: 13px;
-      font-weight: 800;
+      border-bottom: 1px solid var(--border);
+
     }
 
-    .promo-decoration {
-      position: absolute;
+    .feature-grid {
 
-      right: 55px;
-
-      width: 250px;
-      height: 250px;
-
-      border-radius: 50%;
-
-      border: 35px solid rgba(255,255,255,0.11);
-    }
-
-
-    /* =====================================================
-       QUICK ACCESS
-    ===================================================== */
-
-    .quick-grid {
       display: grid;
 
       grid-template-columns:
         repeat(4, 1fr);
 
-      gap: 18px;
+      gap: 25px;
+
     }
 
-    .quick-card {
-      background: white;
+    .feature-box {
 
-      border: 1px solid var(--border);
+      text-align: center;
 
-      border-radius: 16px;
+      padding: 10px;
 
-      padding: 24px;
-
-      transition: 0.22s ease;
     }
 
-    .quick-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
+    .feature-icon {
+
+      width: 58px;
+
+      height: 58px;
+
+      margin: auto;
+
+      display: grid;
+
+      place-items: center;
+
+      border-radius: 17px;
+
+      background: #fff0eb;
+
+      font-size: 22px;
+
     }
 
-    .quick-icon {
-      font-size: 28px;
+    .feature-box h3 {
 
-      margin-bottom: 13px;
+      margin-top: 15px;
+
+      font-size: 14px;
+
     }
 
-    .quick-card h3 {
-      font-size: 16px;
+    .feature-box p {
 
-      margin-bottom: 6px;
-    }
+      margin-top: 5px;
 
-    .quick-card p {
       color: var(--muted);
 
-      font-size: 12px;
+      font-size: 11px;
 
-      line-height: 1.6;
-
-      margin-bottom: 13px;
-    }
-
-    .quick-card a {
-      color: var(--primary);
-
-      font-size: 12px;
-      font-weight: 800;
     }
 
 
-    /* =====================================================
-       NEWSLETTER
-    ===================================================== */
+    /* =========================================================
+       CTA
+       ========================================================= */
 
-    .newsletter {
-      padding: 20px 0 75px;
+    .cta {
+
+      padding: 70px 0;
+
     }
 
-    .newsletter-box {
-      background: white;
+    .cta-box {
 
-      border: 1px solid var(--border);
+      background: #1d100c;
 
-      border-radius: 22px;
+      border-radius: 28px;
 
-      padding: 40px;
+      padding: 52px;
+
+      color: white;
 
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
 
-      gap: 35px;
+      gap: 30px;
 
-      box-shadow: var(--shadow-sm);
     }
 
-    .newsletter-text h2 {
+    .cta-title {
+
       font-family: "Playfair Display", serif;
 
-      font-size: 30px;
+      font-size: 39px;
 
-      margin-bottom: 8px;
+      line-height: 1.05;
+
     }
 
-    .newsletter-text p {
-      color: var(--muted);
+    .cta-text {
+
+      color: rgba(255,255,255,.62);
+
+      margin-top: 10px;
 
       font-size: 13px;
+
+      max-width: 550px;
+
     }
 
-    .newsletter-form {
+    .cta-buttons {
+
       display: flex;
 
-      width: min(470px, 100%);
+      gap: 10px;
 
-      gap: 8px;
+      flex-wrap: wrap;
+
     }
 
-    .newsletter-form input {
-      flex: 1;
+    .cta-btn {
 
-      min-width: 0;
+      padding: 14px 18px;
 
-      height: 48px;
+      border-radius: 11px;
 
-      border: 1px solid var(--border);
-
-      border-radius: 10px;
-
-      padding: 0 14px;
-
-      outline: none;
-    }
-
-    .newsletter-form input:focus {
-      border-color: var(--primary);
-    }
-
-    .newsletter-form button {
       border: none;
-
-      height: 48px;
-
-      padding: 0 18px;
-
-      border-radius: 10px;
 
       background: var(--primary);
 
       color: white;
 
       font-size: 12px;
+
       font-weight: 800;
 
-      cursor: pointer;
+      white-space: nowrap;
+
+    }
+
+    .cta-btn.secondary {
+
+      background: rgba(255,255,255,.09);
+
+      border: 1px solid rgba(255,255,255,.15);
+
     }
 
 
-    /* =====================================================
+    /* =========================================================
        FOOTER
-    ===================================================== */
+       ========================================================= */
 
     .footer {
-      background: #151515;
+
+      background: #160d0b;
 
       color: white;
 
-      padding: 55px 0 25px;
+      padding: 65px 0 25px;
+
     }
 
     .footer-grid {
+
       display: grid;
 
       grid-template-columns:
         1.5fr repeat(3, 1fr);
 
-      gap: 40px;
+      gap: 45px;
 
-      padding-bottom: 40px;
-
-      border-bottom: 1px solid rgba(255,255,255,0.10);
     }
 
-    .footer-brand img {
-      width: 135px;
+    .footer-logo img {
 
-      margin-bottom: 16px;
+      width: 130px;
 
-      filter: brightness(0) invert(1);
+      background: white;
+
+      padding: 5px;
+
+      border-radius: 5px;
+
     }
 
-    .footer-brand p {
-      max-width: 320px;
+    .footer-description {
 
-      color: rgba(255,255,255,0.62);
-
-      font-size: 13px;
-
-      line-height: 1.7;
-    }
-
-    .footer-col h3 {
-      font-size: 13px;
-
-      margin-bottom: 17px;
-    }
-
-    .footer-col a {
-      display: block;
-
-      color: rgba(255,255,255,0.62);
+      color: rgba(255,255,255,.55);
 
       font-size: 12px;
 
-      margin-bottom: 11px;
+      line-height: 1.7;
 
-      transition: 0.2s ease;
+      margin-top: 18px;
+
+      max-width: 300px;
+
     }
 
-    .footer-col a:hover {
+    .footer-column h4 {
+
+      font-size: 13px;
+
+      margin-bottom: 16px;
+
+    }
+
+    .footer-column a {
+
+      display: block;
+
+      color: rgba(255,255,255,.58);
+
+      font-size: 12px;
+
+      margin-bottom: 10px;
+
+    }
+
+    .footer-column a:hover {
+
       color: white;
+
     }
 
     .footer-bottom {
-      padding-top: 22px;
+
+      border-top: 1px solid rgba(255,255,255,.09);
+
+      margin-top: 45px;
+
+      padding-top: 20px;
 
       display: flex;
-      align-items: center;
+
       justify-content: space-between;
 
       gap: 20px;
 
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,.40);
 
-      font-size: 11px;
+      font-size: 10px;
+
     }
 
 
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
+    /* =========================================================
+       MOBILE NAV
+       ========================================================= */
 
     .mobile-nav {
-      display: none;
 
-      padding: 15px 20px 20px;
-
-      border-top: 1px solid var(--border);
-
-      background: var(--bg);
-    }
-
-    .mobile-nav.active {
-      display: block;
-    }
-
-    .mobile-nav a {
-      display: block;
-
-      padding: 13px 0;
-
-      border-bottom: 1px solid #eee;
-
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-
-    /* =====================================================
-       TOAST
-    ===================================================== */
-
-    .toast {
       position: fixed;
 
-      z-index: 9999;
+      inset: 0;
 
-      left: 50%;
-      bottom: 25px;
+      background: rgba(0,0,0,.45);
 
-      transform:
-        translate(-50%, 100px);
+      z-index: 2000;
 
-      opacity: 0;
+      display: none;
 
-      background: #181818;
+    }
 
-      color: white;
+    .mobile-nav.open {
 
-      padding: 13px 18px;
+      display: block;
+
+    }
+
+    .mobile-panel {
+
+      width: min(330px, 88%);
+
+      height: 100%;
+
+      background: white;
+
+      padding: 25px;
+
+      box-shadow: var(--shadow-lg);
+
+    }
+
+    .mobile-panel-head {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      margin-bottom: 30px;
+
+    }
+
+    .mobile-panel-logo img {
+
+      width: 110px;
+
+    }
+
+    .mobile-close {
+
+      width: 38px;
+
+      height: 38px;
+
+      border: 1px solid var(--border);
+
+      background: white;
 
       border-radius: 10px;
 
-      font-size: 13px;
-      font-weight: 600;
+    }
 
-      transition: 0.3s ease;
+    .mobile-links a {
 
-      pointer-events: none;
+      display: block;
+
+      padding: 14px 5px;
+
+      border-bottom: 1px solid var(--border);
+
+      font-weight: 700;
+
+      font-size: 14px;
+
+    }
+
+
+    /* =========================================================
+       TOAST
+       ========================================================= */
+
+    .toast {
+
+      position: fixed;
+
+      right: 25px;
+
+      bottom: 25px;
+
+      z-index: 5000;
+
+      background: #1d100c;
+
+      color: white;
+
+      padding: 13px 17px;
+
+      border-radius: 11px;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      box-shadow: var(--shadow-lg);
+
+      transform: translateY(120px);
+
+      opacity: 0;
+
+      transition: .3s;
+
     }
 
     .toast.show {
-      transform: translate(-50%, 0);
+
+      transform: translateY(0);
+
       opacity: 1;
+
     }
 
 
-    /* =====================================================
+    /* =========================================================
        RESPONSIVE
-    ===================================================== */
+       ========================================================= */
 
-    @media (max-width: 1050px) {
+    @media (max-width: 1100px) {
 
-      .nav-links {
-        gap: 16px;
+      .location-btn {
+        display: none;
       }
 
-      .hero-content {
-        padding: 45px;
+      .nav {
+        gap: 15px;
       }
 
-      .categories {
+      .hero-box {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .category-grid {
         grid-template-columns:
           repeat(3, 1fr);
-      }
-
-      .quick-grid {
-        grid-template-columns:
-          repeat(2, 1fr);
       }
 
     }
@@ -1105,34 +1852,45 @@
 
     @media (max-width: 850px) {
 
-      .nav-links {
+      .nav {
         display: none;
       }
 
-      .mobile-menu {
-        display: block;
+      .mobile-menu-btn {
+        display: grid;
+        place-items: center;
       }
 
-      .hero-grid {
+      .header-actions .header-btn {
+        display: none;
+      }
+
+      .hero-box {
         grid-template-columns: 1fr;
       }
 
-      .hero-image {
-        min-height: 380px;
+      .hero-content {
+        padding: 55px 35px;
       }
 
-      .restaurants-grid {
+      .hero-image {
+        min-height: 350px;
+      }
+
+      .restaurant-grid,
+      .offers-grid {
         grid-template-columns:
           repeat(2, 1fr);
       }
 
-      .newsletter-box {
-        flex-direction: column;
-        align-items: flex-start;
+      .feature-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
       }
 
-      .newsletter-form {
-        width: 100%;
+      .cta-box {
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       .footer-grid {
@@ -1146,223 +1904,186 @@
     @media (max-width: 600px) {
 
       .container {
-        width: min(100% - 28px, 1180px);
+        width: min(
+          calc(100% - 28px),
+          var(--max-width)
+        );
       }
 
-      .nav {
+      .header {
         height: 68px;
       }
 
+      .header-inner {
+        gap: 9px;
+      }
+
       .logo img {
-        width: 120px;
+        width: 105px;
       }
 
-      .nav-actions {
-        gap: 6px;
+      .profile-name {
+        display: none;
       }
 
-      .nav-btn {
-        min-height: 38px;
-        padding: 0 11px;
-        font-size: 11px;
-      }
-
-      .cart-btn {
-        width: 38px;
-        height: 38px;
+      .profile-btn {
+        width: 43px;
+        padding: 0;
+        justify-content: center;
       }
 
       .hero {
-        padding: 20px 0 45px;
+        padding-top: 18px;
       }
 
-      .hero-grid {
-        border-radius: 18px;
+      .hero-box {
+        border-radius: 23px;
       }
 
       .hero-content {
-        padding: 38px 25px;
+        padding: 40px 25px;
       }
 
-      .hero h1 {
-        font-size: 44px;
+      .hero-title {
+        font-size: 45px;
+      }
+
+      .hero-description {
+        font-size: 13px;
       }
 
       .hero-image {
         min-height: 300px;
       }
 
-      .hero-image-card {
-        left: 18px;
-        bottom: 18px;
+      .search-section {
+        margin-top: 18px;
+      }
+
+      .search-box {
+        border-radius: 14px;
+      }
+
+      .search-submit {
+        padding: 0 13px;
       }
 
       .section {
-        padding: 45px 0;
+        padding: 60px 0;
       }
 
       .section-title {
-        font-size: 29px;
+        font-size: 31px;
       }
 
       .section-head {
         align-items: flex-start;
-        flex-direction: column;
-        gap: 8px;
       }
 
-      .categories {
+      .category-grid {
         grid-template-columns:
           repeat(2, 1fr);
       }
 
-      .restaurants-grid {
+      .restaurant-grid,
+      .offers-grid {
         grid-template-columns: 1fr;
       }
 
-      .quick-grid {
-        grid-template-columns: 1fr;
+      .restaurant-image {
+        height: 220px;
       }
 
-      .promo-box {
+      .feature-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .cta-box {
         padding: 35px 25px;
       }
 
-      .promo-content h2 {
-        font-size: 34px;
-      }
-
-      .promo-decoration {
-        display: none;
-      }
-
-      .newsletter {
-        padding-bottom: 50px;
-      }
-
-      .newsletter-box {
-        padding: 28px 22px;
-      }
-
-      .newsletter-form {
-        flex-direction: column;
-      }
-
-      .newsletter-form button {
-        width: 100%;
+      .cta-title {
+        font-size: 32px;
       }
 
       .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 30px 20px;
-      }
-
-      .footer-brand {
-        grid-column: 1 / -1;
+        grid-template-columns: 1fr;
+        gap: 30px;
       }
 
       .footer-bottom {
         flex-direction: column;
-        align-items: flex-start;
       }
 
     }
 
   </style>
+
 </head>
 
 
 <body>
 
 
-  <!-- =====================================================
+  <!-- =========================================================
        HEADER
-  ===================================================== -->
+       ========================================================= -->
 
   <header class="header">
 
-    <div class="container">
+    <div class="container header-inner">
+
+
+      <!-- LOGO -->
+
+      <a
+        href="index.html"
+        class="logo"
+        aria-label="EaterGo Home"
+      >
+
+        <img
+          src="assets/logos/eatergo-logo.png"
+          alt="EaterGo"
+        >
+
+      </a>
+
+
+      <!-- LOCATION -->
+
+      <button
+        class="location-btn"
+        id="locationBtn"
+        type="button"
+      >
+
+        <span class="location-icon">
+          📍
+        </span>
+
+        <span class="location-content">
+
+          <span class="location-label">
+            Delivering to
+          </span>
+
+          <span
+            class="location-name"
+            id="locationName"
+          >
+            Select location
+          </span>
+
+        </span>
+
+      </button>
+
+
+      <!-- NAV -->
 
       <nav class="nav">
-
-        <a href="index.html" class="logo">
-          <img
-            src="assets/logos/eatergo-logo.png"
-            alt="EaterGo"
-          >
-        </a>
-
-
-        <div class="nav-links">
-
-          <a href="restaurants.html">
-            Restaurants
-          </a>
-
-          <a href="offers.html">
-            Offers
-          </a>
-
-          <a href="collections.html">
-            Collections
-          </a>
-
-          <a href="food-finder.html">
-            Food Finder
-          </a>
-
-        </div>
-
-
-        <div class="nav-actions">
-
-          <button
-            class="nav-btn login-btn"
-            onclick="goTo('login.html')"
-          >
-            Login
-          </button>
-
-          <button
-            class="nav-btn signup-btn"
-            onclick="goTo('signup.html')"
-          >
-            Sign Up
-          </button>
-
-          <button
-            class="cart-btn"
-            onclick="goTo('cart.html')"
-            aria-label="Cart"
-          >
-            🛒
-
-            <span
-              class="cart-count"
-              id="cartCount"
-            >
-              0
-            </span>
-
-          </button>
-
-          <button
-            class="mobile-menu"
-            id="mobileMenuBtn"
-            aria-label="Open menu"
-          >
-            ☰
-          </button>
-
-        </div>
-
-      </nav>
-
-
-      <div
-        class="mobile-nav"
-        id="mobileNav"
-      >
 
         <a href="restaurants.html">
           Restaurants
@@ -1380,21 +2101,144 @@
           Food Finder
         </a>
 
-        <a href="search.html">
-          Search Food
+      </nav>
+
+
+      <!-- HEADER ACTIONS -->
+
+      <div class="header-actions">
+
+
+        <a
+          href="login.html"
+          class="header-btn"
+          id="loginBtn"
+        >
+          Login
         </a>
 
-        <a href="orders.html">
-          My Orders
+
+        <a
+          href="signup.html"
+          class="header-btn signup-btn"
+          id="signupBtn"
+        >
+          Sign Up
         </a>
 
-        <a href="favourites.html">
-          Favourites
-        </a>
 
-        <a href="profile.html">
-          Profile
-        </a>
+        <!-- PROFILE -->
+
+        <div
+          class="profile-wrap"
+          id="profileWrap"
+        >
+
+          <button
+            class="profile-btn"
+            id="profileBtn"
+            type="button"
+          >
+
+            <span
+              class="profile-avatar"
+              id="profileAvatar"
+            >
+              EG
+            </span>
+
+            <span
+              class="profile-name"
+              id="profileName"
+            >
+              Account
+            </span>
+
+            <span>
+              ▾
+            </span>
+
+          </button>
+
+
+          <div
+            class="profile-menu"
+            id="profileMenu"
+          >
+
+            <div class="profile-user">
+
+              <strong id="profileUserName">
+                EaterGo Customer
+              </strong>
+
+              <span id="profileUserEmail">
+                —
+              </span>
+
+            </div>
+
+
+            <a href="profile.html">
+              👤 &nbsp; My Profile
+            </a>
+
+            <a href="orders.html">
+              📦 &nbsp; My Orders
+            </a>
+
+            <a href="favourites.html">
+              ❤️ &nbsp; Favourites
+            </a>
+
+            <a href="order-tracking.html">
+              📍 &nbsp; Track Order
+            </a>
+
+            <button
+              class="logout-btn"
+              id="logoutBtn"
+              type="button"
+            >
+              ↪ &nbsp; Logout
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- CART -->
+
+        <button
+          class="cart-btn"
+          id="cartBtn"
+          type="button"
+          aria-label="Shopping cart"
+        >
+
+          🛒
+
+          <span
+            class="cart-count"
+            id="cartCount"
+          >
+            0
+          </span>
+
+        </button>
+
+
+        <!-- MOBILE -->
+
+        <button
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+          type="button"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
 
       </div>
 
@@ -1404,17 +2248,93 @@
 
 
 
-  <!-- =====================================================
+  <!-- =========================================================
+       MOBILE NAV
+       ========================================================= -->
+
+  <div
+    class="mobile-nav"
+    id="mobileNav"
+  >
+
+    <div class="mobile-panel">
+
+      <div class="mobile-panel-head">
+
+        <a
+          href="index.html"
+          class="mobile-panel-logo"
+        >
+
+          <img
+            src="assets/logos/eatergo-logo.png"
+            alt="EaterGo"
+          >
+
+        </a>
+
+        <button
+          class="mobile-close"
+          id="mobileClose"
+          type="button"
+        >
+          ✕
+        </button>
+
+      </div>
+
+
+      <div class="mobile-links">
+
+        <a href="restaurants.html">
+          🍽️ Restaurants
+        </a>
+
+        <a href="offers.html">
+          🎁 Offers
+        </a>
+
+        <a href="collections.html">
+          ✨ Collections
+        </a>
+
+        <a href="food-finder.html">
+          🔎 Food Finder
+        </a>
+
+        <a href="orders.html">
+          📦 My Orders
+        </a>
+
+        <a href="favourites.html">
+          ❤️ Favourites
+        </a>
+
+        <a href="profile.html">
+          👤 My Profile
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================================================
        HERO
-  ===================================================== -->
+       ========================================================= -->
 
   <main>
+
 
     <section class="hero">
 
       <div class="container">
 
-        <div class="hero-grid">
+        <div class="hero-box">
+
 
           <div class="hero-content">
 
@@ -1422,32 +2342,45 @@
               🍽️ Delicious food, delivered better
             </div>
 
-            <h1>
+
+            <h1 class="hero-title">
+
               Your cravings.<br>
-              <span>Our delivery.</span>
+
+              <span>
+                Our delivery.
+              </span>
+
             </h1>
 
+
             <p class="hero-description">
+
               Discover restaurants, explore delicious dishes,
-              unlock exclusive offers and get your favourite food
-              delivered straight to your doorstep.
+              unlock exclusive offers and get your favourite
+              food delivered straight to your doorstep.
+
             </p>
+
 
             <div class="hero-actions">
 
-              <a
-                href="restaurants.html"
+              <button
                 class="hero-primary"
+                id="exploreBtn"
+                type="button"
               >
                 Explore Restaurants →
-              </a>
+              </button>
 
-              <a
-                href="food-finder.html"
+
+              <button
                 class="hero-secondary"
+                id="findFoodBtn"
+                type="button"
               >
                 Find My Food
-              </a>
+              </button>
 
             </div>
 
@@ -1456,7 +2389,7 @@
 
           <div class="hero-image">
 
-            <div class="hero-image-card">
+            <div class="hero-floating-card">
 
               <strong>
                 🍛 Fresh & Delicious
@@ -1478,9 +2411,49 @@
 
 
 
-    <!-- =====================================================
+    <!-- =========================================================
+         SEARCH
+         ========================================================= -->
+
+    <section class="search-section">
+
+      <div class="container">
+
+        <form
+          class="search-box"
+          id="searchForm"
+        >
+
+          <div class="search-icon">
+            🔍
+          </div>
+
+          <input
+            class="search-input"
+            id="searchInput"
+            type="text"
+            placeholder="Search for restaurants, dishes or cuisines..."
+            autocomplete="off"
+          >
+
+          <button
+            class="search-submit"
+            type="submit"
+          >
+            Search
+          </button>
+
+        </form>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
          CATEGORIES
-    ===================================================== -->
+         ========================================================= -->
 
     <section class="section">
 
@@ -1501,7 +2474,7 @@
           </div>
 
           <a
-            href="food-finder.html"
+            href="restaurants.html"
             class="view-all"
           >
             Explore all →
@@ -1510,103 +2483,145 @@
         </div>
 
 
-        <div class="categories">
+        <div class="category-grid">
 
 
-          <a
-            href="search.html?category=Biryani"
+          <div
             class="category-card"
+            data-category="Biryani"
           >
 
-            <div class="category-icon">
-              🍛
-            </div>
+            <img
+              class="category-image"
+              src="assets/images/biryani.jpg"
+              alt="Biryani"
+              onerror="this.style.display='none'"
+            >
 
-            <h3>
+            <div class="category-name">
               Biryani
-            </h3>
-
-          </a>
-
-
-          <a
-            href="search.html?category=Pizza"
-            class="category-card"
-          >
-
-            <div class="category-icon">
-              🍕
             </div>
 
-            <h3>
+            <div class="category-count">
+              120+ dishes
+            </div>
+
+          </div>
+
+
+          <div
+            class="category-card"
+            data-category="Pizza"
+          >
+
+            <img
+              class="category-image"
+              src="assets/images/pizza.jpg"
+              alt="Pizza"
+              onerror="this.style.display='none'"
+            >
+
+            <div class="category-name">
               Pizza
-            </h3>
-
-          </a>
-
-
-          <a
-            href="search.html?category=Burgers"
-            class="category-card"
-          >
-
-            <div class="category-icon">
-              🍔
             </div>
 
-            <h3>
+            <div class="category-count">
+              80+ dishes
+            </div>
+
+          </div>
+
+
+          <div
+            class="category-card"
+            data-category="Burgers"
+          >
+
+            <img
+              class="category-image"
+              src="assets/images/burger.jpg"
+              alt="Burgers"
+              onerror="this.style.display='none'"
+            >
+
+            <div class="category-name">
               Burgers
-            </h3>
-
-          </a>
-
-
-          <a
-            href="search.html?category=Indian"
-            class="category-card"
-          >
-
-            <div class="category-icon">
-              🥘
             </div>
 
-            <h3>
+            <div class="category-count">
+              65+ dishes
+            </div>
+
+          </div>
+
+
+          <div
+            class="category-card"
+            data-category="Indian"
+          >
+
+            <img
+              class="category-image"
+              src="assets/images/indian-food.jpg"
+              alt="Indian Food"
+              onerror="this.style.display='none'"
+            >
+
+            <div class="category-name">
               Indian
-            </h3>
-
-          </a>
-
-
-          <a
-            href="search.html?category=Desserts"
-            class="category-card"
-          >
-
-            <div class="category-icon">
-              🍰
             </div>
 
-            <h3>
+            <div class="category-count">
+              200+ dishes
+            </div>
+
+          </div>
+
+
+          <div
+            class="category-card"
+            data-category="Desserts"
+          >
+
+            <img
+              class="category-image"
+              src="assets/images/desserts.jpg"
+              alt="Desserts"
+              onerror="this.style.display='none'"
+            >
+
+            <div class="category-name">
               Desserts
-            </h3>
-
-          </a>
-
-
-          <a
-            href="search.html?category=Beverages"
-            class="category-card"
-          >
-
-            <div class="category-icon">
-              🥤
             </div>
 
-            <h3>
-              Beverages
-            </h3>
+            <div class="category-count">
+              70+ dishes
+            </div>
 
-          </a>
+          </div>
+
+
+          <div
+            class="category-card"
+            data-category="Drinks"
+          >
+
+            <img
+              class="category-image"
+              src="assets/images/drinks.jpg"
+              alt="Drinks"
+              onerror="this.style.display='none'"
+            >
+
+            <div class="category-name">
+              Beverages
+            </div>
+
+            <div class="category-count">
+              50+ choices
+            </div>
+
+          </div>
 
         </div>
 
@@ -1616,9 +2631,9 @@
 
 
 
-    <!-- =====================================================
-         POPULAR RESTAURANTS
-    ===================================================== -->
+    <!-- =========================================================
+         RESTAURANTS
+         ========================================================= -->
 
     <section class="section">
 
@@ -1629,11 +2644,11 @@
           <div>
 
             <h2 class="section-title">
-              Popular near you
+              Popular restaurants
             </h2>
 
             <p class="section-subtitle">
-              Handpicked restaurants for your next meal
+              Customer favourites worth trying
             </p>
 
           </div>
@@ -1648,17 +2663,14 @@
         </div>
 
 
-        <div class="restaurants-grid">
+        <div class="restaurant-grid">
 
 
-          <!-- SPICE KITCHEN -->
+          <!-- RESTAURANT 1 -->
 
           <article
             class="restaurant-card"
             data-restaurant="spice-kitchen"
-            tabindex="0"
-            role="link"
-            aria-label="Open Spice Kitchen"
           >
 
             <div class="restaurant-image">
@@ -1666,18 +2678,16 @@
               <img
                 src="assets/images/spice-kitchen.jpg"
                 alt="Spice Kitchen"
-                loading="lazy"
               >
 
-              <span class="offer-badge">
+              <span class="restaurant-offer">
                 20% OFF
               </span>
 
               <button
-                class="heart-btn"
+                class="restaurant-heart"
                 type="button"
-                aria-label="Add Spice Kitchen to favourites"
-                onclick="event.stopPropagation(); toggleFavourite('spice-kitchen')"
+                aria-label="Favourite"
               >
                 ♡
               </button>
@@ -1687,7 +2697,7 @@
 
             <div class="restaurant-body">
 
-              <div class="restaurant-top">
+              <div class="restaurant-title-row">
 
                 <h3 class="restaurant-name">
                   Spice Kitchen
@@ -1699,9 +2709,11 @@
 
               </div>
 
+
               <p class="restaurant-meta">
-                North Indian • Biryani • Thalis
+                North Indian · Biryani · Thalis
               </p>
+
 
               <div class="restaurant-bottom">
 
@@ -1721,14 +2733,11 @@
 
 
 
-          <!-- PIZZA HOUSE -->
+          <!-- RESTAURANT 2 -->
 
           <article
             class="restaurant-card"
             data-restaurant="pizza-house"
-            tabindex="0"
-            role="link"
-            aria-label="Open Pizza House"
           >
 
             <div class="restaurant-image">
@@ -1736,18 +2745,16 @@
               <img
                 src="assets/images/pizza-house.jpg"
                 alt="Pizza House"
-                loading="lazy"
               >
 
-              <span class="offer-badge">
+              <span class="restaurant-offer">
                 FREE DELIVERY
               </span>
 
               <button
-                class="heart-btn"
+                class="restaurant-heart"
                 type="button"
-                aria-label="Add Pizza House to favourites"
-                onclick="event.stopPropagation(); toggleFavourite('pizza-house')"
+                aria-label="Favourite"
               >
                 ♡
               </button>
@@ -1757,7 +2764,7 @@
 
             <div class="restaurant-body">
 
-              <div class="restaurant-top">
+              <div class="restaurant-title-row">
 
                 <h3 class="restaurant-name">
                   Pizza House
@@ -1769,9 +2776,11 @@
 
               </div>
 
+
               <p class="restaurant-meta">
-                Italian • Pizza • Pasta
+                Italian · Pizza · Pasta
               </p>
+
 
               <div class="restaurant-bottom">
 
@@ -1780,7 +2789,7 @@
                 </span>
 
                 <span>
-                  🚚 Free delivery
+                  🚚 ₹0 delivery
                 </span>
 
               </div>
@@ -1791,14 +2800,11 @@
 
 
 
-          <!-- BURGER POINT -->
+          <!-- RESTAURANT 3 -->
 
           <article
             class="restaurant-card"
             data-restaurant="burger-point"
-            tabindex="0"
-            role="link"
-            aria-label="Open Burger Point"
           >
 
             <div class="restaurant-image">
@@ -1806,18 +2812,16 @@
               <img
                 src="assets/images/burger-point.jpg"
                 alt="Burger Point"
-                loading="lazy"
               >
 
-              <span class="offer-badge">
+              <span class="restaurant-offer">
                 POPULAR
               </span>
 
               <button
-                class="heart-btn"
+                class="restaurant-heart"
                 type="button"
-                aria-label="Add Burger Point to favourites"
-                onclick="event.stopPropagation(); toggleFavourite('burger-point')"
+                aria-label="Favourite"
               >
                 ♡
               </button>
@@ -1827,7 +2831,7 @@
 
             <div class="restaurant-body">
 
-              <div class="restaurant-top">
+              <div class="restaurant-title-row">
 
                 <h3 class="restaurant-name">
                   Burger Point
@@ -1839,9 +2843,11 @@
 
               </div>
 
+
               <p class="restaurant-meta">
-                Burgers • Fast Food • Beverages
+                Burgers · Fast Food · Beverages
               </p>
+
 
               <div class="restaurant-bottom">
 
@@ -1867,50 +2873,9 @@
 
 
 
-    <!-- =====================================================
-         PROMO
-    ===================================================== -->
-
-    <section class="promo">
-
-      <div class="container">
-
-        <div class="promo-box">
-
-          <div class="promo-content">
-
-            <h2>
-              Something delicious
-              is waiting for you.
-            </h2>
-
-            <p>
-              Explore exclusive EaterGo offers, discover new
-              restaurants and make every meal more exciting.
-            </p>
-
-            <a
-              href="offers.html"
-              class="promo-button"
-            >
-              Explore Offers
-            </a>
-
-          </div>
-
-          <div class="promo-decoration"></div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- =====================================================
-         QUICK ACCESS
-    ===================================================== -->
+    <!-- =========================================================
+         OFFERS
+         ========================================================= -->
 
     <section class="section">
 
@@ -1921,115 +2886,98 @@
           <div>
 
             <h2 class="section-title">
-              Everything in one place
+              Offers made for you
             </h2>
 
             <p class="section-subtitle">
-              Manage your EaterGo experience easily
+              Save more on your next order
             </p>
 
           </div>
 
+          <a
+            href="offers.html"
+            class="view-all"
+          >
+            See all offers →
+          </a>
+
         </div>
 
 
-        <div class="quick-grid">
+        <div class="offers-grid">
 
 
-          <a
-            href="offers.html"
-            class="quick-card"
-          >
+          <div class="offer-card orange">
 
-            <div class="quick-icon">
-              🎁
+            <div class="offer-small">
+              New customer
             </div>
 
-            <h3>
-              Offers & Rewards
-            </h3>
+            <div class="offer-title">
+              Get ₹100 OFF
+            </div>
 
-            <p>
-              Discover available deals and future EaterGo rewards.
+            <p class="offer-text">
+              On your first eligible order.
             </p>
 
-            <span>
+            <a
+              href="offers.html"
+              class="offer-button"
+            >
+              View offer →
+            </a>
+
+          </div>
+
+
+          <div class="offer-card">
+
+            <div class="offer-small">
+              Free delivery
+            </div>
+
+            <div class="offer-title">
+              Zero delivery fee
+            </div>
+
+            <p class="offer-text">
+              On selected restaurants and orders.
+            </p>
+
+            <a
+              href="offers.html"
+              class="offer-button"
+            >
               Explore →
-            </span>
+            </a>
 
-          </a>
+          </div>
 
 
-          <a
-            href="collections.html"
-            class="quick-card"
-          >
+          <div class="offer-card light">
 
-            <div class="quick-icon">
-              🗂️
+            <div class="offer-small">
+              Special deals
             </div>
 
-            <h3>
-              Collections
-            </h3>
-
-            <p>
-              Find curated food collections for every mood.
-            </p>
-
-            <span>
-              Browse →
-            </span>
-
-          </a>
-
-
-          <a
-            href="food-finder.html"
-            class="quick-card"
-          >
-
-            <div class="quick-icon">
-              🔎
+            <div class="offer-title">
+              Today's picks
             </div>
 
-            <h3>
-              Food Finder
-            </h3>
-
-            <p>
-              Not sure what to eat? Let EaterGo help you discover.
+            <p class="offer-text">
+              Discover deals curated for food lovers.
             </p>
 
-            <span>
-              Find food →
-            </span>
+            <a
+              href="collections.html"
+              class="offer-button"
+            >
+              Discover →
+            </a>
 
-          </a>
-
-
-          <a
-            href="favourites.html"
-            class="quick-card"
-          >
-
-            <div class="quick-icon">
-              ❤️
-            </div>
-
-            <h3>
-              Favourites
-            </h3>
-
-            <p>
-              Keep your favourite restaurants and dishes together.
-            </p>
-
-            <span>
-              View favourites →
-            </span>
-
-          </a>
+          </div>
 
         </div>
 
@@ -2039,47 +2987,152 @@
 
 
 
-    <!-- =====================================================
-         NEWSLETTER
-    ===================================================== -->
+    <!-- =========================================================
+         FEATURES
+         ========================================================= -->
 
-    <section class="newsletter">
+    <section class="section feature-section">
 
       <div class="container">
 
-        <div class="newsletter-box">
+        <div class="section-head">
 
-          <div class="newsletter-text">
+          <div>
 
-            <h2>
-              Never miss a delicious deal.
+            <h2 class="section-title">
+              Why EaterGo?
             </h2>
 
+            <p class="section-subtitle">
+              Everything you need for a smoother food-ordering experience
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+
+          <div class="feature-box">
+
+            <div class="feature-icon">
+              ⚡
+            </div>
+
+            <h3>
+              Fast ordering
+            </h3>
+
             <p>
-              Get EaterGo offers and updates directly in your inbox.
+              Find your food and place an order with ease.
             </p>
 
           </div>
 
 
-          <form
-            class="newsletter-form"
-            id="newsletterForm"
-          >
+          <div class="feature-box">
 
-            <input
-              type="email"
-              id="newsletterEmail"
-              placeholder="Enter your email address"
-              autocomplete="email"
-              required
+            <div class="feature-icon">
+              🎁
+            </div>
+
+            <h3>
+              Exclusive offers
+            </h3>
+
+            <p>
+              Unlock deals, rewards and delivery benefits.
+            </p>
+
+          </div>
+
+
+          <div class="feature-box">
+
+            <div class="feature-icon">
+              📍
+            </div>
+
+            <h3>
+              Easy tracking
+            </h3>
+
+            <p>
+              Follow your active order from kitchen to doorstep.
+            </p>
+
+          </div>
+
+
+          <div class="feature-box">
+
+            <div class="feature-icon">
+              ❤️
+            </div>
+
+            <h3>
+              Save favourites
+            </h3>
+
+            <p>
+              Keep your favourite restaurants and dishes close.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         CTA
+         ========================================================= -->
+
+    <section class="cta">
+
+      <div class="container">
+
+        <div class="cta-box">
+
+          <div>
+
+            <h2 class="cta-title">
+              Hungry already?
+            </h2>
+
+            <p class="cta-text">
+              Explore restaurants, discover something delicious
+              and make your next meal a little more exciting.
+            </p>
+
+          </div>
+
+
+          <div class="cta-buttons">
+
+            <button
+              class="cta-btn"
+              id="ctaRestaurantBtn"
+              type="button"
             >
-
-            <button type="submit">
-              Join EaterGo
+              Explore Restaurants
             </button>
 
-          </form>
+            <button
+              class="cta-btn secondary"
+              id="ctaFinderBtn"
+              type="button"
+            >
+              Find My Food
+            </button>
+
+          </div>
 
         </div>
 
@@ -2091,44 +3144,52 @@
 
 
 
-  <!-- =====================================================
+  <!-- =========================================================
        FOOTER
-  ===================================================== -->
+       ========================================================= -->
 
   <footer class="footer">
 
     <div class="container">
 
+
       <div class="footer-grid">
 
 
-        <div class="footer-brand">
+        <div>
 
-          <img
-            src="assets/logos/eatergo-logo.png"
-            alt="EaterGo"
+          <a
+            href="index.html"
+            class="footer-logo"
           >
 
-          <p>
-            Discover delicious food, explore great restaurants
-            and enjoy a better food ordering experience with EaterGo.
+            <img
+              src="assets/logos/eatergo-logo.png"
+              alt="EaterGo"
+            >
+
+          </a>
+
+
+          <p class="footer-description">
+
+            Discover restaurants, order your favourite food,
+            unlock offers and enjoy a smoother delivery experience
+            with EaterGo.
+
           </p>
 
         </div>
 
 
-        <div class="footer-col">
+        <div class="footer-column">
 
-          <h3>
+          <h4>
             Explore
-          </h3>
+          </h4>
 
           <a href="restaurants.html">
             Restaurants
-          </a>
-
-          <a href="search.html">
-            Search
           </a>
 
           <a href="offers.html">
@@ -2146,40 +3207,36 @@
         </div>
 
 
-        <div class="footer-col">
+        <div class="footer-column">
 
-          <h3>
+          <h4>
             Your EaterGo
-          </h3>
+          </h4>
 
-          <a href="cart.html">
-            Cart
+          <a href="profile.html">
+            My Profile
           </a>
 
           <a href="orders.html">
-            Orders
+            My Orders
           </a>
 
           <a href="favourites.html">
             Favourites
           </a>
 
-          <a href="profile.html">
-            Profile
-          </a>
-
           <a href="order-tracking.html">
-            Order Tracking
+            Track Order
           </a>
 
         </div>
 
 
-        <div class="footer-col">
+        <div class="footer-column">
 
-          <h3>
-            Account
-          </h3>
+          <h4>
+            Help
+          </h4>
 
           <a href="login.html">
             Login
@@ -2189,15 +3246,16 @@
             Create Account
           </a>
 
+          <a href="cart.html">
+            Cart
+          </a>
+
           <a href="checkout.html">
             Checkout
           </a>
 
-          <a href="order-success.html">
-            Order Confirmation
-          </a>
-
         </div>
+
 
       </div>
 
@@ -2209,7 +3267,7 @@
         </span>
 
         <span>
-          Made for food lovers ❤️
+          Delicious food. Delivered better.
         </span>
 
       </div>
@@ -2220,185 +3278,405 @@
 
 
 
-  <!-- =====================================================
-       TOAST
-  ===================================================== -->
+  <!-- TOAST -->
 
   <div
     class="toast"
     id="toast"
-  ></div>
+  >
+    Done
+  </div>
 
 
 
-  <!-- =====================================================
+  <!-- =========================================================
        JAVASCRIPT
-  ===================================================== -->
+       ========================================================= -->
 
   <script>
 
-    /* =====================================================
-       NAVIGATION
-    ===================================================== */
 
-    function goTo(page) {
+    /* =========================================================
+       FIREBASE CONFIG
+       ========================================================= */
 
-      window.location.href = page;
+    const firebaseConfig = {
+
+      apiKey:
+        "AIzaSyBTPmtNIDaAjbMVTUCKrapXtyCo3xwQd3k",
+
+      authDomain:
+        "eatergo-47a19.firebaseapp.com",
+
+      projectId:
+        "eatergo-47a19",
+
+      storageBucket:
+        "eatergo-47a19.firebasestorage.app",
+
+      messagingSenderId:
+        "1074068458641",
+
+      appId:
+        "1:1074068458641:web:be8eaf986b37fa339b4330",
+
+      measurementId:
+        "G-4CW92B1QR8"
+
+    };
+
+
+    if (!firebase.apps.length) {
+
+      firebase.initializeApp(firebaseConfig);
 
     }
 
 
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
+    const auth =
+      firebase.auth();
 
-    const mobileMenuBtn =
-      document.getElementById("mobileMenuBtn");
+    const db =
+      firebase.firestore();
+
+
+
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+    const signupBtn =
+      document.getElementById("signupBtn");
+
+    const profileWrap =
+      document.getElementById("profileWrap");
+
+    const profileBtn =
+      document.getElementById("profileBtn");
+
+    const profileMenu =
+      document.getElementById("profileMenu");
+
+    const profileName =
+      document.getElementById("profileName");
+
+    const profileUserName =
+      document.getElementById("profileUserName");
+
+    const profileUserEmail =
+      document.getElementById("profileUserEmail");
+
+    const profileAvatar =
+      document.getElementById("profileAvatar");
+
+    const logoutBtn =
+      document.getElementById("logoutBtn");
+
+    const cartCount =
+      document.getElementById("cartCount");
+
+    const cartBtn =
+      document.getElementById("cartBtn");
+
+    const toast =
+      document.getElementById("toast");
 
     const mobileNav =
       document.getElementById("mobileNav");
 
+    const mobileMenuBtn =
+      document.getElementById("mobileMenuBtn");
 
-    mobileMenuBtn.addEventListener(
+    const mobileClose =
+      document.getElementById("mobileClose");
+
+
+
+    /* =========================================================
+       TOAST
+       ========================================================= */
+
+    function showToast(message) {
+
+      toast.textContent =
+        message;
+
+      toast.classList.add("show");
+
+      setTimeout(function() {
+
+        toast.classList.remove("show");
+
+      }, 2500);
+
+    }
+
+
+
+    /* =========================================================
+       PROFILE INITIALS
+       ========================================================= */
+
+    function getInitials(name) {
+
+      if (!name) {
+        return "EG";
+      }
+
+      const parts =
+        name.trim().split(/\s+/);
+
+      if (parts.length === 1) {
+
+        return parts[0]
+          .substring(0, 2)
+          .toUpperCase();
+
+      }
+
+      return (
+        parts[0][0] +
+        parts[parts.length - 1][0]
+      ).toUpperCase();
+
+    }
+
+
+
+    /* =========================================================
+       AUTH STATE
+       ========================================================= */
+
+    auth.onAuthStateChanged(async function(user) {
+
+
+      if (user) {
+
+
+        /* HIDE LOGIN / SIGNUP */
+
+        loginBtn.style.display =
+          "none";
+
+        signupBtn.style.display =
+          "none";
+
+
+        /* SHOW PROFILE */
+
+        profileWrap.classList.add(
+          "show"
+        );
+
+
+        const displayName =
+          user.displayName ||
+          "EaterGo Customer";
+
+
+        profileName.textContent =
+          displayName;
+
+
+        profileUserName.textContent =
+          displayName;
+
+
+        profileUserEmail.textContent =
+          user.email || "";
+
+
+        /* PROFILE PHOTO */
+
+        if (user.photoURL) {
+
+          profileAvatar.innerHTML =
+
+            '<img src="' +
+            user.photoURL +
+            '" alt="Profile">';
+
+        }
+
+        else {
+
+          profileAvatar.textContent =
+            getInitials(displayName);
+
+        }
+
+
+        /*
+         * Make sure customer profile exists.
+         */
+
+        try {
+
+          await db
+            .collection("users")
+            .doc(user.uid)
+            .set(
+
+              {
+
+                uid: user.uid,
+
+                name: displayName,
+
+                email: user.email || "",
+
+                phone:
+                  user.phoneNumber || "",
+
+                provider:
+                  user.providerData &&
+                  user.providerData[0]
+                    ? user.providerData[0]
+                        .providerId
+                    : "unknown",
+
+                status: "active",
+
+                updatedAt:
+                  firebase.firestore
+                    .FieldValue
+                    .serverTimestamp()
+
+              },
+
+              {
+                merge: true
+              }
+
+            );
+
+        }
+
+        catch (error) {
+
+          console.warn(
+            "Profile sync:",
+            error
+          );
+
+        }
+
+      }
+
+      else {
+
+
+        /* SHOW LOGIN / SIGNUP */
+
+        loginBtn.style.display =
+          "";
+
+        signupBtn.style.display =
+          "";
+
+
+        /* HIDE PROFILE */
+
+        profileWrap.classList.remove(
+          "show"
+        );
+
+      }
+
+    });
+
+
+
+    /* =========================================================
+       PROFILE DROPDOWN
+       ========================================================= */
+
+    profileBtn.addEventListener(
       "click",
-      function() {
+      function(event) {
 
-        mobileNav.classList.toggle("active");
+        event.stopPropagation();
+
+        profileMenu.classList.toggle(
+          "open"
+        );
 
       }
     );
 
 
-    /* =====================================================
-       RESTAURANT CARD NAVIGATION
-    ===================================================== */
+    document.addEventListener(
+      "click",
+      function(event) {
 
-    document
-      .querySelectorAll(
-        ".restaurant-card[data-restaurant]"
-      )
-      .forEach(function(card) {
+        if (
+          !profileWrap.contains(event.target)
+        ) {
 
-        card.addEventListener(
-          "click",
-          function(event) {
-
-            if (
-              event.target.closest(".heart-btn")
-            ) {
-              return;
-            }
-
-            const restaurantId =
-              this.dataset.restaurant;
-
-            if (!restaurantId) {
-              return;
-            }
-
-            window.location.href =
-              "restaurant.html?id=" +
-              encodeURIComponent(restaurantId);
-
-          }
-        );
-
-
-        card.addEventListener(
-          "keydown",
-          function(event) {
-
-            if (
-              event.key !== "Enter" &&
-              event.key !== " "
-            ) {
-              return;
-            }
-
-            if (
-              event.target.closest(".heart-btn")
-            ) {
-              return;
-            }
-
-            event.preventDefault();
-
-            const restaurantId =
-              this.dataset.restaurant;
-
-            if (!restaurantId) {
-              return;
-            }
-
-            window.location.href =
-              "restaurant.html?id=" +
-              encodeURIComponent(restaurantId);
-
-          }
-        );
-
-      });
-
-
-    /* =====================================================
-       FAVOURITES
-    ===================================================== */
-
-    function toggleFavourite(id) {
-
-      let favourites = [];
-
-      try {
-
-        favourites =
-          JSON.parse(
-            localStorage.getItem(
-              "eatergo_favourites"
-            )
-          ) || [];
-
-      } catch (error) {
-
-        favourites = [];
-
-      }
-
-
-      if (favourites.includes(id)) {
-
-        favourites =
-          favourites.filter(
-            function(item) {
-              return item !== id;
-            }
+          profileMenu.classList.remove(
+            "open"
           );
 
-        showToast(
-          "Removed from favourites"
-        );
-
-      } else {
-
-        favourites.push(id);
-
-        showToast(
-          "Added to favourites ❤️"
-        );
+        }
 
       }
+    );
 
 
-      localStorage.setItem(
-        "eatergo_favourites",
-        JSON.stringify(favourites)
-      );
 
-    }
+    /* =========================================================
+       LOGOUT
+       ========================================================= */
+
+    logoutBtn.addEventListener(
+      "click",
+      async function() {
+
+        try {
+
+          await auth.signOut();
+
+          profileMenu.classList.remove(
+            "open"
+          );
+
+          showToast(
+            "You have been logged out."
+          );
+
+          setTimeout(function() {
+
+            window.location.href =
+              "index.html";
+
+          }, 700);
+
+        }
+
+        catch (error) {
+
+          console.error(
+            "Logout error:",
+            error
+          );
+
+          showToast(
+            "Logout failed. Please try again."
+          );
+
+        }
+
+      }
+    );
 
 
-    /* =====================================================
+
+    /* =========================================================
        CART COUNT
-    ===================================================== */
+       ========================================================= */
 
     function updateCartCount() {
 
@@ -2409,44 +3687,34 @@
         cart =
           JSON.parse(
             localStorage.getItem(
-              "eatergo_cart"
+              "eatergoCart"
             )
           ) || [];
 
-      } catch (error) {
+      }
+
+      catch (error) {
 
         cart = [];
 
       }
 
 
-      let count = 0;
+      let total = 0;
 
 
-      if (Array.isArray(cart)) {
+      cart.forEach(function(item) {
 
-        cart.forEach(function(item) {
+        total +=
+          Number(item.quantity || 1);
 
-          count +=
-            Number(item.quantity || 1);
-
-        });
-
-      }
+      });
 
 
-      const cartCount =
-        document.getElementById(
-          "cartCount"
-        );
-
-
-      if (cartCount) {
-
-        cartCount.textContent =
-          count;
-
-      }
+      cartCount.textContent =
+        total > 99
+          ? "99+"
+          : total;
 
     }
 
@@ -2454,139 +3722,414 @@
     updateCartCount();
 
 
-    /* =====================================================
-       NEWSLETTER
-    ===================================================== */
+    window.addEventListener(
+      "storage",
+      updateCartCount
+    );
 
-    const newsletterForm =
-      document.getElementById(
-        "newsletterForm"
+
+    cartBtn.addEventListener(
+      "click",
+      function() {
+
+        window.location.href =
+          "cart.html";
+
+      }
+    );
+
+
+
+    /* =========================================================
+       HERO BUTTONS
+       ========================================================= */
+
+    document
+      .getElementById("exploreBtn")
+      .addEventListener(
+        "click",
+        function() {
+
+          window.location.href =
+            "restaurants.html";
+
+        }
       );
 
 
-    newsletterForm.addEventListener(
-      "submit",
-      function(event) {
+    document
+      .getElementById("findFoodBtn")
+      .addEventListener(
+        "click",
+        function() {
 
-        event.preventDefault();
-
-
-        const email =
-          document
-            .getElementById(
-              "newsletterEmail"
-            )
-            .value
-            .trim();
-
-
-        if (!email) {
-
-          showToast(
-            "Please enter your email"
-          );
-
-          return;
+          window.location.href =
+            "food-finder.html";
 
         }
+      );
 
 
-        let subscribers = [];
+    document
+      .getElementById("ctaRestaurantBtn")
+      .addEventListener(
+        "click",
+        function() {
+
+          window.location.href =
+            "restaurants.html";
+
+        }
+      );
 
 
-        try {
+    document
+      .getElementById("ctaFinderBtn")
+      .addEventListener(
+        "click",
+        function() {
 
-          subscribers =
-            JSON.parse(
-              localStorage.getItem(
-                "eatergo_newsletter"
+          window.location.href =
+            "food-finder.html";
+
+        }
+      );
+
+
+
+    /* =========================================================
+       SEARCH
+       ========================================================= */
+
+    document
+      .getElementById("searchForm")
+      .addEventListener(
+        "submit",
+        function(event) {
+
+          event.preventDefault();
+
+
+          const value =
+            document
+              .getElementById(
+                "searchInput"
               )
-            ) || [];
+              .value
+              .trim();
 
-        } catch (error) {
 
-          subscribers = [];
+          if (!value) {
+
+            showToast(
+              "Type a restaurant, dish or cuisine."
+            );
+
+            return;
+
+          }
+
+
+          window.location.href =
+            "search.html?q=" +
+            encodeURIComponent(value);
 
         }
+      );
 
 
-        if (
-          subscribers.includes(email.toLowerCase())
-        ) {
 
-          showToast(
-            "You are already subscribed"
-          );
+    /* =========================================================
+       CATEGORY CLICK
+       ========================================================= */
 
-          return;
+    document
+      .querySelectorAll(
+        ".category-card"
+      )
+      .forEach(function(card) {
+
+
+        card.addEventListener(
+          "click",
+          function() {
+
+            const category =
+              this.dataset.category;
+
+
+            window.location.href =
+              "search.html?category=" +
+              encodeURIComponent(
+                category
+              );
+
+          }
+        );
+
+      });
+
+
+
+    /* =========================================================
+       RESTAURANT CARD
+       ========================================================= */
+
+    document
+      .querySelectorAll(
+        ".restaurant-card"
+      )
+      .forEach(function(card) {
+
+
+        card.addEventListener(
+          "click",
+          function(event) {
+
+
+            /*
+             * Do not open restaurant
+             * when heart is clicked.
+             */
+
+            if (
+              event.target.closest(
+                ".restaurant-heart"
+              )
+            ) {
+
+              return;
+
+            }
+
+
+            const restaurantId =
+              this.dataset.restaurant;
+
+
+            if (!restaurantId) {
+              return;
+            }
+
+
+            window.location.href =
+              "restaurant.html?id=" +
+              encodeURIComponent(
+                restaurantId
+              );
+
+          }
+        );
+
+      });
+
+
+
+    /* =========================================================
+       HEART BUTTONS
+       ========================================================= */
+
+    document
+      .querySelectorAll(
+        ".restaurant-heart"
+      )
+      .forEach(function(button) {
+
+
+        button.addEventListener(
+          "click",
+          async function(event) {
+
+            event.stopPropagation();
+
+
+            const user =
+              auth.currentUser;
+
+
+            if (!user) {
+
+              showToast(
+                "Please login to save favourites."
+              );
+
+              setTimeout(function() {
+
+                window.location.href =
+                  "login.html";
+
+              }, 900);
+
+              return;
+
+            }
+
+
+            if (
+              this.textContent.trim() ===
+              "♡"
+            ) {
+
+              this.textContent =
+                "♥";
+
+              showToast(
+                "Added to favourites."
+              );
+
+            }
+
+            else {
+
+              this.textContent =
+                "♡";
+
+              showToast(
+                "Removed from favourites."
+              );
+
+            }
+
+          }
+        );
+
+      });
+
+
+
+    /* =========================================================
+       LOCATION
+       ========================================================= */
+
+    document
+      .getElementById("locationBtn")
+      .addEventListener(
+        "click",
+        function() {
+
+          const current =
+            localStorage.getItem(
+              "eatergoLocation"
+            );
+
+
+          const location =
+            prompt(
+              "Enter your delivery location:",
+              current || ""
+            );
+
+
+          if (
+            location &&
+            location.trim()
+          ) {
+
+            localStorage.setItem(
+              "eatergoLocation",
+              location.trim()
+            );
+
+            document.getElementById(
+              "locationName"
+            ).textContent =
+              location.trim();
+
+          }
 
         }
+      );
 
 
-        subscribers.push(
-          email.toLowerCase()
-        );
+    const savedLocation =
+      localStorage.getItem(
+        "eatergoLocation"
+      );
 
 
-        localStorage.setItem(
-          "eatergo_newsletter",
-          JSON.stringify(subscribers)
-        );
+    if (savedLocation) {
+
+      document.getElementById(
+        "locationName"
+      ).textContent =
+        savedLocation;
+
+    }
 
 
-        newsletterForm.reset();
 
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
 
-        showToast(
-          "You're subscribed to EaterGo! 🎉"
+    mobileMenuBtn.addEventListener(
+      "click",
+      function() {
+
+        mobileNav.classList.add(
+          "open"
         );
 
       }
     );
 
 
-    /* =====================================================
-       TOAST
-    ===================================================== */
+    mobileClose.addEventListener(
+      "click",
+      function() {
 
-    let toastTimer;
-
-
-    function showToast(message) {
-
-      const toast =
-        document.getElementById(
-          "toast"
+        mobileNav.classList.remove(
+          "open"
         );
 
-
-      toast.textContent =
-        message;
-
-
-      toast.classList.add(
-        "show"
-      );
+      }
+    );
 
 
-      clearTimeout(
-        toastTimer
-      );
+    mobileNav.addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target === mobileNav
+        ) {
+
+          mobileNav.classList.remove(
+            "open"
+          );
+
+        }
+
+      }
+    );
 
 
-      toastTimer =
-        setTimeout(
-          function() {
 
-            toast.classList.remove(
-              "show"
-            );
+    /* =========================================================
+       ESCAPE KEY
+       ========================================================= */
 
-          },
-          2600
-        );
+    document.addEventListener(
+      "keydown",
+      function(event) {
 
-    }
+        if (
+          event.key === "Escape"
+        ) {
+
+          profileMenu.classList.remove(
+            "open"
+          );
+
+          mobileNav.classList.remove(
+            "open"
+          );
+
+        }
+
+      }
+    );
+
 
   </script>
 
