@@ -1,686 +1,1169 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Create your EaterGo account and enjoy delicious food delivered to your doorstep."
+  >
 
   <title>Create Account | EaterGo</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <!-- GOOGLE FONTS -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
 
   <style>
 
-    :root {
-      --primary: #ff4d2d;
-      --primary-dark: #e63b1e;
-      --bg: #fffaf7;
-      --text: #171717;
-      --muted: #777;
-      --border: #e9e1dc;
-      --white: #ffffff;
-      --success: #168a55;
-      --danger: #d93025;
+    /* =====================================================
+       ROOT
+       ===================================================== */
+
+    :root{
+
+      --primary:#ff4d2d;
+
+      --primary-dark:#e63b1e;
+
+      --secondary:#ff8a3d;
+
+      --bg:#fffaf7;
+
+      --white:#ffffff;
+
+      --text:#1d1d1f;
+
+      --muted:#777777;
+
+      --border:#e7e1dd;
+
+      --success:#16803c;
+
+      --danger:#d93025;
+
+      --shadow:
+        0 25px 70px rgba(0,0,0,.12);
+
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+
+    /* =====================================================
+       RESET
+       ===================================================== */
+
+    *{
+
+      margin:0;
+
+      padding:0;
+
+      box-sizing:border-box;
+
     }
 
-    body {
-      min-height: 100vh;
-      font-family: "DM Sans", sans-serif;
-      background:
-        radial-gradient(circle at 10% 10%, rgba(255, 77, 45, 0.08), transparent 30%),
-        radial-gradient(circle at 90% 90%, rgba(255, 138, 61, 0.08), transparent 30%),
-        var(--bg);
-      color: var(--text);
+
+    html{
+
+      scroll-behavior:smooth;
+
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+
+    body{
+
+      min-height:100vh;
+
+      font-family:"DM Sans",sans-serif;
+
+      color:var(--text);
+
+      background:var(--bg);
+
     }
+
+
+    a{
+
+      color:inherit;
+
+      text-decoration:none;
+
+    }
+
 
     button,
-    input {
-      font: inherit;
+    input{
+
+      font:inherit;
+
     }
 
-    .page {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
+
+    button{
+
+      cursor:pointer;
+
     }
 
-    /* =========================================
-       LEFT BRAND PANEL
-       ========================================= */
 
-    .brand-panel {
-      position: relative;
-      overflow: hidden;
-      min-height: 100vh;
-      padding: 48px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    /* =====================================================
+       MAIN LAYOUT
+       ===================================================== */
+
+    .page{
+
+      min-height:100vh;
+
+      display:grid;
+
+      grid-template-columns:
+        minmax(0,1.05fr)
+        minmax(420px,.95fr);
+
+    }
+
+
+    /* =====================================================
+       LEFT IMAGE PANEL
+       ===================================================== */
+
+    .visual-panel{
+
+      position:relative;
+
+      min-height:100vh;
+
+      overflow:hidden;
+
+      background:#24100a;
+
+      color:#fff;
+
+      display:flex;
+
+      align-items:flex-end;
+
+      padding:60px;
+
+    }
+
+
+    .visual-panel::before{
+
+      content:"";
+
+      position:absolute;
+
+      inset:0;
+
       background:
         linear-gradient(
-          145deg,
-          #24100b 0%,
-          #39150d 48%,
-          #1b0b07 100%
+          rgba(0,0,0,.10),
+          rgba(0,0,0,.62)
+        ),
+        url("assets/images/hero-biryani (2).jpg")
+        center/cover no-repeat;
+
+      transform:scale(1.01);
+
+    }
+
+
+    .visual-panel::after{
+
+      content:"";
+
+      position:absolute;
+
+      inset:0;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(0,0,0,.03) 0%,
+          rgba(0,0,0,.05) 40%,
+          rgba(0,0,0,.65) 100%
         );
-      color: white;
+
     }
 
-    .brand-panel::before {
-      content: "";
-      position: absolute;
-      width: 420px;
-      height: 420px;
-      border-radius: 50%;
-      background: rgba(255, 77, 45, 0.12);
-      top: -160px;
-      right: -130px;
-      filter: blur(10px);
+
+    /* =====================================================
+       LOGO
+       ===================================================== */
+
+    .brand-logo{
+
+      position:absolute;
+
+      top:32px;
+
+      left:40px;
+
+      z-index:5;
+
     }
 
-    .brand-panel::after {
-      content: "";
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: rgba(255, 138, 61, 0.08);
-      bottom: -120px;
-      left: -100px;
+
+    .brand-logo img{
+
+      width:145px;
+
+      height:auto;
+
+      display:block;
+
     }
 
-    .brand-content,
-    .brand-bottom {
-      position: relative;
-      z-index: 2;
+
+    /* =====================================================
+       VISUAL CONTENT
+       ===================================================== */
+
+    .visual-content{
+
+      position:relative;
+
+      z-index:3;
+
+      max-width:620px;
+
     }
 
-    .brand-logo {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 70px;
+
+    .eyebrow{
+
+      display:inline-flex;
+
+      align-items:center;
+
+      gap:8px;
+
+      padding:8px 14px;
+
+      border-radius:999px;
+
+      background:
+        rgba(255,255,255,.13);
+
+      border:
+        1px solid rgba(255,255,255,.22);
+
+      backdrop-filter:blur(10px);
+
+      font-size:12px;
+
+      font-weight:800;
+
+      margin-bottom:18px;
+
     }
 
-    .brand-logo img {
-      width: 145px;
-      height: auto;
-      display: block;
-      border-radius: 6px;
+
+    .visual-content h1{
+
+      font-family:"Playfair Display",serif;
+
+      font-size:
+        clamp(44px,5vw,72px);
+
+      line-height:1.03;
+
+      letter-spacing:-1.8px;
+
+      margin-bottom:19px;
+
     }
 
-    .brand-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      width: fit-content;
-      padding: 8px 13px;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.07);
-      color: #ffd8ce;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 22px;
+
+    .visual-content h1 span{
+
+      color:#ff8a72;
+
     }
 
-    .brand-panel h1 {
-      max-width: 520px;
-      font-family: "Playfair Display", serif;
-      font-size: clamp(42px, 5vw, 68px);
-      line-height: 1.02;
-      letter-spacing: -1.5px;
-      margin-bottom: 22px;
+
+    .visual-content p{
+
+      max-width:540px;
+
+      color:
+        rgba(255,255,255,.88);
+
+      font-size:16px;
+
+      line-height:1.7;
+
     }
 
-    .brand-panel h1 span {
-      color: #ff7256;
+
+    /* =====================================================
+       FEATURES
+       ===================================================== */
+
+    .features{
+
+      display:flex;
+
+      flex-wrap:wrap;
+
+      gap:10px;
+
+      margin-top:27px;
+
     }
 
-    .brand-description {
-      max-width: 500px;
-      color: rgba(255,255,255,0.72);
-      line-height: 1.75;
-      font-size: 16px;
+
+    .feature{
+
+      padding:9px 13px;
+
+      border-radius:10px;
+
+      background:
+        rgba(255,255,255,.11);
+
+      border:
+        1px solid rgba(255,255,255,.18);
+
+      backdrop-filter:blur(8px);
+
+      font-size:12px;
+
+      font-weight:700;
+
     }
 
-    .brand-features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      max-width: 540px;
-    }
 
-    .feature {
-      padding: 17px;
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 16px;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(10px);
-    }
-
-    .feature-icon {
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .feature strong {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
-
-    .feature small {
-      display: block;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.4;
-      font-size: 11px;
-    }
-
-    .brand-bottom {
-      color: rgba(255,255,255,0.45);
-      font-size: 12px;
-    }
-
-    /* =========================================
+    /* =====================================================
        RIGHT FORM PANEL
-       ========================================= */
+       ===================================================== */
 
-    .form-panel {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      background: #fff;
+    .form-panel{
+
+      min-height:100vh;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      padding:50px 35px;
+
+      background:
+        rgba(255,255,255,.94);
+
     }
 
-    .form-wrapper {
-      width: 100%;
-      max-width: 480px;
+
+    .form-wrap{
+
+      width:100%;
+
+      max-width:470px;
+
     }
 
-    .mobile-logo {
-      display: none;
-      margin-bottom: 35px;
+
+    .mobile-logo{
+
+      display:none;
+
+      margin-bottom:28px;
+
     }
 
-    .mobile-logo img {
-      width: 125px;
+
+    .mobile-logo img{
+
+      width:125px;
+
+      height:auto;
+
     }
 
-    .form-header {
-      margin-bottom: 28px;
+
+    /* =====================================================
+       HEADING
+       ===================================================== */
+
+    .heading{
+
+      margin-bottom:25px;
+
     }
 
-    .form-header .eyebrow {
-      color: var(--primary);
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1.4px;
-      margin-bottom: 9px;
+
+    .heading h2{
+
+      font-size:34px;
+
+      line-height:1.15;
+
+      font-weight:800;
+
+      margin-bottom:8px;
+
     }
 
-    .form-header h2 {
-      font-family: "Playfair Display", serif;
-      font-size: 38px;
-      line-height: 1.1;
-      margin-bottom: 9px;
+
+    .heading p{
+
+      color:var(--muted);
+
+      font-size:14px;
+
+      line-height:1.6;
+
     }
 
-    .form-header p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
+
+    /* =====================================================
+       MESSAGE
+       ===================================================== */
+
+    .message{
+
+      display:none;
+
+      margin-bottom:18px;
+
+      padding:12px 14px;
+
+      border-radius:11px;
+
+      font-size:13px;
+
+      line-height:1.5;
+
+      font-weight:600;
+
     }
 
-    /* =========================================
-       GOOGLE BUTTON
-       ========================================= */
 
-    .google-btn {
-      width: 100%;
-      height: 52px;
-      border: 1px solid #dedede;
-      border-radius: 12px;
-      background: #fff;
-      color: #242424;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
-      transition: all 0.2s ease;
+    .message.show{
+
+      display:block;
+
     }
 
-    .google-btn:hover {
-      border-color: #c8c8c8;
-      background: #fafafa;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.06);
-      transform: translateY(-1px);
+
+    .message.error{
+
+      color:var(--danger);
+
+      background:#fff0ef;
+
+      border:1px solid #ffd1cc;
+
     }
 
-    .google-btn:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-      transform: none;
+
+    .message.success{
+
+      color:var(--success);
+
+      background:#edfff3;
+
+      border:1px solid #bde9ca;
+
     }
 
-    /* REAL GOOGLE G LOGO */
-    .google-icon {
-      width: 19px;
-      height: 19px;
-      display: block;
-      flex: 0 0 19px;
+
+    /* =====================================================
+       FORM
+       ===================================================== */
+
+    .form-group{
+
+      margin-bottom:16px;
+
     }
 
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin: 22px 0;
-      color: #aaa;
-      font-size: 12px;
-      font-weight: 600;
+
+    .form-group label{
+
+      display:block;
+
+      margin-bottom:7px;
+
+      font-size:13px;
+
+      font-weight:800;
+
     }
+
+
+    .optional{
+
+      color:#999;
+
+      font-weight:500;
+
+    }
+
+
+    .input-wrap{
+
+      position:relative;
+
+    }
+
+
+    .input-icon{
+
+      position:absolute;
+
+      left:15px;
+
+      top:50%;
+
+      transform:translateY(-50%);
+
+      font-size:16px;
+
+      color:#999;
+
+      pointer-events:none;
+
+    }
+
+
+    .form-group input{
+
+      width:100%;
+
+      height:52px;
+
+      border:1px solid var(--border);
+
+      border-radius:12px;
+
+      outline:none;
+
+      background:#fff;
+
+      color:var(--text);
+
+      padding:
+        0 15px 0 45px;
+
+      transition:.2s ease;
+
+    }
+
+
+    .form-group input:hover{
+
+      border-color:#d9d0ca;
+
+    }
+
+
+    .form-group input:focus{
+
+      border-color:var(--primary);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(255,77,45,.10);
+
+    }
+
+
+    .password-note{
+
+      margin-top:6px;
+
+      color:#999;
+
+      font-size:11px;
+
+    }
+
+
+    /* =====================================================
+       TERMS
+       ===================================================== */
+
+    .terms{
+
+      display:flex;
+
+      align-items:flex-start;
+
+      gap:9px;
+
+      margin:
+        5px 0 18px;
+
+      color:#666;
+
+      font-size:11px;
+
+      line-height:1.55;
+
+    }
+
+
+    .terms input{
+
+      margin-top:3px;
+
+      accent-color:var(--primary);
+
+      flex-shrink:0;
+
+    }
+
+
+    .terms a{
+
+      color:var(--primary);
+
+      font-weight:800;
+
+    }
+
+
+    /* =====================================================
+       PRIMARY BUTTON
+       ===================================================== */
+
+    .primary-btn{
+
+      width:100%;
+
+      height:53px;
+
+      border:0;
+
+      border-radius:12px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--secondary)
+        );
+
+      color:#fff;
+
+      font-size:14px;
+
+      font-weight:800;
+
+      box-shadow:
+        0 11px 28px
+        rgba(255,77,45,.22);
+
+      transition:.2s ease;
+
+    }
+
+
+    .primary-btn:hover{
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--secondary)
+        );
+
+      transform:translateY(-1px);
+
+    }
+
+
+    .primary-btn:disabled{
+
+      opacity:.65;
+
+      cursor:not-allowed;
+
+      transform:none;
+
+    }
+
+
+    .normal-text{
+
+      display:inline;
+
+    }
+
+
+    .loading-text{
+
+      display:none;
+
+    }
+
+
+    .primary-btn.loading
+    .normal-text{
+
+      display:none;
+
+    }
+
+
+    .primary-btn.loading
+    .loading-text{
+
+      display:inline;
+
+    }
+
+
+    /* =====================================================
+       DIVIDER
+       ===================================================== */
+
+    .divider{
+
+      display:flex;
+
+      align-items:center;
+
+      gap:12px;
+
+      margin:22px 0;
+
+      color:#999;
+
+      font-size:11px;
+
+      font-weight:700;
+
+    }
+
 
     .divider::before,
-    .divider::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: #ece8e5;
+    .divider::after{
+
+      content:"";
+
+      flex:1;
+
+      height:1px;
+
+      background:#e8e2de;
+
     }
 
-    /* =========================================
-       FORM
-       ========================================= */
 
-    .form-group {
-      margin-bottom: 17px;
+    /* =====================================================
+       GOOGLE BUTTON
+       ===================================================== */
+
+    .google-btn{
+
+      width:100%;
+
+      height:52px;
+
+      border:
+        1px solid #ddd8d4;
+
+      border-radius:12px;
+
+      background:#fff;
+
+      color:#222;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      gap:10px;
+
+      font-size:13px;
+
+      font-weight:700;
+
+      transition:.2s ease;
+
     }
 
-    .form-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 8px;
+
+    .google-btn:hover{
+
+      background:#fafafa;
+
+      border-color:#cfc8c3;
+
     }
 
-    .input-wrap {
-      position: relative;
+
+    .google-btn:disabled{
+
+      opacity:.6;
+
+      cursor:not-allowed;
+
     }
 
-    .input-icon {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #aaa;
-      font-size: 15px;
-      pointer-events: none;
+
+    .google-icon{
+
+      width:19px;
+
+      height:19px;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      flex-shrink:0;
+
     }
 
-    .form-group input {
-      width: 100%;
-      height: 51px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      outline: none;
-      background: #fff;
-      color: var(--text);
-      padding: 0 15px 0 43px;
-      font-size: 14px;
-      transition: all 0.2s ease;
+
+    .google-icon svg{
+
+      width:19px;
+
+      height:19px;
+
+      display:block;
+
     }
 
-    .form-group input::placeholder {
-      color: #aaa;
+
+    /* =====================================================
+       LOGIN LINK
+       ===================================================== */
+
+    .login-text{
+
+      text-align:center;
+
+      margin-top:23px;
+
+      color:var(--muted);
+
+      font-size:13px;
+
     }
 
-    .form-group input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(255,77,45,0.08);
+
+    .login-text a{
+
+      color:var(--primary);
+
+      font-weight:800;
+
     }
 
-    .password-wrap input {
-      padding-right: 48px;
+
+    /* =====================================================
+       FOOTER NOTE
+       ===================================================== */
+
+    .footer-note{
+
+      margin-top:22px;
+
+      text-align:center;
+
+      color:#aaa;
+
+      font-size:10px;
+
+      line-height:1.6;
+
     }
 
-    .toggle-password {
-      position: absolute;
-      right: 13px;
-      top: 50%;
-      transform: translateY(-50%);
-      border: 0;
-      background: transparent;
-      cursor: pointer;
-      color: #888;
-      font-size: 16px;
-      padding: 5px;
-    }
 
-    .terms {
-      display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      margin: 4px 0 18px;
-    }
-
-    .terms input {
-      width: 16px;
-      height: 16px;
-      margin-top: 2px;
-      accent-color: var(--primary);
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .terms label {
-      color: #777;
-      font-size: 12px;
-      line-height: 1.55;
-      cursor: pointer;
-    }
-
-    .terms a {
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    .signup-btn {
-      width: 100%;
-      height: 53px;
-      border: 0;
-      border-radius: 12px;
-      background: var(--primary);
-      color: white;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 9px 24px rgba(255,77,45,0.22);
-      transition: all 0.2s ease;
-    }
-
-    .signup-btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 12px 28px rgba(255,77,45,0.28);
-    }
-
-    .signup-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .login-link {
-      text-align: center;
-      margin-top: 22px;
-      font-size: 13px;
-      color: #777;
-    }
-
-    .login-link a {
-      color: var(--primary);
-      font-weight: 800;
-    }
-
-    .message {
-      display: none;
-      margin-bottom: 17px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .message.show {
-      display: block;
-    }
-
-    .message.error {
-      color: var(--danger);
-      background: #fff1ef;
-      border: 1px solid #ffd5cf;
-    }
-
-    .message.success {
-      color: var(--success);
-      background: #eefaf4;
-      border: 1px solid #c8eddb;
-    }
-
-    .security-note {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      margin-top: 23px;
-      color: #999;
-      font-size: 11px;
-    }
-
-    /* =========================================
+    /* =====================================================
        RESPONSIVE
-       ========================================= */
+       ===================================================== */
 
-    @media (max-width: 900px) {
+    @media(max-width:900px){
 
-      .page {
-        grid-template-columns: 1fr;
+      .page{
+
+        grid-template-columns:1fr;
+
       }
 
-      .brand-panel {
-        display: none;
+
+      .visual-panel{
+
+        min-height:390px;
+
+        padding:40px 30px;
+
       }
 
-      .form-panel {
-        min-height: 100vh;
-        padding: 30px 20px;
+
+      .visual-content h1{
+
+        font-size:48px;
+
       }
 
-      .mobile-logo {
-        display: block;
+
+      .brand-logo{
+
+        top:25px;
+
+        left:25px;
+
+      }
+
+
+      .form-panel{
+
+        min-height:auto;
+
+        padding:45px 25px;
+
       }
 
     }
 
-    @media (max-width: 500px) {
 
-      .form-panel {
-        padding: 25px 18px;
+    @media(max-width:600px){
+
+      .visual-panel{
+
+        display:none;
+
       }
 
-      .form-header h2 {
-        font-size: 32px;
+
+      .form-panel{
+
+        min-height:100vh;
+
+        padding:30px 20px;
+
+      }
+
+
+      .mobile-logo{
+
+        display:block;
+
+      }
+
+
+      .heading h2{
+
+        font-size:29px;
+
       }
 
     }
 
   </style>
+
 </head>
+
 
 <body>
 
-  <main class="page">
 
-    <!-- =========================================
-         LEFT BRAND AREA
-         ========================================= -->
+  <div class="page">
 
-    <section class="brand-panel">
 
-      <div class="brand-content">
+    <!-- ===================================================
+         LEFT PANEL
+         =================================================== -->
 
-        <a href="index.html" class="brand-logo">
-          <img
-            src="assets/logos/eatergo-logo.png"
-            alt="EaterGo"
-          >
-        </a>
+    <section class="visual-panel">
 
-        <div class="brand-tag">
-          🍽️ FOOD · OFFERS · DELIVERY
+
+      <a
+        href="index.html"
+        class="brand-logo"
+      >
+
+        <img
+          src="assets/logos/eatergo-logo.png"
+          alt="EaterGo"
+        >
+
+      </a>
+
+
+      <div class="visual-content">
+
+
+        <div class="eyebrow">
+
+          🍽️ Welcome to EaterGo
+
         </div>
+
 
         <h1>
-          Good food<br>
-          starts with<br>
-          <span>EaterGo.</span>
+
+          Your food.<br>
+
+          <span>
+            Just the way you love it.
+          </span>
+
         </h1>
 
-        <p class="brand-description">
-          Create your EaterGo account and discover restaurants,
-          explore delicious dishes, unlock exclusive offers,
-          and enjoy a smoother food ordering experience.
+
+        <p>
+
+          Create your EaterGo account and
+          discover delicious food, exclusive
+          offers and a smoother ordering
+          experience.
+
         </p>
 
-        <div class="brand-features">
+
+        <div class="features">
+
 
           <div class="feature">
-            <div class="feature-icon">🍴</div>
-            <strong>Great Food</strong>
-            <small>Discover dishes you'll love.</small>
+            ⚡ Fast Ordering
           </div>
 
-          <div class="feature">
-            <div class="feature-icon">🎁</div>
-            <strong>Exclusive Offers</strong>
-            <small>Unlock special customer rewards.</small>
-          </div>
 
           <div class="feature">
-            <div class="feature-icon">🚴</div>
-            <strong>Easy Delivery</strong>
-            <small>Order and track with ease.</small>
+            🎁 Exclusive Offers
           </div>
+
+
+          <div class="feature">
+            📍 Easy Tracking
+          </div>
+
+
+          <div class="feature">
+            ❤️ Save Favourites
+          </div>
+
 
         </div>
 
+
       </div>
 
-      <div class="brand-bottom">
-        © 2026 EaterGo · Delicious food, delivered better.
-      </div>
 
     </section>
 
 
-    <!-- =========================================
-         RIGHT SIGNUP AREA
-         ========================================= -->
+
+    <!-- ===================================================
+         RIGHT PANEL
+         =================================================== -->
 
     <section class="form-panel">
 
-      <div class="form-wrapper">
 
-        <a href="index.html" class="mobile-logo">
-          <img
-            src="assets/logos/eatergo-logo.png"
-            alt="EaterGo"
-          >
-        </a>
+      <div class="form-wrap">
 
-        <div class="form-header">
 
-          <div class="eyebrow">
-            Welcome to EaterGo
-          </div>
+        <!-- MOBILE LOGO -->
 
-          <h2>Create your account</h2>
+        <div class="mobile-logo">
+
+          <a href="index.html">
+
+            <img
+              src="assets/logos/eatergo-logo.png"
+              alt="EaterGo"
+            >
+
+          </a>
+
+        </div>
+
+
+
+        <!-- HEADING -->
+
+        <div class="heading">
+
+          <h2>
+            Create your account
+          </h2>
 
           <p>
-            Join EaterGo and make your next food order easier.
+            Join EaterGo and start your
+            delicious journey.
           </p>
 
         </div>
 
 
+
         <!-- MESSAGE -->
 
-        <div id="message" class="message"></div>
+        <div
+          id="message"
+          class="message"
+        ></div>
 
-
-        <!-- GOOGLE -->
-
-        <button
-          type="button"
-          class="google-btn"
-          id="googleBtn"
-        >
-
-          <!-- Official Google-style multicolor G -->
-          <svg
-            class="google-icon"
-            viewBox="0 0 48 48"
-            aria-hidden="true"
-          >
-            <path
-              fill="#EA4335"
-              d="M24 9.5c3.54 0 6.02 1.53 7.4 2.81l5.44-5.32C33.5 4.2 29.08 2 24 2 14.82 2 6.99 7.24 3.16 14.86l6.58 5.1C11.56 14.04 17.19 9.5 24 9.5z"
-            />
-
-            <path
-              fill="#4285F4"
-              d="M46.5 24.5c0-1.59-.14-2.77-.45-4.01H24v7.61h12.91c-.26 1.89-1.93 4.73-5.56 6.64l6.57 5.1c3.93-3.63 8.58-8.86 8.58-15.34z"
-            />
-
-            <path
-              fill="#FBBC05"
-              d="M9.74 28.94A14.7 14.7 0 0 1 9 24c0-1.72.3-3.39.85-4.94l-6.69-5.19A22.48 22.48 0 0 0 1.5 24c0 3.63.87 7.06 2.41 10.13l5.83-5.19z"
-            />
-
-            <path
-              fill="#34A853"
-              d="M24 46c6.08 0 11.18-2 14.9-5.44l-6.57-5.1c-1.76 1.17-4.15 1.99-8.33 1.99-6.75 0-12.45-4.44-14.49-10.58l-6.58 5.1C6.76 40.82 14.78 46 24 46z"
-            />
-          </svg>
-
-          Continue with Google
-
-        </button>
-
-
-        <div class="divider">
-          OR CONTINUE WITH EMAIL
-        </div>
 
 
         <!-- SIGNUP FORM -->
 
-        <form id="signupForm" novalidate>
+        <form
+          id="signupForm"
+          novalidate
+        >
+
 
           <!-- NAME -->
 
           <div class="form-group">
 
             <label for="name">
-              Full name
+              Full Name
             </label>
+
 
             <div class="input-wrap">
 
-              <span class="input-icon">👤</span>
+              <span class="input-icon">
+                👤
+              </span>
+
 
               <input
                 type="text"
                 id="name"
+                name="name"
                 placeholder="Enter your full name"
                 autocomplete="name"
                 required
@@ -691,21 +1174,27 @@
           </div>
 
 
+
           <!-- EMAIL -->
 
           <div class="form-group">
 
             <label for="email">
-              Email address
+              Email Address
             </label>
+
 
             <div class="input-wrap">
 
-              <span class="input-icon">✉</span>
+              <span class="input-icon">
+                ✉️
+              </span>
+
 
               <input
                 type="email"
                 id="email"
+                name="email"
                 placeholder="you@example.com"
                 autocomplete="email"
                 required
@@ -716,31 +1205,42 @@
           </div>
 
 
+
           <!-- PHONE -->
 
           <div class="form-group">
 
             <label for="phone">
-              Phone number
-              <span style="color:#aaa;font-weight:500;">
+
+              Phone Number
+
+              <span class="optional">
                 (optional)
               </span>
+
             </label>
+
 
             <div class="input-wrap">
 
-              <span class="input-icon">📱</span>
+              <span class="input-icon">
+                📱
+              </span>
+
 
               <input
                 type="tel"
                 id="phone"
-                placeholder="Enter your phone number"
+                name="phone"
+                placeholder="Enter phone number"
                 autocomplete="tel"
+                maxlength="15"
               >
 
             </div>
 
           </div>
+
 
 
           <!-- PASSWORD -->
@@ -751,30 +1251,35 @@
               Password
             </label>
 
-            <div class="input-wrap password-wrap">
 
-              <span class="input-icon">🔒</span>
+            <div class="input-wrap">
+
+              <span class="input-icon">
+                🔒
+              </span>
+
 
               <input
                 type="password"
                 id="password"
-                placeholder="Minimum 6 characters"
+                name="password"
+                placeholder="Create a password"
                 autocomplete="new-password"
+                minlength="6"
                 required
               >
 
-              <button
-                type="button"
-                class="toggle-password"
-                data-target="password"
-                aria-label="Show password"
-              >
-                👁
-              </button>
+            </div>
+
+
+            <div class="password-note">
+
+              Minimum 6 characters.
 
             </div>
 
           </div>
+
 
 
           <!-- CONFIRM PASSWORD -->
@@ -782,684 +1287,831 @@
           <div class="form-group">
 
             <label for="confirmPassword">
-              Confirm password
+              Confirm Password
             </label>
 
-            <div class="input-wrap password-wrap">
 
-              <span class="input-icon">🔐</span>
+            <div class="input-wrap">
+
+              <span class="input-icon">
+                🔐
+              </span>
+
 
               <input
                 type="password"
                 id="confirmPassword"
+                name="confirmPassword"
                 placeholder="Re-enter your password"
                 autocomplete="new-password"
+                minlength="6"
                 required
               >
-
-              <button
-                type="button"
-                class="toggle-password"
-                data-target="confirmPassword"
-                aria-label="Show password"
-              >
-                👁
-              </button>
 
             </div>
 
           </div>
 
 
+
           <!-- TERMS -->
 
-          <div class="terms">
+          <label class="terms">
 
             <input
               type="checkbox"
               id="terms"
+              required
             >
 
-            <label for="terms">
-              I agree to EaterGo's
-              <a href="#" onclick="return false;">
+
+            <span>
+
+              I agree to the EaterGo
+
+              <a
+                href="#"
+                onclick="return false;"
+              >
                 Terms & Conditions
               </a>
+
               and
-              <a href="#" onclick="return false;">
+
+              <a
+                href="#"
+                onclick="return false;"
+              >
                 Privacy Policy
               </a>.
-            </label>
 
-          </div>
+            </span>
+
+          </label>
 
 
-          <!-- SIGNUP BUTTON -->
+
+          <!-- CREATE ACCOUNT -->
 
           <button
             type="submit"
-            class="signup-btn"
+            class="primary-btn"
             id="signupBtn"
           >
-            Create EaterGo Account
+
+            <span class="normal-text">
+              Create Account
+            </span>
+
+            <span class="loading-text">
+              Creating Account...
+            </span>
+
           </button>
+
 
         </form>
 
 
+
+        <!-- DIVIDER -->
+
+        <div class="divider">
+          OR
+        </div>
+
+
+
+        <!-- GOOGLE -->
+
+        <button
+          type="button"
+          class="google-btn"
+          id="googleBtn"
+        >
+
+
+          <span class="google-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+
+              <path
+                fill="#4285F4"
+                d="M21.35 12.27c0-.79-.07-1.55-.2-2.27H12v4.3h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.69 2.91-4.18 2.91-7.42z"
+              />
+
+              <path
+                fill="#34A853"
+                d="M12 21.8c2.63 0 4.84-.87 6.45-2.36l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.3v2.53A9.75 9.75 0 0 0 12 21.8z"
+              />
+
+              <path
+                fill="#FBBC05"
+                d="M6.54 13.88A5.86 5.86 0 0 1 6.23 12c0-.65.11-1.28.31-1.88V7.59H3.3A9.8 9.8 0 0 0 2.25 12c0 1.58.38 3.07 1.05 4.41l3.24-2.53z"
+              />
+
+              <path
+                fill="#EA4335"
+                d="M12 6.09c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.84 3.14 14.63 2.2 12 2.2a9.75 9.75 0 0 0-8.7 5.39l3.24 2.53C7.31 7.81 9.46 6.09 12 6.09z"
+              />
+
+            </svg>
+
+          </span>
+
+
+          Continue with Google
+
+
+        </button>
+
+
+
         <!-- LOGIN -->
 
-        <div class="login-link">
+        <div class="login-text">
 
           Already have an account?
 
           <a href="login.html">
-            Log in
+            Login
           </a>
 
         </div>
 
 
-        <div class="security-note">
-          🔒 Your account information is securely protected.
+
+        <!-- SECURITY NOTE -->
+
+        <div class="footer-note">
+
+          Your password is securely handled
+          by Firebase Authentication.
+          EaterGo does not store your password
+          in Firestore.
+
         </div>
+
 
       </div>
 
+
     </section>
 
-  </main>
+
+  </div>
 
 
-  <!-- =========================================
+
+  <!-- =====================================================
        FIREBASE
-       ========================================= -->
-<script type="module">
+       ===================================================== -->
 
-/* ================= FIREBASE IMPORTS ================= */
+  <script type="module">
 
-import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  updateProfile,
-  setPersistence,
-  browserLocalPersistence
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+    /* =====================================================
+       IMPORTS
+       ===================================================== */
 
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    import {
+      initializeApp
+    } from
+      "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
 
-/* ================= FIREBASE CONFIG ================= */
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      GoogleAuthProvider,
+      signInWithPopup,
+      updateProfile,
+      setPersistence,
+      browserLocalPersistence,
+      signOut
+    } from
+      "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
-const firebaseConfig = {
 
-  apiKey:
-    "AIzaSyBTPmtNIDaAjmBVTUCKrapXtyCo3xwQd3k",
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc,
+      serverTimestamp
+    } from
+      "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-  authDomain:
-    "eatergo-47a19.firebaseapp.com",
 
-  projectId:
-    "eatergo-47a19",
 
-  storageBucket:
-    "eatergo-47a19.firebasestorage.app",
+    /* =====================================================
+       FIREBASE CONFIG
+       ===================================================== */
 
-  messagingSenderId:
-    "1074068458641",
+    const firebaseConfig = {
 
-  appId:
-    "1:1074068458641:web:be8eaf986b37fa339b4330",
+      apiKey:
+        "AIzaSyBTPmtNIDaAjmBVTUCKrapXtyCo3xwQd3k",
 
-  measurementId:
-    "G-4CW92B1QR8"
+      authDomain:
+        "eatergo-47a19.firebaseapp.com",
 
-};
+      projectId:
+        "eatergo-47a19",
 
+      storageBucket:
+        "eatergo-47a19.firebasestorage.app",
 
-/* ================= INITIALIZE ================= */
+      messagingSenderId:
+        "1074068458641",
 
-const app =
-  initializeApp(firebaseConfig);
+      appId:
+        "1:1074068458641:web:be8eaf986b37fa339b4330",
 
-const auth =
-  getAuth(app);
+      measurementId:
+        "G-4CW92B1QR8"
 
-const db =
-  getFirestore(app);
+    };
 
 
-/* ================= AUTH PERSISTENCE ================= */
 
-try {
+    /* =====================================================
+       INITIALIZE
+       ===================================================== */
 
-  await setPersistence(
-    auth,
-    browserLocalPersistence
-  );
-
-  console.log(
-    "EATERGO: Auth persistence enabled"
-  );
-
-} catch(error) {
-
-  console.error(
-    "EATERGO: Auth persistence error:",
-    error
-  );
-
-}
-
-
-/* ================= ELEMENTS ================= */
-
-const signupForm =
-  document.getElementById("signupForm");
-
-const signupBtn =
-  document.getElementById("signupBtn");
-
-const googleBtn =
-  document.getElementById("googleBtn");
-
-const messageBox =
-  document.getElementById("message");
-
-
-/* ================= MESSAGE ================= */
-
-function showMessage(
-  message,
-  type = "error"
-) {
-
-  messageBox.textContent =
-    message;
-
-  messageBox.className =
-    "message show " + type;
-
-}
-
-
-function clearMessage() {
-
-  messageBox.textContent =
-    "";
-
-  messageBox.className =
-    "message";
-
-}
-
-
-/* ================= LOADING ================= */
-
-function setLoading(loading) {
-
-  signupBtn.disabled =
-    loading;
-
-  googleBtn.disabled =
-    loading;
-
-
-  if(loading) {
-
-    signupBtn.textContent =
-      "Creating your account...";
-
-  } else {
-
-    signupBtn.textContent =
-      "Create EaterGo Account";
-
-  }
-
-}
-
-
-/* ================= PASSWORD TOGGLE ================= */
-
-document
-  .querySelectorAll(".toggle-password")
-  .forEach(function(button) {
-
-    button.addEventListener(
-      "click",
-      function() {
-
-        const targetId =
-          this.dataset.target;
-
-        const input =
-          document.getElementById(
-            targetId
-          );
-
-
-        if(input.type === "password") {
-
-          input.type =
-            "text";
-
-          this.textContent =
-            "🙈";
-
-        } else {
-
-          input.type =
-            "password";
-
-          this.textContent =
-            "👁";
-
-        }
-
-      }
-    );
-
-  });
-
-
-/* ================= EMAIL SIGNUP ================= */
-
-signupForm.addEventListener(
-  "submit",
-  async function(event) {
-
-    event.preventDefault();
-
-    clearMessage();
-
-
-    const name =
-      document
-        .getElementById("name")
-        .value
-        .trim();
-
-
-    const email =
-      document
-        .getElementById("email")
-        .value
-        .trim();
-
-
-    const phone =
-      document
-        .getElementById("phone")
-        .value
-        .trim();
-
-
-    const password =
-      document
-        .getElementById("password")
-        .value;
-
-
-    const confirmPassword =
-      document
-        .getElementById("confirmPassword")
-        .value;
-
-
-    const terms =
-      document
-        .getElementById("terms")
-        .checked;
-
-
-/* ================= VALIDATION ================= */
-
-    if(name.length < 2) {
-
-      showMessage(
-        "Please enter your full name."
+    const app =
+      initializeApp(
+        firebaseConfig
       );
 
-      return;
+
+    const auth =
+      getAuth(app);
+
+
+    const db =
+      getFirestore(app);
+
+
+
+    /* =====================================================
+       ELEMENTS
+       ===================================================== */
+
+    const signupForm =
+      document.getElementById(
+        "signupForm"
+      );
+
+
+    const signupBtn =
+      document.getElementById(
+        "signupBtn"
+      );
+
+
+    const googleBtn =
+      document.getElementById(
+        "googleBtn"
+      );
+
+
+    const messageBox =
+      document.getElementById(
+        "message"
+      );
+
+
+
+    /* =====================================================
+       MESSAGE
+       ===================================================== */
+
+    function showMessage(
+      message,
+      type = "error"
+    ){
+
+      messageBox.textContent =
+        message;
+
+
+      messageBox.className =
+        "message show " + type;
 
     }
 
 
-    if(!email) {
+    function clearMessage(){
 
-      showMessage(
-        "Please enter your email address."
-      );
-
-      return;
-
-    }
+      messageBox.textContent =
+        "";
 
 
-    if(password.length < 6) {
-
-      showMessage(
-        "Password must contain at least 6 characters."
-      );
-
-      return;
+      messageBox.className =
+        "message";
 
     }
 
 
-    if(password !== confirmPassword) {
 
-      showMessage(
-        "Passwords do not match."
-      );
+    /* =====================================================
+       LOADING
+       ===================================================== */
 
-      return;
+    function setLoading(
+      loading
+    ){
 
-    }
-
-
-    if(!terms) {
-
-      showMessage(
-        "Please accept the Terms & Conditions and Privacy Policy."
-      );
-
-      return;
-
-    }
+      signupBtn.disabled =
+        loading;
 
 
-/* ================= CREATE ACCOUNT ================= */
-
-    try {
-
-      setLoading(true);
+      googleBtn.disabled =
+        loading;
 
 
-      console.log(
-        "EATERGO: Creating Firebase account..."
-      );
+      if(loading){
 
-
-      const userCredential =
-        await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
+        signupBtn.classList.add(
+          "loading"
         );
 
+      }else{
 
-      const user =
-        userCredential.user;
-
-
-      console.log(
-        "EATERGO: Account created:",
-        user.uid
-      );
-
-
-/* ================= UPDATE AUTH PROFILE ================= */
-
-      await updateProfile(
-        user,
-        {
-          displayName:
-            name
-        }
-      );
-
-
-      console.log(
-        "EATERGO: Display name updated"
-      );
-
-
-/* ================= SAVE FIRESTORE PROFILE ================= */
-
-      try {
-
-        await setDoc(
-          doc(
-            db,
-            "users",
-            user.uid
-          ),
-          {
-            uid:
-              user.uid,
-
-            name:
-              name,
-
-            email:
-              user.email || "",
-
-            phone:
-              phone || "",
-
-            status:
-              "active",
-
-            provider:
-              "password",
-
-            createdAt:
-              serverTimestamp(),
-
-            updatedAt:
-              serverTimestamp()
-          }
-        );
-
-
-        console.log(
-          "EATERGO: Firestore profile saved"
-        );
-
-
-      } catch(firestoreError) {
-
-        console.error(
-          "EATERGO: Firestore profile error:",
-          firestoreError
-        );
-
-        /*
-          Auth account is already created.
-          Firestore profile failure should NOT
-          prevent the customer from entering EaterGo.
-        */
-
-      }
-
-
-/* ================= VERIFY AUTH SESSION ================= */
-
-      if(auth.currentUser) {
-
-        console.log(
-          "EATERGO: AUTH SESSION CONFIRMED:",
-          auth.currentUser.uid
-        );
-
-      } else {
-
-        console.error(
-          "EATERGO: AUTH SESSION NOT FOUND"
+        signupBtn.classList.remove(
+          "loading"
         );
 
       }
 
+    }
 
-/* ================= SUCCESS ================= */
 
-      showMessage(
-        "Account created successfully! Redirecting...",
-        "success"
+
+    /* =====================================================
+       FIREBASE PERSISTENCE
+       ===================================================== */
+
+    try{
+
+      await setPersistence(
+        auth,
+        browserLocalPersistence
       );
 
 
-/* ================= REDIRECT ================= */
-
-      setTimeout(
-        function() {
-
-          window.location.replace(
-            "index.html"
-          );
-
-        },
-        800
+      console.log(
+        "EATERGO SIGNUP: persistence enabled."
       );
 
-
-    } catch(error) {
+    }catch(error){
 
       console.error(
-        "EATERGO: Signup error:",
+        "EATERGO SIGNUP: persistence error:",
         error
       );
 
-
-      let message =
-        "Something went wrong. Please try again.";
-
-
-      if(
-        error.code ===
-        "auth/email-already-in-use"
-      ) {
-
-        message =
-          "An account already exists with this email.";
-
-      }
-
-      else if(
-        error.code ===
-        "auth/invalid-email"
-      ) {
-
-        message =
-          "Please enter a valid email address.";
-
-      }
-
-      else if(
-        error.code ===
-        "auth/weak-password"
-      ) {
-
-        message =
-          "Password is too weak. Use at least 6 characters.";
-
-      }
-
-      else if(
-        error.code ===
-        "auth/network-request-failed"
-      ) {
-
-        message =
-          "Network problem. Please check your internet connection.";
-
-      }
-
-      else if(
-        error.code ===
-        "auth/operation-not-allowed"
-      ) {
-
-        message =
-          "Email/password sign-up is not enabled in Firebase.";
-
-      }
-
-
-      showMessage(
-        message
-      );
-
-      setLoading(false);
-
     }
 
-  }
-);
 
 
-/* ================= GOOGLE SIGN UP ================= */
+    /* =====================================================
+       EMAIL SIGNUP
+       ===================================================== */
 
-googleBtn.addEventListener(
-  "click",
-  async function() {
+    signupForm.addEventListener(
 
-    clearMessage();
+      "submit",
 
+      async function(event){
 
-    try {
-
-      setLoading(true);
-
-
-      const provider =
-        new GoogleAuthProvider();
+        event.preventDefault();
 
 
-      provider.setCustomParameters({
-        prompt:
-          "select_account"
-      });
+        clearMessage();
 
 
-      console.log(
-        "EATERGO: Opening Google sign-in..."
-      );
+
+        /* -----------------------------------------------
+           GET VALUES
+           ----------------------------------------------- */
+
+        const name =
+          document
+            .getElementById("name")
+            .value
+            .trim();
 
 
-      const result =
-        await signInWithPopup(
-          auth,
-          provider
-        );
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
 
 
-      const user =
-        result.user;
+        const phone =
+          document
+            .getElementById("phone")
+            .value
+            .trim();
 
 
-      console.log(
-        "EATERGO: Google user:",
-        user.uid
-      );
+        const password =
+          document
+            .getElementById("password")
+            .value;
 
 
-/* ================= SAVE GOOGLE PROFILE ================= */
+        const confirmPassword =
+          document
+            .getElementById("confirmPassword")
+            .value;
 
-      try {
 
-        await setDoc(
-          doc(
-            db,
-            "users",
-            user.uid
-          ),
-          {
-            uid:
-              user.uid,
+        const terms =
+          document
+            .getElementById("terms")
+            .checked;
+
+
+
+        /* -----------------------------------------------
+           VALIDATION
+           ----------------------------------------------- */
+
+        if(name.length < 2){
+
+          showMessage(
+            "Please enter your full name."
+          );
+
+          return;
+
+        }
+
+
+        if(!email){
+
+          showMessage(
+            "Please enter your email address."
+          );
+
+          return;
+
+        }
+
+
+        if(password.length < 6){
+
+          showMessage(
+            "Password must contain at least 6 characters."
+          );
+
+          return;
+
+        }
+
+
+        if(password !== confirmPassword){
+
+          showMessage(
+            "Passwords do not match."
+          );
+
+          return;
+
+        }
+
+
+        if(!terms){
+
+          showMessage(
+            "Please accept the Terms & Conditions and Privacy Policy."
+          );
+
+          return;
+
+        }
+
+
+
+        /* -----------------------------------------------
+           START
+           ----------------------------------------------- */
+
+        setLoading(true);
+
+
+
+        try{
+
+
+          /* ---------------------------------------------
+             CREATE AUTH USER
+             --------------------------------------------- */
+
+          const userCredential =
+            await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+
+
+          const user =
+            userCredential.user;
+
+
+
+          /* ---------------------------------------------
+             SAVE NAME TO FIREBASE AUTH
+             --------------------------------------------- */
+
+          await updateProfile(
+            user,
+            {
+              displayName:name
+            }
+          );
+
+
+
+          /* ---------------------------------------------
+             SAVE PROFILE TO FIRESTORE
+             --------------------------------------------- */
+
+          await setDoc(
+
+            doc(
+              db,
+              "users",
+              user.uid
+            ),
+
+            {
+
+              uid:user.uid,
+
+              name:name,
+
+              email:user.email || email,
+
+              phone:phone,
+
+              status:"active",
+
+              provider:"password",
+
+              createdAt:
+                serverTimestamp(),
+
+              updatedAt:
+                serverTimestamp()
+
+            },
+
+            {
+              merge:true
+            }
+
+          );
+
+
+
+          /* ---------------------------------------------
+             SUCCESS
+             --------------------------------------------- */
+
+          showMessage(
+            "Account created successfully! Redirecting...",
+            "success"
+          );
+
+
+          console.log(
+            "EATERGO SIGNUP SUCCESS:",
+            user
+          );
+
+
+
+          setTimeout(
+
+            function(){
+
+              window.location.replace(
+                "index.html"
+              );
+
+            },
+
+            900
+
+          );
+
+
+        }catch(error){
+
+          console.error(
+            "EATERGO EMAIL SIGNUP ERROR:",
+            error
+          );
+
+
+
+          let message =
+            "Something went wrong. Please try again.";
+
+
+
+          if(
+            error.code ===
+            "auth/email-already-in-use"
+          ){
+
+            message =
+              "An account already exists with this email. Please login instead.";
+
+          }
+
+
+          else if(
+            error.code ===
+            "auth/invalid-email"
+          ){
+
+            message =
+              "Please enter a valid email address.";
+
+          }
+
+
+          else if(
+            error.code ===
+            "auth/weak-password"
+          ){
+
+            message =
+              "Password is too weak. Use at least 6 characters.";
+
+          }
+
+
+          else if(
+            error.code ===
+            "auth/network-request-failed"
+          ){
+
+            message =
+              "Network problem. Please check your internet connection.";
+
+          }
+
+
+          else if(
+            error.code ===
+            "permission-denied" ||
+            error.code ===
+            "firestore/permission-denied"
+          ){
+
+            message =
+              "Account was created, but Firestore blocked the profile save. Please check your Firestore rules.";
+
+          }
+
+
+          else if(
+            error.code ===
+            "auth/operation-not-allowed"
+          ){
+
+            message =
+              "Email/password authentication is not enabled in Firebase.";
+
+          }
+
+
+
+          showMessage(
+            message
+          );
+
+
+          /*
+            If Auth account was created but Firestore failed,
+            sign the user out so the next attempt is clean.
+          */
+
+          try{
+
+            await signOut(
+              auth
+            );
+
+          }catch(signoutError){
+
+            console.error(
+              "EATERGO SIGNUP CLEANUP ERROR:",
+              signoutError
+            );
+
+          }
+
+
+          setLoading(false);
+
+        }
+
+      }
+
+    );
+
+
+
+    /* =====================================================
+       GOOGLE SIGNUP / LOGIN
+       ===================================================== */
+
+    googleBtn.addEventListener(
+
+      "click",
+
+      async function(){
+
+        clearMessage();
+
+        setLoading(true);
+
+
+        try{
+
+
+          /* ---------------------------------------------
+             GOOGLE PROVIDER
+             --------------------------------------------- */
+
+          const provider =
+            new GoogleAuthProvider();
+
+
+          provider.setCustomParameters({
+
+            prompt:
+              "select_account"
+
+          });
+
+
+
+          /* ---------------------------------------------
+             GOOGLE SIGN IN
+             --------------------------------------------- */
+
+          const result =
+            await signInWithPopup(
+              auth,
+              provider
+            );
+
+
+          const user =
+            result.user;
+
+
+
+          /* ---------------------------------------------
+             CHECK EXISTING PROFILE
+             --------------------------------------------- */
+
+          const userRef =
+            doc(
+              db,
+              "users",
+              user.uid
+            );
+
+
+          const existingProfile =
+            await getDoc(
+              userRef
+            );
+
+
+
+          /* ---------------------------------------------
+             PROFILE DATA
+             --------------------------------------------- */
+
+          const profileData = {
+
+            uid:user.uid,
 
             name:
               user.displayName ||
@@ -1473,137 +2125,218 @@ googleBtn.addEventListener(
               user.phoneNumber ||
               "",
 
-            status:
-              "active",
+            status:"active",
 
-            provider:
-              "google.com",
+            provider:"google.com",
 
             updatedAt:
               serverTimestamp()
-          },
-          {
-            merge:
-              true
+
+          };
+
+
+
+          /* ---------------------------------------------
+             FIRST TIME GOOGLE USER
+             --------------------------------------------- */
+
+          if(!existingProfile.exists()){
+
+            profileData.createdAt =
+              serverTimestamp();
+
           }
-        );
 
 
-      } catch(firestoreError) {
 
-        console.error(
-          "EATERGO: Google Firestore error:",
-          firestoreError
-        );
+          /* ---------------------------------------------
+             SAVE PROFILE
+             --------------------------------------------- */
 
-      }
+          await setDoc(
 
+            userRef,
 
-/* ================= VERIFY GOOGLE SESSION ================= */
+            profileData,
 
-      if(auth.currentUser) {
+            {
+              merge:true
+            }
 
-        console.log(
-          "EATERGO: GOOGLE SESSION CONFIRMED:",
-          auth.currentUser.uid
-        );
-
-      }
-
-
-      showMessage(
-        "Google account connected! Redirecting...",
-        "success"
-      );
-
-
-      setTimeout(
-        function() {
-
-          window.location.replace(
-            "index.html"
           );
 
-        },
-        800
-      );
 
 
-    } catch(error) {
+          /* ---------------------------------------------
+             SUCCESS
+             --------------------------------------------- */
 
-      console.error(
-        "EATERGO: Google signup error:",
-        error
-      );
-
-
-      let message =
-        "Google sign-in failed. Please try again.";
+          showMessage(
+            "Google account connected! Redirecting...",
+            "success"
+          );
 
 
-      if(
-        error.code ===
-        "auth/popup-closed-by-user"
-      ) {
+          console.log(
+            "EATERGO GOOGLE SUCCESS:",
+            user
+          );
 
-        message =
-          "Google sign-in was cancelled.";
+
+
+          setTimeout(
+
+            function(){
+
+              window.location.replace(
+                "index.html"
+              );
+
+            },
+
+            700
+
+          );
+
+
+        }catch(error){
+
+          console.error(
+            "EATERGO GOOGLE ERROR:",
+            error
+          );
+
+
+
+          let message =
+            "Google sign-in failed. Please try again.";
+
+
+
+          if(
+            error.code ===
+            "auth/popup-closed-by-user"
+          ){
+
+            message =
+              "Google sign-in was cancelled.";
+
+          }
+
+
+          else if(
+            error.code ===
+            "auth/popup-blocked"
+          ){
+
+            message =
+              "Your browser blocked the Google popup. Please allow popups for EaterGo.";
+
+          }
+
+
+          else if(
+            error.code ===
+            "auth/unauthorized-domain"
+          ){
+
+            message =
+              "This website domain is not authorized in Firebase. Add ansh-knowledge-base.github.io to Firebase Authorized Domains.";
+
+          }
+
+
+          else if(
+            error.code ===
+            "auth/account-exists-with-different-credential"
+          ){
+
+            message =
+              "An account already exists with this email using another sign-in method. Please use Login.";
+
+          }
+
+
+          else if(
+            error.code ===
+            "permission-denied" ||
+            error.code ===
+            "firestore/permission-denied"
+          ){
+
+            message =
+              "Google login succeeded, but Firestore blocked the profile save. Please check Firestore rules.";
+
+          }
+
+
+          else if(
+            error.code ===
+            "auth/network-request-failed"
+          ){
+
+            message =
+              "Network problem. Please check your internet connection.";
+
+          }
+
+
+
+          showMessage(
+            message
+          );
+
+
+          /*
+            Keep the account/session clean if profile save failed.
+          */
+
+          if(
+            error.code ===
+              "permission-denied" ||
+            error.code ===
+              "firestore/permission-denied"
+          ){
+
+            try{
+
+              await signOut(
+                auth
+              );
+
+            }catch(cleanupError){
+
+              console.error(
+                cleanupError
+              );
+
+            }
+
+          }
+
+
+          setLoading(false);
+
+        }
 
       }
 
-      else if(
-        error.code ===
-        "auth/popup-blocked"
-      ) {
-
-        message =
-          "Your browser blocked the Google popup. Please allow popups for EaterGo.";
-
-      }
-
-      else if(
-        error.code ===
-        "auth/unauthorized-domain"
-      ) {
-
-        message =
-          "This website domain is not authorized in Firebase.";
-
-      }
-
-      else if(
-        error.code ===
-        "auth/account-exists-with-different-credential"
-      ) {
-
-        message =
-          "An account already exists with this email using another sign-in method.";
-
-      }
-
-      else if(
-        error.code ===
-        "auth/network-request-failed"
-      ) {
-
-        message =
-          "Network problem. Please check your internet connection.";
-
-      }
+    );
 
 
-      showMessage(
-        message
-      );
 
-      setLoading(false);
+    /* =====================================================
+       DEBUG
+       ===================================================== */
 
-    }
+    console.log(
+      "EATERGO SIGNUP: Firebase script loaded."
+    );
 
-  }
-);
 
-</script>
+  </script>
+
 
 </body>
+
 </html>
