@@ -2050,8 +2050,9 @@ Delicious food, delivered better.
 </footer>
 
 
-<!-- ================= FIREBASE ================= -->
-
+<!-- =========================================
+     FIREBASE
+     ========================================= -->
 <script type="module">
 
 import {
@@ -2060,8 +2061,10 @@ import {
 
 import {
   getAuth,
-  onAuthStateChanged,
-  signOut,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  updateProfile,
   setPersistence,
   browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
@@ -2069,35 +2072,21 @@ import {
 import {
   getFirestore,
   doc,
-  getDoc
+  setDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
 /* ================= FIREBASE CONFIG ================= */
 
 const firebaseConfig = {
-
-  apiKey:
-    "AIzaSyBTPmtNIDaAjmBVTUCKrapXtyCo3xwQd3k",
-
-  authDomain:
-    "eatergo-47a19.firebaseapp.com",
-
-  projectId:
-    "eatergo-47a19",
-
-  storageBucket:
-    "eatergo-47a19.firebasestorage.app",
-
-  messagingSenderId:
-    "1074068458641",
-
-  appId:
-    "1:1074068458641:web:be8eaf986b37fa339b4330",
-
-  measurementId:
-    "G-4CW92B1QR8"
-
+  apiKey: "AIzaSyBTPmtNIDaAjmBVTUCKrapXtyCo3xwQd3k",
+  authDomain: "eatergo-47a19.firebaseapp.com",
+  projectId: "eatergo-47a19",
+  storageBucket: "eatergo-47a19.firebasestorage.app",
+  messagingSenderId: "1074068458641",
+  appId: "1:1074068458641:web:be8eaf986b37fa339b4330",
+  measurementId: "G-4CW92B1QR8"
 };
 
 
@@ -2113,7 +2102,7 @@ const db =
   getFirestore(app);
 
 
-/* ================= AUTH PERSISTENCE ================= */
+/* ================= PERSISTENCE ================= */
 
 try {
 
@@ -2123,10 +2112,10 @@ try {
   );
 
   console.log(
-    "EATERGO: Local auth persistence enabled"
+    "EATERGO: Signup auth persistence enabled"
   );
 
-} catch(error) {
+} catch (error) {
 
   console.error(
     "EATERGO: Persistence error:",
@@ -2138,515 +2127,679 @@ try {
 
 /* ================= ELEMENTS ================= */
 
-const guestActions =
-  document.getElementById("guestActions");
+const signupForm =
+  document.getElementById(
+    "signupForm"
+  );
 
-const profileArea =
-  document.getElementById("profileArea");
+const signupBtn =
+  document.getElementById(
+    "signupBtn"
+  );
 
-const profileBtn =
-  document.getElementById("profileBtn");
+const googleBtn =
+  document.getElementById(
+    "googleBtn"
+  );
 
-const profileMenu =
-  document.getElementById("profileMenu");
-
-const logoutBtn =
-  document.getElementById("logoutBtn");
-
-const avatar =
-  document.getElementById("avatar");
-
-const profileName =
-  document.getElementById("profileName");
-
-const menuName =
-  document.getElementById("menuName");
-
-const menuEmail =
-  document.getElementById("menuEmail");
+const messageBox =
+  document.getElementById(
+    "message"
+  );
 
 
-/* ================= AUTH STATE ================= */
+/* ================= MESSAGE ================= */
 
-onAuthStateChanged(
-  auth,
-  async function(user) {
+function showMessage(
+  message,
+  type = "error"
+) {
 
-    console.log(
-      "EATERGO AUTH USER:",
-      user
-    );
-
-
-    if(user) {
-
-      /* ================= LOGGED IN ================= */
-
-      guestActions.style.display =
-        "none";
-
-      profileArea.style.display =
-        "block";
-
-
-      let name =
-        user.displayName ||
-        "EaterGo Customer";
-
-      let email =
-        user.email ||
-        "";
-
-
-      /* ================= FIRESTORE PROFILE ================= */
-
-      try {
-
-        const snap =
-          await getDoc(
-            doc(
-              db,
-              "users",
-              user.uid
-            )
-          );
-
-
-        if(snap.exists()) {
-
-          const data =
-            snap.data();
-
-
-          if(data.name) {
-
-            name =
-              data.name;
-
-          }
-
-
-          if(data.email) {
-
-            email =
-              data.email;
-
-          }
-
-        }
-
-      } catch(error) {
-
-        console.log(
-          "Profile Firestore error:",
-          error
-        );
-
-      }
-
-
-      /* ================= PROFILE UI ================= */
-
-      profileName.textContent =
-        name;
-
-      menuName.textContent =
-        name;
-
-      menuEmail.textContent =
-        email;
-
-
-      if(user.photoURL) {
-
-        avatar.innerHTML =
-          `<img src="${user.photoURL}" alt="Profile">`;
-
-      } else {
-
-        avatar.textContent =
-          getInitials(name);
-
-      }
-
-
-    } else {
-
-      /* ================= LOGGED OUT ================= */
-
-      guestActions.style.display =
-        "flex";
-
-      profileArea.style.display =
-        "none";
-
-    }
-
+  if (!messageBox) {
+    return;
   }
-);
 
 
-/* ================= PROFILE DROPDOWN ================= */
+  messageBox.textContent =
+    message;
 
-profileBtn.addEventListener(
-  "click",
-  function(event) {
-
-    event.stopPropagation();
-
-    profileMenu.classList.toggle(
-      "show"
-    );
-
-  }
-);
-
-
-document.addEventListener(
-  "click",
-  function(event) {
-
-    if(
-      !profileArea.contains(
-        event.target
-      )
-    ) {
-
-      profileMenu.classList.remove(
-        "show"
-      );
-
-    }
-
-  }
-);
-
-
-/* ================= LOGOUT ================= */
-
-logoutBtn.addEventListener(
-  "click",
-  async function() {
-
-    try {
-
-      await signOut(auth);
-
-      window.location.href =
-        "index.html";
-
-    } catch(error) {
-
-      console.error(
-        "Logout error:",
-        error
-      );
-
-      alert(
-        "Unable to logout. Please try again."
-      );
-
-    }
-
-  }
-);
-
-
-/* ================= HELPERS ================= */
-
-function getInitials(name) {
-
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map(function(word) {
-
-      return word
-        .charAt(0)
-        .toUpperCase();
-
-    })
-    .join("");
+  messageBox.className =
+    "message show " + type;
 
 }
 
 
-/* ================= NAVIGATION ================= */
+function clearMessage() {
 
-window.goTo =
-  function(page) {
-
-    window.location.href =
-      page;
-
-  };
+  if (!messageBox) {
+    return;
+  }
 
 
-/* ================= RESTAURANT PAGE ================= */
+  messageBox.textContent =
+    "";
 
-window.openRestaurantPage =
-  function() {
+  messageBox.className =
+    "message";
 
-    window.location.href =
-      "https://ansh-knowledge-base.github.io/EaterGo/restaurant.html";
-
-  };
+}
 
 
-/* ================= SEARCH ================= */
+/* ================= LOADING ================= */
 
-window.searchFood =
-  function() {
+function setLoading(
+  loading
+) {
 
-    const input =
-      document.getElementById(
-        "heroSearch"
-      );
-
-    const query =
-      input.value.trim();
+  if (signupBtn) {
+    signupBtn.disabled =
+      loading;
+  }
 
 
-    if(!query) {
-
-      openRestaurantPage();
-
-      return;
-
-    }
+  if (googleBtn) {
+    googleBtn.disabled =
+      loading;
+  }
 
 
-    window.location.href =
-      "search.html?q=" +
-      encodeURIComponent(query);
+  if (signupBtn) {
 
-  };
+    signupBtn.textContent =
+      loading
+        ? "Creating your account..."
+        : "Create EaterGo Account";
 
+  }
+
+}
+
+
+/* ================= PASSWORD TOGGLE ================= */
 
 document
-  .getElementById("heroSearch")
-  .addEventListener(
-    "keydown",
-    function(event) {
+  .querySelectorAll(
+    ".toggle-password"
+  )
+  .forEach(
+    function(button) {
 
-      if(event.key === "Enter") {
+      button.addEventListener(
+        "click",
+        function() {
 
-        searchFood();
+          const targetId =
+            this.dataset.target;
+
+          const input =
+            document.getElementById(
+              targetId
+            );
+
+
+          if (!input) {
+            return;
+          }
+
+
+          if (
+            input.type ===
+            "password"
+          ) {
+
+            input.type =
+              "text";
+
+            this.textContent =
+              "🙈";
+
+            this.setAttribute(
+              "aria-label",
+              "Hide password"
+            );
+
+          } else {
+
+            input.type =
+              "password";
+
+            this.textContent =
+              "👁";
+
+            this.setAttribute(
+              "aria-label",
+              "Show password"
+            );
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+/* ================= EMAIL SIGNUP ================= */
+
+if (signupForm) {
+
+  signupForm.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+      clearMessage();
+
+
+      const name =
+        document
+          .getElementById("name")
+          .value
+          .trim();
+
+
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+
+      const phone =
+        document
+          .getElementById("phone")
+          .value
+          .trim();
+
+
+      const password =
+        document
+          .getElementById("password")
+          .value;
+
+
+      const confirmPassword =
+        document
+          .getElementById(
+            "confirmPassword"
+          )
+          .value;
+
+
+      const terms =
+        document
+          .getElementById("terms")
+          .checked;
+
+
+      /* ================= VALIDATION ================= */
+
+      if (name.length < 2) {
+
+        showMessage(
+          "Please enter your full name."
+        );
+
+        return;
+
+      }
+
+
+      if (!email) {
+
+        showMessage(
+          "Please enter your email address."
+        );
+
+        return;
+
+      }
+
+
+      if (password.length < 6) {
+
+        showMessage(
+          "Password must contain at least 6 characters."
+        );
+
+        return;
+
+      }
+
+
+      if (
+        password !==
+        confirmPassword
+      ) {
+
+        showMessage(
+          "Passwords do not match."
+        );
+
+        return;
+
+      }
+
+
+      if (!terms) {
+
+        showMessage(
+          "Please accept the Terms & Conditions and Privacy Policy."
+        );
+
+        return;
+
+      }
+
+
+      /* ================= CREATE ACCOUNT ================= */
+
+      try {
+
+        setLoading(true);
+
+
+        const userCredential =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+        const user =
+          userCredential.user;
+
+
+        console.log(
+          "EATERGO: Account created:",
+          user.uid
+        );
+
+
+        /* SAVE AUTH PROFILE */
+
+        await updateProfile(
+          user,
+          {
+            displayName:
+              name
+          }
+        );
+
+
+        /* SAVE FIRESTORE PROFILE */
+
+        await setDoc(
+          doc(
+            db,
+            "users",
+            user.uid
+          ),
+          {
+            uid:
+              user.uid,
+
+            name:
+              name,
+
+            email:
+              user.email || "",
+
+            phone:
+              phone || "",
+
+            status:
+              "active",
+
+            provider:
+              "password",
+
+            createdAt:
+              serverTimestamp(),
+
+            updatedAt:
+              serverTimestamp()
+          }
+        );
+
+
+        console.log(
+          "EATERGO: Firestore profile saved"
+        );
+
+
+        if (!auth.currentUser) {
+
+          throw new Error(
+            "Firebase session was not created."
+          );
+
+        }
+
+
+        showMessage(
+          "Account created successfully! Redirecting...",
+          "success"
+        );
+
+
+        setTimeout(
+          function() {
+
+            window.location.replace(
+              "index.html"
+            );
+
+          },
+          700
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "EATERGO: Signup error:",
+          error
+        );
+
+
+        let message =
+          "Something went wrong. Please try again.";
+
+
+        if (
+          error.code ===
+          "auth/email-already-in-use"
+        ) {
+
+          message =
+            "An account already exists with this email.";
+
+        }
+
+        else if (
+          error.code ===
+          "auth/invalid-email"
+        ) {
+
+          message =
+            "Please enter a valid email address.";
+
+        }
+
+        else if (
+          error.code ===
+          "auth/weak-password"
+        ) {
+
+          message =
+            "Password is too weak. Use at least 6 characters.";
+
+        }
+
+        else if (
+          error.code ===
+          "auth/network-request-failed"
+        ) {
+
+          message =
+            "Network problem. Please check your internet connection.";
+
+        }
+
+        else if (
+          error.code ===
+          "auth/operation-not-allowed"
+        ) {
+
+          message =
+            "Email/password sign-up is not enabled in Firebase.";
+
+        }
+
+        else if (
+          error.code ===
+          "permission-denied"
+        ) {
+
+          message =
+            "Account created, but profile saving is blocked by Firestore rules.";
+
+        }
+
+
+        showMessage(
+          message
+        );
+
+        setLoading(false);
 
       }
 
     }
   );
 
-
-/* ================= FAVOURITE ================= */
-
-window.toggleFavourite =
-  function(button) {
-
-    if(!auth.currentUser) {
-
-      window.location.href =
-        "login.html";
-
-      return;
-
-    }
+}
 
 
-    if(
-      button.textContent.trim() === "♡"
-    ) {
+/* ================= GOOGLE SIGNUP ================= */
 
-      button.textContent =
-        "♥";
+if (googleBtn) {
 
-    } else {
+  googleBtn.addEventListener(
+    "click",
+    async function() {
 
-      button.textContent =
-        "♡";
-
-    }
-
-  };
+      clearMessage();
 
 
-/* ================= CART COUNT ================= */
+      try {
 
-function updateCartCount() {
-
-  let count = 0;
+        setLoading(true);
 
 
-  try {
-
-    const cart =
-      JSON.parse(
-        localStorage.getItem(
-          "eatergoCart"
-        ) || "[]"
-      );
+        const provider =
+          new GoogleAuthProvider();
 
 
-    if(Array.isArray(cart)) {
-
-      count =
-        cart.reduce(
-          function(total, item) {
-
-            return total +
-              Number(
-                item.quantity || 1
-              );
-
-          },
-          0
+        provider.setCustomParameters(
+          {
+            prompt:
+              "select_account"
+          }
         );
 
+
+        console.log(
+          "EATERGO: Opening Google sign-in..."
+        );
+
+
+        const result =
+          await signInWithPopup(
+            auth,
+            provider
+          );
+
+
+        const user =
+          result.user;
+
+
+        console.log(
+          "EATERGO: Google user:",
+          user.uid
+        );
+
+
+        /* SAVE / UPDATE GOOGLE PROFILE */
+
+        await setDoc(
+          doc(
+            db,
+            "users",
+            user.uid
+          ),
+          {
+            uid:
+              user.uid,
+
+            name:
+              user.displayName ||
+              "EaterGo Customer",
+
+            email:
+              user.email ||
+              "",
+
+            phone:
+              user.phoneNumber ||
+              "",
+
+            status:
+              "active",
+
+            provider:
+              "google.com",
+
+            updatedAt:
+              serverTimestamp()
+          },
+          {
+            merge:
+              true
+          }
+        );
+
+
+        if (!auth.currentUser) {
+
+          throw new Error(
+            "Google session was not created."
+          );
+
+        }
+
+
+        console.log(
+          "EATERGO: Google session confirmed:",
+          auth.currentUser.uid
+        );
+
+
+        showMessage(
+          "Google account connected! Redirecting...",
+          "success"
+        );
+
+
+        setTimeout(
+          function() {
+
+            window.location.replace(
+              "index.html"
+            );
+
+          },
+          700
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "EATERGO: Google signup error:",
+          error
+        );
+
+
+        let message =
+          "Google sign-in failed. Please try again.";
+
+
+        if (
+          error.code ===
+          "auth/popup-closed-by-user"
+        ) {
+
+          message =
+            "Google sign-in was cancelled.";
+
+        }
+
+        else if (
+          error.code ===
+          "auth/popup-blocked"
+        ) {
+
+          message =
+            "Your browser blocked the Google popup. Please allow popups for EaterGo.";
+
+        }
+
+        else if (
+          error.code ===
+          "auth/unauthorized-domain"
+        ) {
+
+          message =
+            "This website domain is not authorized in Firebase.";
+
+        }
+
+        else if (
+          error.code ===
+          "auth/account-exists-with-different-credential"
+        ) {
+
+          message =
+            "An account already exists with this email using another sign-in method.";
+
+        }
+
+        else if (
+          error.code ===
+          "auth/network-request-failed"
+        ) {
+
+          message =
+            "Network problem. Please check your internet connection.";
+
+        }
+
+        else if (
+          error.message ===
+          "Google session was not created."
+        ) {
+
+          message =
+            "Google login completed, but the Firebase session could not be confirmed.";
+
+        }
+
+
+        showMessage(
+          message
+        );
+
+        setLoading(false);
+
+      }
+
     }
-
-  } catch(error) {
-
-    count = 0;
-
-  }
-
-
-  const cartCount =
-    document.getElementById(
-      "cartCount"
-    );
-
-
-  if(cartCount) {
-
-    cartCount.textContent =
-      count;
-
-  }
+  );
 
 }
 
 
-updateCartCount();
+console.log(
+  "EATERGO: Signup Firebase loaded successfully."
+);
 
-/* ================= PROFILE DROPDOWN FIX ================= */
-
-.profile-area {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.profile-btn {
-  position: relative;
-  z-index: 1001;
-  cursor: pointer;
-}
-
-.profile-menu {
-  position: absolute !important;
-  top: calc(100% + 10px) !important;
-  right: 0 !important;
-
-  width: 280px !important;
-
-  background: #ffffff !important;
-
-  border: 1px solid #eeeeee !important;
-  border-radius: 16px !important;
-
-  box-shadow:
-    0 18px 45px rgba(0,0,0,0.16) !important;
-
-  padding: 10px !important;
-
-  z-index: 99999 !important;
-
-  display: none !important;
-}
-
-.profile-menu.show {
-  display: block !important;
-}
-
-.profile-info {
-  padding: 14px 14px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.profile-info strong {
-  font-size: 15px;
-  color: #222;
-}
-
-.profile-info span {
-  font-size: 12px;
-  color: #777;
-  word-break: break-word;
-}
-
-.profile-menu .menu-item {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  padding: 12px 14px;
-  border-radius: 10px;
-  text-align: left;
-  cursor: pointer;
-  font-size: 14px;
-  color: #333;
-  display: block;
-}
-
-.profile-menu .menu-item:hover {
-  background: #fff3ef;
-  color: #ff4d2d;
-}
-
-.profile-menu .divider {
-  height: 1px;
-  background: #eeeeee;
-  margin: 7px 4px;
-}
-
-.profile-menu .logout {
-  color: #d93025;
-}
-
-.profile-menu .logout:hover {
-  background: #fff0f0;
-  color: #c5221f;
-}
-  /* ================= HEADER ABOVE HERO ================= */
-
-.header {
-  position: relative !important;
-  z-index: 100000 !important;
-  overflow: visible !important;
-}
-
-.header .container,
-.header .nav {
-  position: relative !important;
-  z-index: 100001 !important;
-  overflow: visible !important;
-}
-
-.profile-area {
-  position: relative !important;
-  z-index: 100002 !important;
-}
-
-.profile-menu {
-  position: absolute !important;
-  z-index: 100003 !important;
-}
-  
 </script>
-
+  
 </body>
 </html>
