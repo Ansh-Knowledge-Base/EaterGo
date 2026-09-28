@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+      content="width=device-width, initial-scale=1.0">
 
 <title>Search Food | EaterGo</title>
 
 <link rel="preconnect"
-href="https://fonts.googleapis.com">
+      href="https://fonts.googleapis.com">
 
 <link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
+      href="https://fonts.gstatic.com"
+      crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
-rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+      rel="stylesheet">
 
 
 <style>
 
 /* =========================================================
-   ROOT
+   EATERGO SEARCH PAGE
    ========================================================= */
 
 :root{
@@ -41,22 +40,23 @@ rel="stylesheet">
 
   --border:#eeeeee;
 
-  --green:#1b9b55;
+  --green:#159447;
 
   --shadow:
-    0 12px 35px rgba(0,0,0,.07);
+    0 8px 25px rgba(0,0,0,.07);
 
 }
 
 
-/* =========================================================
-   RESET
-   ========================================================= */
-
 *{
-  box-sizing:border-box;
   margin:0;
   padding:0;
+  box-sizing:border-box;
+}
+
+
+html{
+  scroll-behavior:smooth;
 }
 
 
@@ -74,25 +74,18 @@ body{
 button,
 input,
 select{
-
   font-family:inherit;
-
 }
 
 
 button{
-
   cursor:pointer;
-
 }
 
 
 a{
-
   text-decoration:none;
-
   color:inherit;
-
 }
 
 
@@ -111,50 +104,42 @@ a{
 
 .header{
 
+  height:76px;
+
+  background:#fff;
+
+  border-bottom:
+    1px solid var(--border);
+
   position:sticky;
 
   top:0;
 
   z-index:1000;
 
-  background:rgba(255,255,255,.97);
-
-  border-bottom:1px solid var(--border);
-
-  backdrop-filter:blur(12px);
-
 }
 
 
 .nav{
 
-  min-height:78px;
+  height:76px;
 
   display:flex;
 
   align-items:center;
 
-  gap:35px;
+  gap:30px;
 
 }
 
 
 .logo{
 
-  display:flex;
-
-  align-items:center;
-
-}
-
-
-.logo img{
-
   width:145px;
 
-  max-height:48px;
+  height:auto;
 
-  object-fit:contain;
+  display:block;
 
 }
 
@@ -167,7 +152,7 @@ a{
 
   gap:28px;
 
-  flex:1;
+  margin-left:auto;
 
 }
 
@@ -190,7 +175,7 @@ a{
 }
 
 
-.nav-actions{
+.header-actions{
 
   display:flex;
 
@@ -201,51 +186,43 @@ a{
 }
 
 
-.login-btn,
+.login-btn{
+
+  font-size:14px;
+
+  font-weight:700;
+
+}
+
+
 .signup-btn{
+
+  background:var(--primary);
+
+  color:#fff;
 
   padding:11px 17px;
 
   border-radius:10px;
 
-  font-size:13px;
+  font-size:14px;
 
   font-weight:800;
 
 }
 
 
-.login-btn{
-
-  color:#444;
-
-}
-
-
-.signup-btn{
-
-  color:white;
-
-  background:var(--primary);
-
-}
-
-
 .cart-btn{
+
+  border:0;
+
+  background:#fff;
 
   position:relative;
 
-  width:44px;
-
-  height:44px;
-
-  border:1px solid #eee;
-
-  background:white;
-
-  border-radius:12px;
-
   font-size:20px;
+
+  padding:7px 8px;
 
 }
 
@@ -254,25 +231,13 @@ a{
 
   position:absolute;
 
-  top:-6px;
+  top:-2px;
 
-  right:-5px;
+  right:-3px;
 
-  min-width:19px;
+  width:18px;
 
-  height:19px;
-
-  padding:0 5px;
-
-  border-radius:20px;
-
-  background:var(--primary);
-
-  color:white;
-
-  font-size:10px;
-
-  font-weight:800;
+  height:18px;
 
   display:flex;
 
@@ -280,139 +245,93 @@ a{
 
   justify-content:center;
 
+  background:var(--primary);
+
+  color:#fff;
+
+  border-radius:50%;
+
+  font-size:10px;
+
+  font-weight:900;
+
 }
 
 
 /* =========================================================
-   HERO
+   PAGE TOP
    ========================================================= */
 
-.hero{
+.page-top{
 
-  padding:50px 0 35px;
+  padding:40px 0 22px;
 
 }
 
 
-.hero-box{
-
-  background:
-
-    linear-gradient(
-      110deg,
-      #fff0ea,
-      #fff8f4
-    );
-
-  border-radius:28px;
-
-  padding:45px;
+.page-top-row{
 
   display:flex;
 
   justify-content:space-between;
 
-  align-items:center;
+  align-items:flex-end;
 
-  gap:35px;
-
-  overflow:hidden;
+  gap:25px;
 
 }
 
 
-.hero-content{
-
-  max-width:720px;
-
-}
-
-
-.eyebrow{
-
-  display:inline-flex;
-
-  padding:8px 13px;
-
-  border-radius:30px;
-
-  background:#ffe4db;
-
-  color:var(--primary-dark);
-
-  font-size:12px;
-
-  font-weight:800;
-
-  margin-bottom:15px;
-
-}
-
-
-.hero h1{
+.page-title{
 
   font-family:"Playfair Display",serif;
 
-  font-size:52px;
+  font-size:32px;
 
-  line-height:1.05;
-
-  margin-bottom:16px;
+  margin-bottom:5px;
 
 }
 
 
-.hero h1 span{
+.page-subtitle{
 
-  color:var(--primary);
+  color:var(--muted);
 
-}
-
-
-.hero p{
-
-  color:#666;
-
-  line-height:1.7;
-
-  font-size:15px;
-
-  max-width:650px;
+  font-size:14px;
 
 }
 
 
-.hero-search{
+/* =========================================================
+   SEARCH
+   ========================================================= */
 
-  margin-top:25px;
+.search-wrapper{
 
-  background:white;
+  padding-bottom:25px;
 
-  border:1px solid #eee;
+}
 
-  box-shadow:var(--shadow);
 
-  border-radius:15px;
+.search-box{
+
+  background:#fff;
+
+  border:1px solid var(--border);
+
+  border-radius:13px;
 
   display:flex;
 
-  align-items:center;
+  padding:6px;
 
-  padding:7px;
-
-}
-
-
-.hero-search span{
-
-  padding:0 12px;
-
-  font-size:19px;
+  box-shadow:
+    0 5px 20px rgba(0,0,0,.04);
 
 }
 
 
-.hero-search input{
+.search-input{
 
   flex:1;
 
@@ -420,133 +339,95 @@ a{
 
   outline:0;
 
-  font-size:14px;
+  padding:14px 16px;
 
-  min-width:0;
+  font-size:15px;
 
 }
 
 
-.hero-search button{
+.search-submit{
 
   border:0;
 
   background:var(--primary);
 
-  color:white;
+  color:#fff;
 
-  border-radius:11px;
+  padding:0 25px;
 
-  padding:13px 24px;
+  border-radius:9px;
 
   font-weight:800;
 
 }
 
 
-.hero-image{
+.search-submit:hover{
 
-  width:340px;
-
-  height:240px;
-
-  border-radius:22px;
-
-  overflow:hidden;
-
-  flex-shrink:0;
-
-}
-
-
-.hero-image img{
-
-  width:100%;
-
-  height:100%;
-
-  object-fit:cover;
+  background:var(--primary-dark);
 
 }
 
 
 /* =========================================================
-   CATEGORY BAR
+   CATEGORIES
    ========================================================= */
 
-.category-section{
-
-  padding:15px 0 20px;
-
-}
-
-
-.category-scroll{
+.category-bar{
 
   display:flex;
 
-  gap:12px;
+  gap:10px;
 
   overflow-x:auto;
 
-  padding:4px 2px 10px;
+  padding-bottom:20px;
 
 }
 
 
-.category-scroll::-webkit-scrollbar{
+.category-bar::-webkit-scrollbar{
 
   height:5px;
 
 }
 
 
-.category-scroll::-webkit-scrollbar-thumb{
+.category-bar::-webkit-scrollbar-thumb{
 
   background:#ddd;
 
-  border-radius:10px;
+  border-radius:20px;
 
 }
 
 
 .category-btn{
 
-  flex-shrink:0;
+  flex:none;
 
-  padding:13px 19px;
+  border:1px solid #e6e6e6;
 
-  border-radius:13px;
+  background:#fff;
 
-  background:white;
+  padding:10px 17px;
 
-  border:1px solid #eee;
+  border-radius:25px;
 
-  font-size:13px;
-
-  font-weight:800;
+  font-weight:700;
 
   color:#555;
 
-  transition:.2s;
-
 }
 
 
-.category-btn:hover{
-
-  border-color:var(--primary);
-
-  color:var(--primary);
-
-}
-
-
+.category-btn:hover,
 .category-btn.active{
 
   background:var(--primary);
 
-  color:white;
+  color:#fff;
 
   border-color:var(--primary);
 
@@ -554,71 +435,76 @@ a{
 
 
 /* =========================================================
-   TOOLBAR
+   FILTERS
    ========================================================= */
 
-.toolbar{
-
-  padding:20px 0;
-
-}
-
-
-.toolbar-inner{
+.filter-row{
 
   display:flex;
 
   align-items:center;
 
-  justify-content:space-between;
-
-  gap:20px;
-
-}
-
-
-.results-info h2{
-
-  font-size:24px;
-
-  margin-bottom:4px;
-
-}
-
-
-.results-info p{
-
-  color:#777;
-
-  font-size:13px;
-
-}
-
-
-.controls{
-
-  display:flex;
-
-  gap:10px;
+  gap:12px;
 
   flex-wrap:wrap;
 
+  padding-bottom:28px;
+
 }
 
 
-.control{
+.filter{
 
-  border:1px solid #e7e7e7;
+  background:#fff;
 
-  background:white;
+  border:1px solid var(--border);
 
   border-radius:10px;
 
-  padding:10px 13px;
+  padding:8px 11px;
 
-  font-size:13px;
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+
+}
+
+
+.filter span{
+
+  font-size:11px;
+
+  color:#888;
+
+  font-weight:800;
+
+}
+
+
+.filter select{
+
+  border:0;
 
   outline:0;
+
+  background:#fff;
+
+  font-weight:700;
+
+}
+
+
+.result-count{
+
+  margin-left:auto;
+
+  color:#666;
+
+  font-weight:700;
+
+  font-size:13px;
 
 }
 
@@ -636,42 +522,52 @@ a{
 
   gap:20px;
 
-  padding-bottom:60px;
+  padding-bottom:70px;
 
 }
 
 
 .food-card{
 
-  background:white;
+  background:#fff;
 
-  border-radius:18px;
+  border:
+    1px solid #eeeeee;
+
+  border-radius:16px;
 
   overflow:hidden;
 
-  border:1px solid #eee;
-
   box-shadow:
-    0 5px 22px rgba(0,0,0,.045);
+    0 5px 18px rgba(0,0,0,.04);
 
-  transition:.25s;
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
 
 }
 
 
 .food-card:hover{
 
-  transform:translateY(-5px);
+  transform:
+    translateY(-4px);
 
   box-shadow:
-    0 15px 35px rgba(0,0,0,.10);
+    0 12px 30px rgba(0,0,0,.09);
 
 }
 
 
-.food-image{
+/* =========================================================
+   IMAGE
+   ========================================================= */
 
-  height:210px;
+.food-image-wrap{
+
+  height:205px;
+
+  background:#f1f1f1;
 
   position:relative;
 
@@ -680,7 +576,7 @@ a{
 }
 
 
-.food-image img{
+.food-image{
 
   width:100%;
 
@@ -688,14 +584,63 @@ a{
 
   object-fit:cover;
 
-  transition:.4s;
+  display:block;
 
 }
 
 
-.food-card:hover .food-image img{
+.image-loading{
 
-  transform:scale(1.05);
+  position:absolute;
+
+  inset:0;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:#f4f4f4;
+
+  z-index:0;
+
+}
+
+
+.image-loading-spinner{
+
+  width:28px;
+
+  height:28px;
+
+  border:
+    3px solid #ddd;
+
+  border-top-color:
+    var(--primary);
+
+  border-radius:50%;
+
+  animation:
+    spin .8s linear infinite;
+
+}
+
+
+@keyframes spin{
+
+  to{
+    transform:rotate(360deg);
+  }
+
+}
+
+
+.food-image.loaded
+~ .image-loading{
+
+  display:none;
 
 }
 
@@ -704,101 +649,77 @@ a{
 
   position:absolute;
 
-  top:12px;
+  top:11px;
 
-  left:12px;
+  left:11px;
 
-  background:white;
+  background:#fff;
 
-  padding:6px 9px;
+  padding:5px 8px;
 
-  border-radius:8px;
+  border-radius:7px;
 
   font-size:10px;
 
-  font-weight:800;
+  font-weight:900;
 
-  box-shadow:0 3px 12px rgba(0,0,0,.12);
+  z-index:3;
 
 }
 
 
-.favourite{
+.favorite{
 
   position:absolute;
 
-  right:12px;
+  top:9px;
 
-  top:12px;
+  right:9px;
 
   width:37px;
 
   height:37px;
 
-  border-radius:50%;
-
   border:0;
 
-  background:white;
+  border-radius:50%;
+
+  background:rgba(255,255,255,.95);
 
   font-size:19px;
 
-  box-shadow:0 3px 12px rgba(0,0,0,.12);
+  z-index:4;
 
 }
 
 
-.favourite.active{
+.favorite.active{
 
-  color:#ef3151;
+  color:#ff2d55;
 
 }
 
+
+/* =========================================================
+   CARD CONTENT
+   ========================================================= */
 
 .food-content{
 
-  padding:17px;
+  padding:15px;
 
 }
 
 
-.food-title-row{
+.food-name{
 
-  display:flex;
-
-  justify-content:space-between;
-
-  gap:10px;
-
-}
-
-
-.food-title{
-
-  font-size:16px;
+  font-size:17px;
 
   font-weight:800;
 
-  line-height:1.3;
+  line-height:1.25;
 
-}
-
-
-.rating{
-
-  white-space:nowrap;
-
-  background:#e9f8ef;
-
-  color:#17834a;
-
-  padding:5px 7px;
-
-  border-radius:7px;
-
-  font-size:11px;
-
-  font-weight:800;
+  min-height:43px;
 
 }
 
@@ -811,7 +732,7 @@ a{
 
   line-height:1.5;
 
-  margin:8px 0;
+  margin-top:5px;
 
   min-height:36px;
 
@@ -822,11 +743,13 @@ a{
 
   display:flex;
 
-  gap:8px;
-
   align-items:center;
 
+  gap:7px;
+
   flex-wrap:wrap;
+
+  margin-top:11px;
 
   font-size:11px;
 
@@ -835,119 +758,66 @@ a{
 }
 
 
+.rating{
+
+  background:#168449;
+
+  color:#fff;
+
+  padding:4px 6px;
+
+  border-radius:5px;
+
+  font-weight:900;
+
+}
+
+
 .veg{
 
-  display:inline-flex;
+  color:var(--green);
 
-  align-items:center;
-
-  gap:4px;
+  font-weight:800;
 
 }
 
 
-.veg-dot{
+.nonveg{
 
-  width:8px;
+  color:#d7352b;
 
-  height:8px;
-
-  border:2px solid var(--green);
-
-  display:inline-block;
-
-  position:relative;
+  font-weight:800;
 
 }
 
 
-.veg-dot::after{
+.restaurant{
 
-  content:"";
+  color:#777;
 
-  width:4px;
+  font-size:11px;
 
-  height:4px;
-
-  border-radius:50%;
-
-  background:var(--green);
-
-  position:absolute;
-
-  left:0;
-
-  top:0;
-
-  right:0;
-
-  bottom:0;
-
-  margin:auto;
-
-}
-
-
-.nonveg-dot{
-
-  width:8px;
-
-  height:8px;
-
-  border:2px solid #d13a30;
-
-  display:inline-block;
-
-  position:relative;
-
-}
-
-
-.nonveg-dot::after{
-
-  content:"";
-
-  width:4px;
-
-  height:4px;
-
-  border-radius:50%;
-
-  background:#d13a30;
-
-  position:absolute;
-
-  left:0;
-
-  top:0;
-
-  right:0;
-
-  bottom:0;
-
-  margin:auto;
+  margin-top:9px;
 
 }
 
 
 .food-bottom{
 
-  margin-top:14px;
-
   display:flex;
-
-  align-items:center;
 
   justify-content:space-between;
 
-  gap:10px;
+  align-items:center;
+
+  margin-top:13px;
 
 }
 
 
 .price{
 
-  font-size:19px;
+  font-size:18px;
 
   font-weight:900;
 
@@ -956,19 +826,17 @@ a{
 
 .add-btn{
 
-  border:0;
-
-  background:#fff1ed;
+  background:#fff4ef;
 
   color:var(--primary);
 
-  border-radius:10px;
+  border:1px solid #ffd9ce;
 
   padding:9px 14px;
 
-  font-weight:900;
+  border-radius:9px;
 
-  font-size:12px;
+  font-weight:900;
 
 }
 
@@ -977,35 +845,36 @@ a{
 
   background:var(--primary);
 
-  color:white;
+  color:#fff;
 
 }
 
 
-.quantity-box{
+.quantity{
 
   display:flex;
 
   align-items:center;
 
-  border:1px solid #ffd5cc;
+  border:
+    1px solid var(--primary);
 
-  border-radius:10px;
+  border-radius:9px;
 
   overflow:hidden;
 
 }
 
 
-.quantity-box button{
+.quantity button{
 
-  width:30px;
+  width:32px;
 
-  height:30px;
+  height:34px;
 
   border:0;
 
-  background:#fff5f2;
+  background:#fff4ef;
 
   color:var(--primary);
 
@@ -1014,30 +883,34 @@ a{
 }
 
 
-.quantity-box span{
+.quantity span{
 
-  width:28px;
+  width:30px;
 
   text-align:center;
 
-  font-size:12px;
-
-  font-weight:800;
+  font-weight:900;
 
 }
 
 
 /* =========================================================
-   LOADING
+   IMAGE SOURCE LABEL
    ========================================================= */
 
-.loading{
+.photo-credit{
 
-  text-align:center;
+  margin-top:8px;
 
-  padding:60px;
+  color:#aaa;
 
-  color:#777;
+  font-size:9px;
+
+  white-space:nowrap;
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
 
 }
 
@@ -1050,23 +923,14 @@ a{
 
   display:none;
 
-  padding:70px 20px;
-
   text-align:center;
 
-}
-
-
-.empty-icon{
-
-  font-size:55px;
-
-  margin-bottom:15px;
+  padding:80px 20px;
 
 }
 
 
-.empty h3{
+.empty h2{
 
   margin-bottom:7px;
 
@@ -1081,6 +945,58 @@ a{
 
 
 /* =========================================================
+   LOADING
+   ========================================================= */
+
+.loading{
+
+  padding:80px 20px;
+
+  text-align:center;
+
+}
+
+
+.loading-spinner{
+
+  width:45px;
+
+  height:45px;
+
+  border:
+    5px solid #eee;
+
+  border-top-color:
+    var(--primary);
+
+  border-radius:50%;
+
+  animation:
+    spin .8s linear infinite;
+
+  margin:
+    0 auto 20px;
+
+}
+
+
+.loading h3{
+
+  margin-bottom:5px;
+
+}
+
+
+.loading p{
+
+  color:#777;
+
+  font-size:13px;
+
+}
+
+
+/* =========================================================
    FOOTER
    ========================================================= */
 
@@ -1088,9 +1004,9 @@ a{
 
   background:#171717;
 
-  color:white;
+  color:#fff;
 
-  padding:60px 0 25px;
+  padding:50px 0 25px;
 
 }
 
@@ -1107,79 +1023,35 @@ a{
 }
 
 
-.footer-logo img{
+.footer h3{
 
-  width:145px;
-
-  background:white;
-
-  border-radius:8px;
+  margin-bottom:13px;
 
 }
 
 
-.footer-description{
+.footer p,
+.footer a{
 
   color:#aaa;
 
   font-size:13px;
 
-  line-height:1.7;
-
-  max-width:360px;
-
-  margin-top:15px;
-
-}
-
-
-.footer-column{
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:11px;
-
-}
-
-
-.footer-column h4{
-
-  margin-bottom:6px;
-
-}
-
-
-.footer-column a{
-
-  color:#aaa;
-
-  font-size:13px;
-
-}
-
-
-.footer-column a:hover{
-
-  color:white;
+  line-height:2;
 
 }
 
 
 .footer-bottom{
 
-  border-top:1px solid #333;
+  border-top:
+    1px solid #333;
 
-  margin-top:40px;
+  margin-top:35px;
 
   padding-top:20px;
 
-  display:flex;
-
-  justify-content:space-between;
-
-  color:#888;
+  color:#777;
 
   font-size:12px;
 
@@ -1194,36 +1066,42 @@ a{
 
   position:fixed;
 
+  right:25px;
+
   bottom:25px;
 
-  left:50%;
+  background:#181818;
 
-  transform:
-    translate(-50%,120px);
+  color:#fff;
 
-  background:#171717;
+  padding:13px 18px;
 
-  color:white;
-
-  padding:13px 20px;
-
-  border-radius:12px;
+  border-radius:9px;
 
   font-size:13px;
 
   font-weight:700;
 
-  z-index:5000;
+  opacity:0;
 
-  transition:.3s;
+  transform:
+    translateY(15px);
+
+  pointer-events:none;
+
+  transition:.25s;
+
+  z-index:9999;
 
 }
 
 
 .toast.show{
 
+  opacity:1;
+
   transform:
-    translate(-50%,0);
+    translateY(0);
 
 }
 
@@ -1232,147 +1110,70 @@ a{
    RESPONSIVE
    ========================================================= */
 
-@media(max-width:1150px){
+@media(max-width:1100px){
 
   .food-grid{
-
     grid-template-columns:
-      repeat(3,minmax(0,1fr));
-
+      repeat(3,1fr);
   }
-
-}
-
-
-@media(max-width:900px){
 
   .nav-links{
-
     display:none;
-
-  }
-
-
-  .hero-box{
-
-    padding:30px;
-
-  }
-
-
-  .hero-image{
-
-    width:280px;
-
-    height:210px;
-
-  }
-
-
-  .food-grid{
-
-    grid-template-columns:
-      repeat(2,minmax(0,1fr));
-
-  }
-
-
-  .footer-grid{
-
-    grid-template-columns:
-      repeat(2,1fr);
-
   }
 
 }
 
 
-@media(max-width:600px){
-
-  .hero{
-
-    padding-top:25px;
-
-  }
-
-
-  .hero-box{
-
-    flex-direction:column;
-
-    align-items:stretch;
-
-    padding:25px;
-
-  }
-
-
-  .hero h1{
-
-    font-size:37px;
-
-  }
-
-
-  .hero-image{
-
-    width:100%;
-
-    height:220px;
-
-  }
-
-
-  .hero-search button{
-
-    padding:12px 15px;
-
-  }
-
-
-  .toolbar-inner{
-
-    flex-direction:column;
-
-    align-items:stretch;
-
-  }
-
-
-  .controls{
-
-    width:100%;
-
-  }
-
-
-  .control{
-
-    flex:1;
-
-  }
-
+@media(max-width:750px){
 
   .food-grid{
-
-    grid-template-columns:1fr;
-
+    grid-template-columns:
+      repeat(2,1fr);
   }
-
 
   .footer-grid{
-
-    grid-template-columns:1fr;
-
+    grid-template-columns:
+      1fr 1fr;
   }
 
+  .result-count{
+    width:100%;
+    margin-left:0;
+  }
 
-  .footer-bottom{
+}
 
+
+@media(max-width:520px){
+
+  .food-grid{
+    grid-template-columns:1fr;
+  }
+
+  .food-image-wrap{
+    height:230px;
+  }
+
+  .header-actions .login-btn,
+  .header-actions .signup-btn{
+    display:none;
+  }
+
+  .page-top-row{
+    align-items:flex-start;
+  }
+
+  .search-box{
     flex-direction:column;
+    gap:5px;
+  }
 
-    gap:8px;
+  .search-submit{
+    height:46px;
+  }
 
+  .footer-grid{
+    grid-template-columns:1fr;
   }
 
 }
@@ -1385,1015 +1186,1365 @@ a{
 <body>
 
 
-<!-- =====================================================
+<!-- =========================================================
      HEADER
-     ===================================================== -->
+     ========================================================= -->
 
 <header class="header">
 
-<div class="container nav">
+  <div class="container nav">
 
 
-<a href="index.html" class="logo">
+    <a href="index.html">
 
-<img
-src="assets/logos/eatergo-logo.png"
-alt="EaterGo">
+      <img
+        src="assets/logos/eatergo-logo.png"
+        class="logo"
+        alt="EaterGo"
+      >
 
-</a>
-
-
-<nav class="nav-links">
-
-<a href="index.html">
-Home
-</a>
-
-<a href="restaurant.html">
-Restaurants
-</a>
-
-<a href="offers.html">
-Offers
-</a>
-
-<a href="collections.html">
-Collections
-</a>
-
-<a href="food-finder.html">
-Food Finder
-</a>
-
-</nav>
+    </a>
 
 
-<div class="nav-actions">
+    <nav class="nav-links">
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="restaurants.html">
+        Restaurants
+      </a>
+
+      <a href="offers.html">
+        Offers
+      </a>
+
+      <a href="collections.html">
+        Collections
+      </a>
+
+      <a href="search.html">
+        Food Finder
+      </a>
+
+    </nav>
 
 
-<a href="login.html"
-class="login-btn">
+    <div class="header-actions">
 
-Login
-
-</a>
-
-
-<a href="signup.html"
-class="signup-btn">
-
-Sign Up
-
-</a>
+      <a
+        href="login.html"
+        class="login-btn"
+      >
+        Login
+      </a>
 
 
-<button
-class="cart-btn"
-onclick="openCart()">
-
-🛒
-
-<span
-class="cart-count"
-id="cartCount">
-
-0
-
-</span>
-
-</button>
+      <a
+        href="signup.html"
+        class="signup-btn"
+      >
+        Sign Up
+      </a>
 
 
-</div>
+      <button
+        class="cart-btn"
+        onclick="goToCart()"
+        aria-label="Cart"
+      >
 
-</div>
+        🛒
+
+        <span
+          class="cart-count"
+          id="cartCount"
+        >
+          0
+        </span>
+
+      </button>
+
+    </div>
+
+
+  </div>
 
 </header>
 
 
 
-<!-- =====================================================
-     HERO
-     ===================================================== -->
+<!-- =========================================================
+     PAGE TOP
+     ========================================================= -->
 
-<section class="hero">
+<section class="page-top">
 
-<div class="container">
+  <div class="container">
 
-<div class="hero-box">
+    <div class="page-top-row">
 
+      <div>
 
-<div class="hero-content">
+        <h1
+          class="page-title"
+          id="pageTitle"
+        >
+          All Food
+        </h1>
 
+        <p
+          class="page-subtitle"
+          id="pageSubtitle"
+        >
+          Discover delicious food from EaterGo
+        </p>
 
-<div class="eyebrow">
+      </div>
 
-🍽️ 680+ delicious choices
+    </div>
 
-</div>
-
-
-<h1>
-
-Find your
-<span>perfect food.</span>
-
-</h1>
-
-
-<p>
-
-Explore hundreds of dishes across
-Pizza, Burgers, Biryani, Pasta,
-Chinese, Desserts, Healthy food
-and Drinks.
-
-</p>
-
-
-<div class="hero-search">
-
-<span>🔍</span>
-
-<input
-id="searchInput"
-type="text"
-placeholder="Search food, restaurant or cuisine...">
-
-<button
-onclick="performSearch()">
-
-Search
-
-</button>
-
-</div>
-
-
-</div>
-
-
-<div class="hero-image">
-
-<img
-src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=900&q=85"
-alt="Food">
-
-</div>
-
-
-</div>
-
-</div>
+  </div>
 
 </section>
 
 
 
-<!-- =====================================================
+<!-- =========================================================
+     SEARCH
+     ========================================================= -->
+
+<section class="search-wrapper">
+
+  <div class="container">
+
+    <form
+      class="search-box"
+      id="searchForm"
+    >
+
+      <input
+        type="text"
+        class="search-input"
+        id="searchInput"
+        placeholder="Search for exact dishes, restaurants or cuisines..."
+        autocomplete="off"
+      >
+
+
+      <button
+        type="submit"
+        class="search-submit"
+      >
+        Search
+      </button>
+
+    </form>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
      CATEGORIES
-     ===================================================== -->
+     ========================================================= -->
 
-<section class="category-section">
+<section>
 
-<div class="container">
+  <div class="container">
 
-<div class="category-scroll"
-id="categoryBar">
+    <div
+      class="category-bar"
+      id="categoryBar"
+    >
 
-<button
-class="category-btn active"
-data-category="All">
-
-All · 680+
-
-</button>
-
-
-<button
-class="category-btn"
-data-category="Pizza">
-
-🍕 Pizza · 125
-
-</button>
+      <button
+        class="category-btn active"
+        data-category="All"
+      >
+        All Food
+      </button>
 
 
-<button
-class="category-btn"
-data-category="Burgers">
-
-🍔 Burgers · 95
-
-</button>
-
-
-<button
-class="category-btn"
-data-category="Biryani">
-
-🍛 Biryani · 85
-
-</button>
+      <button
+        class="category-btn"
+        data-category="Pizza"
+      >
+        🍕 Pizza
+      </button>
 
 
-<button
-class="category-btn"
-data-category="Pasta">
-
-🍝 Pasta · 75
-
-</button>
-
-
-<button
-class="category-btn"
-data-category="Chinese">
-
-🥡 Chinese · 105
-
-</button>
+      <button
+        class="category-btn"
+        data-category="Burgers"
+      >
+        🍔 Burgers
+      </button>
 
 
-<button
-class="category-btn"
-data-category="Desserts">
-
-🍰 Desserts · 65
-
-</button>
-
-
-<button
-class="category-btn"
-data-category="Healthy">
-
-🥗 Healthy · 55
-
-</button>
+      <button
+        class="category-btn"
+        data-category="Biryani"
+      >
+        🍗 Biryani
+      </button>
 
 
-<button
-class="category-btn"
-data-category="Drinks">
+      <button
+        class="category-btn"
+        data-category="Pasta"
+      >
+        🍝 Pasta
+      </button>
 
-🥤 Drinks · 75
 
-</button>
+      <button
+        class="category-btn"
+        data-category="Chinese"
+      >
+        🥡 Chinese
+      </button>
 
-</div>
 
-</div>
+      <button
+        class="category-btn"
+        data-category="Desserts"
+      >
+        🍰 Desserts
+      </button>
+
+
+      <button
+        class="category-btn"
+        data-category="Healthy"
+      >
+        🥗 Healthy
+      </button>
+
+
+      <button
+        class="category-btn"
+        data-category="Drinks"
+      >
+        🥤 Drinks
+      </button>
+
+    </div>
+
+  </div>
 
 </section>
 
 
 
-<!-- =====================================================
-     TOOLBAR
-     ===================================================== -->
+<!-- =========================================================
+     FILTER
+     ========================================================= -->
 
-<section class="toolbar">
+<section>
 
-<div class="container">
+  <div class="container">
 
-<div class="toolbar-inner">
-
-
-<div class="results-info">
-
-<h2 id="resultTitle">
-
-All Food
-
-</h2>
-
-<p id="resultCount">
-
-Showing 680+ dishes
-
-</p>
-
-</div>
+    <div class="filter-row">
 
 
-<div class="controls">
+      <div class="filter">
+
+        <span>
+          TYPE
+        </span>
+
+        <select
+          id="typeFilter"
+          onchange="renderFoods()"
+        >
+
+          <option value="all">
+            All Food
+          </option>
+
+          <option value="veg">
+            Pure Veg
+          </option>
+
+          <option value="nonveg">
+            Non-Veg
+          </option>
+
+        </select>
+
+      </div>
 
 
-<select
-class="control"
-id="foodType">
+      <div class="filter">
 
-<option value="all">
-All Food
-</option>
+        <span>
+          PRICE
+        </span>
 
-<option value="veg">
-Pure Veg
-</option>
+        <select
+          id="priceFilter"
+          onchange="renderFoods()"
+        >
 
-<option value="nonveg">
-Non-Veg
-</option>
+          <option value="all">
+            All Prices
+          </option>
 
-</select>
+          <option value="0-150">
+            Under ₹150
+          </option>
 
+          <option value="150-250">
+            ₹150 – ₹250
+          </option>
 
-<select
-class="control"
-id="priceFilter">
+          <option value="250-400">
+            ₹250 – ₹400
+          </option>
 
-<option value="all">
-All Prices
-</option>
+          <option value="400-9999">
+            ₹400+
+          </option>
 
-<option value="under200">
-Under ₹200
-</option>
+        </select>
 
-<option value="200-400">
-₹200 – ₹400
-</option>
-
-<option value="above400">
-₹400+
-</option>
-
-</select>
+      </div>
 
 
-<select
-class="control"
-id="sortFilter">
+      <div class="filter">
 
-<option value="recommended">
-Recommended
-</option>
+        <span>
+          SORT
+        </span>
 
-<option value="rating">
-Rating
-</option>
+        <select
+          id="sortFilter"
+          onchange="renderFoods()"
+        >
 
-<option value="low">
-Price: Low to High
-</option>
+          <option value="recommended">
+            Recommended
+          </option>
 
-<option value="high">
-Price: High to Low
-</option>
+          <option value="rating">
+            Rating
+          </option>
 
-<option value="name">
-Name
-</option>
+          <option value="low">
+            Price Low
+          </option>
 
-</select>
+          <option value="high">
+            Price High
+          </option>
+
+          <option value="az">
+            A → Z
+          </option>
+
+        </select>
+
+      </div>
 
 
-</div>
+      <div
+        class="result-count"
+        id="resultCount"
+      >
+        Loading...
+      </div>
 
-</div>
 
-</div>
+    </div>
+
+  </div>
 
 </section>
 
 
 
-<!-- =====================================================
+<!-- =========================================================
+     LOADING
+     ========================================================= -->
+
+<section
+  class="loading"
+  id="loading"
+>
+
+  <div class="loading-spinner"></div>
+
+  <h3>
+    Loading food catalogue...
+  </h3>
+
+  <p>
+    Preparing unique food photographs.
+  </p>
+
+</section>
+
+
+
+<!-- =========================================================
      FOOD GRID
-     ===================================================== -->
+     ========================================================= -->
 
-<main class="container">
+<section>
 
-<div
-class="food-grid"
-id="foodGrid">
+  <div class="container">
 
-<div class="loading">
-
-Loading delicious food...
-
-</div>
-
-</div>
+    <div
+      class="food-grid"
+      id="foodGrid"
+    ></div>
 
 
-<div
-class="empty"
-id="emptyState">
+    <div
+      class="empty"
+      id="emptyState"
+    >
 
-<div class="empty-icon">
+      <h2>
+        No food found
+      </h2>
 
-🍽️
+      <p>
+        Try another dish, category or restaurant.
+      </p>
 
-</div>
+    </div>
 
-<h3>
+  </div>
 
-No food found
-
-</h3>
-
-<p>
-
-Try another search or category.
-
-</p>
-
-</div>
-
-</main>
+</section>
 
 
 
-<!-- =====================================================
+<!-- =========================================================
      FOOTER
-     ===================================================== -->
+     ========================================================= -->
 
 <footer class="footer">
 
-<div class="container">
+  <div class="container">
 
-<div class="footer-grid">
-
-
-<div>
-
-<a
-href="index.html"
-class="footer-logo">
-
-<img
-src="assets/logos/eatergo-logo.png"
-alt="EaterGo">
-
-</a>
+    <div class="footer-grid">
 
 
-<p class="footer-description">
+      <div>
 
-Discover restaurants, explore delicious
-food, unlock exclusive offers and enjoy
-a smoother ordering experience with
-EaterGo.
+        <img
+          src="assets/logos/eatergo-logo.png"
+          alt="EaterGo"
+          style="
+            width:145px;
+            background:#fff;
+            border-radius:8px;
+            padding:6px;
+            margin-bottom:15px;
+          "
+        >
 
-</p>
+        <p>
+          Discover delicious food,
+          amazing restaurants and
+          great offers with EaterGo.
+        </p>
 
-</div>
-
-
-<div class="footer-column">
-
-<h4>Explore</h4>
-
-<a href="restaurant.html">
-Restaurants
-</a>
-
-<a href="offers.html">
-Offers
-</a>
-
-<a href="collections.html">
-Collections
-</a>
-
-<a href="food-finder.html">
-Food Finder
-</a>
-
-</div>
+      </div>
 
 
-<div class="footer-column">
+      <div>
 
-<h4>Your EaterGo</h4>
+        <h3>
+          EaterGo
+        </h3>
 
-<a href="profile.html">
-My Profile
-</a>
+        <a href="index.html">
+          Home
+        </a><br>
 
-<a href="orders.html">
-My Orders
-</a>
+        <a href="restaurants.html">
+          Restaurants
+        </a><br>
 
-<a href="favourites.html">
-Favourites
-</a>
+        <a href="offers.html">
+          Offers
+        </a><br>
 
-<a href="order-tracking.html">
-Track Order
-</a>
+        <a href="search.html">
+          Food Finder
+        </a>
 
-</div>
-
-
-<div class="footer-column">
-
-<h4>Help</h4>
-
-<a href="cart.html">
-Cart
-</a>
-
-<a href="checkout.html">
-Checkout
-</a>
-
-<a href="login.html">
-Login
-</a>
-
-<a href="signup.html">
-Create Account
-</a>
-
-</div>
+      </div>
 
 
-</div>
+      <div>
+
+        <h3>
+          Categories
+        </h3>
+
+        <a href="search.html?category=Pizza">
+          Pizza
+        </a><br>
+
+        <a href="search.html?category=Burgers">
+          Burgers
+        </a><br>
+
+        <a href="search.html?category=Biryani">
+          Biryani
+        </a><br>
+
+        <a href="search.html?category=Pasta">
+          Pasta
+        </a>
+
+      </div>
 
 
-<div class="footer-bottom">
+      <div>
 
-<span>
+        <h3>
+          Help
+        </h3>
 
-© 2026 EaterGo. All rights reserved.
+        <a href="#">
+          Support
+        </a><br>
 
-</span>
+        <a href="#">
+          Terms
+        </a><br>
 
-<span>
+        <a href="#">
+          Privacy
+        </a><br>
 
-Delicious food. Delivered better.
+        <a href="#">
+          Contact
+        </a>
 
-</span>
+      </div>
 
-</div>
 
-</div>
+    </div>
+
+
+    <div class="footer-bottom">
+
+      © 2026 EaterGo.
+      All rights reserved.
+
+    </div>
+
+  </div>
 
 </footer>
 
 
 
 <div
-class="toast"
-id="toast">
-
-Added to cart
-
-</div>
+  class="toast"
+  id="toast"
+></div>
 
 
 
 <script>
 
 /* =========================================================
-   FOOD IMAGE LIBRARY
+   EATERGO FOOD DATABASE
    ========================================================= */
 
-const images = {
 
-  Pizza:[
-    "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=700&q=85"
-  ],
+/*
+   IMPORTANT
 
-  Burgers:[
-    "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=700&q=85"
-  ],
+   Har food ka naam alag hai.
 
-  Biryani:[
-    "https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1563379091339-03246963d51a?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=700&q=85"
-  ],
+   Image category ke naam se nahi,
+   EXACT food name se generate hogi.
 
-  Pasta:[
-    "https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=700&q=85"
-  ],
+   Example:
 
-  Chinese:[
-    "https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=700&q=85"
-  ],
+   Margherita Pizza
+   →
+   loremflickr.com/.../margherita,pizza
 
-  Desserts:[
-    "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=700&q=85"
-  ],
+   Farmhouse Pizza
+   →
+   loremflickr.com/.../farmhouse,pizza
 
-  Healthy:[
-    "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=700&q=85"
-  ],
+   Isliye same category ki same image
+   sab cards par assign nahi hogi.
+*/
 
-  Drinks:[
-    "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1547595628-c61a29f496f0?auto=format&fit=crop&w=700&q=85"
-  ]
 
-};
+const FOOD_DATA = {
 
 
 /* =========================================================
-   FOOD BLUEPRINTS
+   PIZZA
    ========================================================= */
 
-const foodBlueprints = {
+Pizza:[
 
-Pizza:{
-  count:125,
-  names:[
-    "Margherita Pizza",
-    "Farmhouse Pizza",
-    "Peppy Paneer Pizza",
-    "Veggie Paradise Pizza",
-    "Mexican Green Wave Pizza",
-    "Deluxe Veggie Pizza",
-    "Corn & Cheese Pizza",
-    "Paneer Tikka Pizza",
-    "Tandoori Paneer Pizza",
-    "Mushroom Delight Pizza",
-    "Garden Fresh Pizza",
-    "Spinach Corn Pizza",
-    "Cheese & Tomato Pizza",
-    "Capsicum Onion Pizza",
-    "Golden Corn Pizza",
-    "Double Cheese Pizza",
-    "Cheese Burst Pizza",
-    "Four Cheese Pizza",
-    "Italian Herb Pizza",
-    "Mediterranean Veg Pizza",
-    "BBQ Paneer Pizza",
-    "Peri Peri Paneer Pizza",
-    "Achari Paneer Pizza",
-    "Malai Paneer Pizza",
-    "Kadhai Paneer Pizza",
-    "Chilli Paneer Pizza",
-    "Paneer Makhani Pizza",
-    "Tandoori Mushroom Pizza",
-    "Cheesy Mushroom Pizza",
-    "Creamy Spinach Pizza",
-    "Garlic Mushroom Pizza",
-    "Olive & Jalapeno Pizza",
-    "Jalapeno Cheese Pizza",
-    "Black Olive Pizza",
-    "Pesto Veg Pizza",
-    "Basil Tomato Pizza",
-    "Roasted Pepper Pizza",
-    "Caramelized Onion Pizza",
-    "Corn Jalapeno Pizza",
-    "Cheese Corn Burst Pizza"
-  ],
-  variants:[
-    "Classic",
-    "Cheese Burst",
-    "Thin Crust",
-    "Hand Tossed",
-    "Double Cheese",
-    "Italian Style",
-    "Loaded",
-    "Spicy",
-    "Premium",
-    "Family Style"
-  ]
-},
+"Margherita Pizza",
+"Farmhouse Pizza",
+"Peppy Paneer Pizza",
+"Paneer Tikka Pizza",
+"Mexican Green Wave Pizza",
+"Veggie Supreme Pizza",
+"Double Cheese Pizza",
+"Corn & Cheese Pizza",
+"Mushroom Pizza",
+"Olive Jalapeno Pizza",
+"Peri Peri Paneer Pizza",
+"Tandoori Paneer Pizza",
+"Achari Paneer Pizza",
+"BBQ Paneer Pizza",
+"Four Cheese Pizza",
+"Garden Fresh Pizza",
+"Spinach Corn Pizza",
+"Capsicum Onion Pizza",
+"Tomato Basil Pizza",
+"Pesto Veg Pizza",
+"Mediterranean Veg Pizza",
+"Truffle Mushroom Pizza",
+"Roasted Garlic Pizza",
+"Chilli Paneer Pizza",
+"Paneer Makhani Pizza",
+"Malai Paneer Pizza",
+"Kadhai Paneer Pizza",
+"Cheese Jalapeno Pizza",
+"Schezwan Paneer Pizza",
+"Chicken Tikka Pizza",
+"BBQ Chicken Pizza",
+"Peri Peri Chicken Pizza",
+"Tandoori Chicken Pizza",
+"Butter Chicken Pizza",
+"Chicken Sausage Pizza",
+"Chicken Pepperoni Pizza",
+"Chicken Salami Pizza",
+"Smoked Chicken Pizza",
+"Spicy Chicken Pizza",
+"Garlic Chicken Pizza",
+"Achari Chicken Pizza",
+"Malai Chicken Pizza",
+"Mughlai Chicken Pizza",
+"Mexican Chicken Pizza",
+"Chipotle Chicken Pizza",
+"Roasted Chicken Pizza",
+"Herb Chicken Pizza",
+"Cheesy Chicken Pizza",
+"Chicken Keema Pizza",
+"Mutton Keema Pizza",
+"Pepperoni Pizza",
+"Italian Sausage Pizza",
+"Ham Cheese Pizza",
+"Meat Lovers Pizza",
+"Bacon Mushroom Pizza",
+"BBQ Meat Pizza",
+"Classic Cheese Pizza",
+"Neapolitan Pizza",
+"Roman Pizza",
+"Sicilian Pizza",
+"Detroit Style Pizza",
+"New York Style Pizza",
+"Calzone Pizza",
+"Four Seasons Pizza",
+"Caprese Pizza",
+"Bruschetta Pizza",
+"Artichoke Pizza",
+"Arugula Pizza",
+"Rocket Parmesan Pizza",
+"Feta Olive Pizza",
+"Greek Pizza",
+"Lebanese Pizza",
+"Turkish Pizza",
+"Moroccan Chicken Pizza",
+"Thai Curry Pizza",
+"Korean BBQ Pizza",
+"Teriyaki Chicken Pizza",
+"Wasabi Paneer Pizza",
+"Schezwan Chicken Pizza",
+"Chilli Chicken Pizza",
+"Dragon Chicken Pizza",
+"Manchurian Chicken Pizza",
+"Hakka Chicken Pizza",
+"Chinese Veg Pizza",
+"Spring Onion Pizza",
+"Corn Jalapeno Pizza",
+"Broccoli Cheese Pizza",
+"Zucchini Pizza",
+"Eggplant Pizza",
+"Avocado Pizza",
+"Sweet Potato Pizza",
+"Pumpkin Pizza",
+"Caramelized Onion Pizza",
+"Blue Cheese Pizza",
+"Goat Cheese Pizza",
+"Brie Cheese Pizza",
+"Cheddar Cheese Pizza",
+"Mozzarella Classic Pizza",
+"Ricotta Spinach Pizza",
+"Truffle Cheese Pizza",
+"Garlic Butter Pizza",
+"Peri Peri Cheese Pizza",
+"Hot Honey Pizza",
+"Chilli Honey Pizza",
+"Spicy Mexican Pizza",
+"Fiesta Veg Pizza",
+"California Veg Pizza",
+"California Chicken Pizza",
+"Hawaiian Chicken Pizza",
+"BBQ Bacon Pizza",
+"Smoky Sausage Pizza",
+"Spicy Pepperoni Pizza",
+"Cheesy Pepperoni Pizza",
+"Ultimate Meat Pizza",
+"Supreme Chicken Pizza",
+"Royal Paneer Pizza",
+"Royal Veg Pizza",
+"Royal Chicken Pizza"
 
-Burgers:{
-  count:95,
-  names:[
-    "Classic Veg Burger",
-    "Crispy Veg Burger",
-    "Aloo Tikki Burger",
-    "Paneer Burger",
-    "Cheese Burger",
-    "Double Cheese Burger",
-    "Mexican Burger",
-    "Peri Peri Burger",
-    "Tandoori Paneer Burger",
-    "BBQ Paneer Burger",
-    "Mushroom Burger",
-    "Corn & Cheese Burger",
-    "Spicy Paneer Burger",
-    "Masala Burger",
-    "Maharaja Veg Burger",
-    "Crispy Chicken Burger",
-    "Classic Chicken Burger",
-    "Chicken Cheese Burger",
-    "Peri Peri Chicken Burger",
-    "BBQ Chicken Burger",
-    "Tandoori Chicken Burger",
-    "Double Chicken Burger",
-    "Smoky Chicken Burger",
-    "Grilled Chicken Burger",
-    "Spicy Chicken Burger",
-    "Crispy Zinger Burger",
-    "Chicken Makhani Burger",
-    "Chicken Tikka Burger",
-    "Fiery Chicken Burger",
-    "Premium Loaded Burger"
-  ],
-  variants:[
-    "Classic",
-    "Cheesy",
-    "Double Patty",
-    "Loaded",
-    "Spicy",
-    "Smoky",
-    "Grilled",
-    "Crispy"
-  ]
-},
+],
 
-Biryani:{
-  count:85,
-  names:[
-    "Hyderabadi Veg Biryani",
-    "Hyderabadi Chicken Biryani",
-    "Lucknowi Biryani",
-    "Awadhi Biryani",
-    "Kolkata Biryani",
-    "Mughlai Biryani",
-    "Dum Biryani",
-    "Paneer Biryani",
-    "Mushroom Biryani",
-    "Veg Dum Biryani",
-    "Chicken Dum Biryani",
-    "Chicken Tikka Biryani",
-    "Chicken 65 Biryani",
-    "Mutton Biryani",
-    "Egg Biryani",
-    "Malai Chicken Biryani",
-    "Tandoori Chicken Biryani",
-    "Pepper Chicken Biryani",
-    "Andhra Chicken Biryani",
-    "Kolkata Chicken Biryani",
-    "Special Chicken Biryani",
-    "Royal Chicken Biryani",
-    "Paneer Tikka Biryani",
-    "Kadhai Paneer Biryani",
-    "Soya Chaap Biryani",
-    "Jackfruit Biryani",
-    "Makhani Biryani",
-    "Korma Biryani",
-    "Masala Biryani",
-    "Chef Special Biryani"
-  ],
-  variants:[
-    "Classic",
-    "Dum",
-    "Special",
-    "Royal",
-    "Handi",
-    "Family Pack",
-    "Mini",
-    "Premium"
-  ]
-},
 
-Pasta:{
-  count:75,
-  names:[
-    "Classic Penne Pasta",
-    "Arrabbiata Pasta",
-    "Alfredo Pasta",
-    "Pink Sauce Pasta",
-    "White Sauce Pasta",
-    "Red Sauce Pasta",
-    "Pesto Pasta",
-    "Creamy Mushroom Pasta",
-    "Cheesy Pasta",
-    "Mac & Cheese",
-    "Spicy Tomato Pasta",
-    "Italian Herb Pasta",
-    "Basil Pasta",
-    "Spinach Corn Pasta",
-    "Paneer Pasta",
-    "Tandoori Paneer Pasta",
-    "Peri Peri Pasta",
-    "Mexican Pasta",
-    "Veggie Pasta",
-    "Four Cheese Pasta",
-    "Garlic Cream Pasta",
-    "Mushroom Alfredo Pasta",
-    "Broccoli Pasta",
-    "Olive Pasta",
-    "Jalapeno Cheese Pasta",
-    "Roasted Pepper Pasta",
-    "Truffle Style Pasta",
-    "Lasagna",
-    "Veg Lasagna",
-    "Cheese Lasagna"
-  ],
-  variants:[
-    "Classic",
-    "Creamy",
-    "Cheesy",
-    "Spicy",
-    "Loaded",
-    "Italian",
-    "Premium"
-  ]
-},
+/* =========================================================
+   BURGERS
+   ========================================================= */
 
-Chinese:{
-  count:105,
-  names:[
-    "Veg Hakka Noodles",
-    "Chicken Hakka Noodles",
-    "Schezwan Noodles",
-    "Chilli Garlic Noodles",
-    "Singapore Noodles",
-    "Veg Chowmein",
-    "Chicken Chowmein",
-    "Veg Fried Rice",
-    "Chicken Fried Rice",
-    "Schezwan Fried Rice",
-    "Chilli Paneer",
-    "Chilli Chicken",
-    "Manchurian",
-    "Veg Manchurian",
-    "Chicken Manchurian",
-    "Paneer Manchurian",
-    "Honey Chilli Potato",
-    "Crispy Corn",
-    "Spring Rolls",
-    "Veg Spring Rolls",
-    "Chicken Spring Rolls",
-    "Momos",
-    "Veg Momos",
-    "Chicken Momos",
-    "Tandoori Momos",
-    "Chilli Momos",
-    "Steamed Momos",
-    "Fried Momos",
-    "Hot & Sour Soup",
-    "Manchow Soup",
-    "Sweet Corn Soup",
-    "Veg Clear Soup",
-    "Chicken Clear Soup",
-    "Kung Pao Paneer",
-    "Kung Pao Chicken",
-    "Schezwan Paneer",
-    "Schezwan Chicken",
-    "Dragon Paneer",
-    "Dragon Chicken",
-    "Crispy Honey Chicken",
-    "Asian Garlic Chicken"
-  ],
-  variants:[
-    "Classic",
-    "Spicy",
-    "Schezwan",
-    "Garlic",
-    "Crispy",
-    "Hot",
-    "Loaded",
-    "Special"
-  ]
-},
+Burgers:[
 
-Desserts:{
-  count:65,
-  names:[
-    "Chocolate Brownie",
-    "Walnut Brownie",
-    "Chocolate Cake",
-    "Red Velvet Cake",
-    "Black Forest Cake",
-    "Choco Lava Cake",
-    "Cheesecake",
-    "Blueberry Cheesecake",
-    "Strawberry Cheesecake",
-    "Tiramisu",
-    "Chocolate Mousse",
-    "Mango Mousse",
-    "Vanilla Ice Cream",
-    "Chocolate Ice Cream",
-    "Strawberry Ice Cream",
-    "Butterscotch Ice Cream",
-    "Mango Ice Cream",
-    "Kulfi",
-    "Malai Kulfi",
-    "Pista Kulfi",
-    "Gulab Jamun",
-    "Rasmalai",
-    "Rasgulla",
-    "Gajar Halwa",
-    "Moong Dal Halwa",
-    "Jalebi",
-    "Rabri",
-    "Kheer",
-    "Fruit Cream",
-    "Brownie Sundae"
-  ],
-  variants:[
-    "Classic",
-    "Premium",
-    "Special",
-    "Loaded",
-    "Creamy",
-    "Chocolate",
-    "Royal"
-  ]
-},
+"Classic Veg Burger",
+"Aloo Tikki Burger",
+"Crispy Veg Burger",
+"Paneer Burger",
+"Mexican Bean Burger",
+"Cheese Veg Burger",
+"Mushroom Swiss Burger",
+"Jalapeno Cheese Burger",
+"Peri Peri Veg Burger",
+"Tandoori Paneer Burger",
+"Achari Paneer Burger",
+"Schezwan Paneer Burger",
+"Crispy Chicken Burger",
+"Chicken Classic Burger",
+"Chicken Cheese Burger",
+"Chicken Tandoori Burger",
+"Chicken Peri Peri Burger",
+"Chicken BBQ Burger",
+"Chicken Zinger Burger",
+"Chicken Fillet Burger",
+"Chicken Jalapeno Burger",
+"Chicken Mushroom Burger",
+"Chicken Pepper Burger",
+"Chicken Smoky Burger",
+"Maharaja Burger",
+"Double Cheese Burger",
+"Triple Cheese Burger",
+"Spicy Bean Burger",
+"Falafel Burger",
+"Fish Fillet Burger",
+"Crispy Fish Burger",
+"Grilled Fish Burger",
+"Mutton Seekh Burger",
+"Lamb Burger",
+"Smoked Beef Burger",
+"Bacon Cheese Burger",
+"Egg Cheese Burger",
+"Avocado Veg Burger",
+"Beetroot Burger",
+"Sweet Potato Burger",
+"Spinach Burger",
+"Corn Cheese Burger",
+"Broccoli Burger",
+"Quinoa Burger",
+"Black Bean Burger",
+"Chickpea Burger",
+"Rajma Burger",
+"Masala Aloo Burger",
+"Punjabi Paneer Burger",
+"Kolkata Style Burger",
+"Mumbai Masala Burger",
+"Delhi Tandoori Burger",
+"Rajasthani Burger",
+"Gujarati Masala Burger",
+"South Indian Burger",
+"Chettinad Chicken Burger",
+"Andhra Chicken Burger",
+"Malai Chicken Burger",
+"Butter Chicken Burger",
+"Chicken Keema Burger",
+"Chicken Seekh Burger",
+"Chicken Maharaja Burger",
+"Chicken Supreme Burger",
+"Chicken Double Patty Burger",
+"Chicken Triple Patty Burger",
+"BBQ Double Chicken Burger",
+"Peri Peri Double Chicken Burger",
+"Cheese Loaded Burger",
+"Cheese Blast Burger",
+"Garlic Mayo Burger",
+"Chipotle Burger",
+"BBQ Burger",
+"Smoky BBQ Burger",
+"Texas Burger",
+"New York Burger",
+"California Burger",
+"Mexican Burger",
+"Italian Burger",
+"Mediterranean Burger",
+"Greek Burger",
+"Korean BBQ Burger",
+"Teriyaki Burger",
+"Dragon Chicken Burger",
+"Schezwan Chicken Burger",
+"Chilli Chicken Burger",
+"Pepper Chicken Burger",
+"Crispy Prawn Burger",
+"Grilled Prawn Burger",
+"Fish Tartar Burger",
+"Spicy Fish Burger",
+"Classic Chicken Burger",
+"Classic Cheese Burger",
+"Ultimate Veg Burger",
+"Ultimate Chicken Burger"
 
-Healthy:{
-  count:55,
-  names:[
-    "Garden Fresh Salad",
-    "Greek Salad",
-    "Caesar Salad",
-    "Quinoa Salad",
-    "Paneer Salad",
-    "Grilled Paneer Bowl",
-    "Chicken Protein Bowl",
-    "Veg Protein Bowl",
-    "Sprouts Bowl",
-    "Fruit Bowl",
-    "Smoothie Bowl",
-    "Avocado Toast",
-    "Paneer Wrap",
-    "Veg Wrap",
-    "Chicken Wrap",
-    "Grilled Chicken Salad",
-    "Brown Rice Bowl",
-    "Quinoa Bowl",
-    "Mediterranean Bowl",
-    "Green Power Bowl",
-    "Protein Salad",
-    "Healthy Veg Sandwich",
-    "Grilled Veg Sandwich",
-    "Multigrain Sandwich",
-    "Hummus Wrap"
-  ],
-  variants:[
-    "Fresh",
-    "Protein",
-    "Power",
-    "Healthy",
-    "Premium",
-    "Light",
-    "Chef Special"
-  ]
-},
+],
 
-Drinks:{
-  count:75,
-  names:[
-    "Fresh Lime Soda",
-    "Virgin Mojito",
-    "Blue Lagoon",
-    "Mint Mojito",
-    "Strawberry Mojito",
-    "Mango Shake",
-    "Chocolate Shake",
-    "Vanilla Shake",
-    "Strawberry Shake",
-    "Oreo Shake",
-    "Cold Coffee",
-    "Iced Coffee",
-    "Cappuccino",
-    "Cafe Latte",
-    "Hot Chocolate",
-    "Masala Chai",
-    "Green Tea",
-    "Lemon Tea",
-    "Mango Lassi",
-    "Sweet Lassi",
-    "Salted Lassi",
-    "Rose Lassi",
-    "Fresh Orange Juice",
-    "Watermelon Juice",
-    "Pineapple Juice",
-    "Mango Juice",
-    "Mixed Fruit Juice",
-    "Apple Juice",
-    "Coconut Water",
-    "Berry Smoothie"
-  ],
-  variants:[
-    "Classic",
-    "Chilled",
-    "Fresh",
-    "Premium",
-    "Special",
-    "Large",
-    "Signature"
-  ]
-}
+
+/* =========================================================
+   BIRYANI
+   ========================================================= */
+
+Biryani:[
+
+"Hyderabadi Chicken Biryani",
+"Lucknowi Chicken Biryani",
+"Kolkata Chicken Biryani",
+"Dum Chicken Biryani",
+"Awadhi Chicken Biryani",
+"Mughlai Chicken Biryani",
+"Malabar Chicken Biryani",
+"Thalassery Chicken Biryani",
+"Andhra Chicken Biryani",
+"Chettinad Chicken Biryani",
+"Donne Chicken Biryani",
+"Ambur Chicken Biryani",
+"Dindigul Chicken Biryani",
+"Kalyani Chicken Biryani",
+"Memoni Chicken Biryani",
+"Sindhi Chicken Biryani",
+"Bombay Chicken Biryani",
+"Afghani Chicken Biryani",
+"Tandoori Chicken Biryani",
+"Butter Chicken Biryani",
+"Chicken 65 Biryani",
+"Chicken Tikka Biryani",
+"Chicken Keema Biryani",
+"Chicken Fry Biryani",
+"Chicken Roast Biryani",
+"Chicken Seekh Biryani",
+"Chicken Malai Biryani",
+"Chicken Korma Biryani",
+"Chicken Achari Biryani",
+"Chicken Makhani Biryani",
+"Hyderabadi Mutton Biryani",
+"Lucknowi Mutton Biryani",
+"Kolkata Mutton Biryani",
+"Dum Mutton Biryani",
+"Awadhi Mutton Biryani",
+"Mughlai Mutton Biryani",
+"Malabar Mutton Biryani",
+"Thalassery Mutton Biryani",
+"Andhra Mutton Biryani",
+"Chettinad Mutton Biryani",
+"Donne Mutton Biryani",
+"Ambur Mutton Biryani",
+"Dindigul Mutton Biryani",
+"Kalyani Mutton Biryani",
+"Memoni Mutton Biryani",
+"Sindhi Mutton Biryani",
+"Mutton Keema Biryani",
+"Mutton Shikampuri Biryani",
+"Mutton Yakhni Biryani",
+"Mutton Afghani Biryani",
+"Mutton Tikka Biryani",
+"Paneer Biryani",
+"Veg Hyderabadi Biryani",
+"Veg Lucknowi Biryani",
+"Veg Kolkata Biryani",
+"Veg Dum Biryani",
+"Veg Awadhi Biryani",
+"Veg Mughlai Biryani",
+"Veg Malabar Biryani",
+"Veg Thalassery Biryani",
+"Veg Donne Biryani",
+"Veg Ambur Biryani",
+"Veg Dindigul Biryani",
+"Veg Kalyani Biryani",
+"Veg Memoni Biryani",
+"Veg Sindhi Biryani",
+"Mushroom Biryani",
+"Soya Chaap Biryani",
+"Jackfruit Biryani",
+"Paneer Tikka Biryani",
+"Kaju Biryani",
+"Corn Biryani",
+"Baby Corn Biryani",
+"Vegetable Handi Biryani",
+"Paneer Handi Biryani",
+"Egg Biryani",
+"Double Egg Biryani",
+"Chicken Egg Biryani",
+"Prawn Biryani",
+"Fish Biryani",
+"Hyderabadi Egg Biryani"
+
+],
+
+
+/* =========================================================
+   PASTA
+   ========================================================= */
+
+Pasta:[
+
+"Arrabbiata Pasta",
+"Alfredo Pasta",
+"Aglio e Olio Pasta",
+"Pesto Penne Pasta",
+"Penne Rose Pasta",
+"Mac and Cheese Pasta",
+"Spaghetti Bolognese",
+"Spaghetti Carbonara",
+"Lasagna",
+"Ravioli",
+"Cannelloni",
+"Fettuccine Alfredo",
+"Fusilli Pesto",
+"Penne Arrabbiata",
+"Rigatoni Pomodoro",
+"Tagliatelle",
+"Linguine Aglio Olio",
+"Penne Amatriciana",
+"Spaghetti Pomodoro",
+"Pasta Primavera",
+"Pasta Napoli",
+"Pasta Funghi",
+"Quattro Formaggi Pasta",
+"Pasta Puttanesca",
+"Pasta Marinara",
+"Pasta Bianca",
+"Spinach Ricotta Pasta",
+"Tomato Basil Pasta",
+"Creamy Mushroom Pasta",
+"Truffle Pasta",
+"Cheesy Corn Pasta",
+"Peri Peri Pasta",
+"Tandoori Paneer Pasta",
+"Schezwan Pasta",
+"Indian Masala Pasta",
+"Butter Chicken Pasta",
+"Chicken Alfredo Pasta",
+"Chicken Pesto Pasta",
+"Chicken Arrabbiata",
+"Chicken Penne Pasta",
+"Chicken Lasagna",
+"Chicken Carbonara",
+"Chicken Mushroom Pasta",
+"Chicken Tikka Pasta",
+"BBQ Chicken Pasta",
+"Spicy Chicken Pasta",
+"Chicken Pomodoro",
+"Chicken Primavera",
+"Chicken Marinara",
+"Seafood Pasta",
+"Prawn Pasta",
+"Fish Pasta",
+"Mushroom Ravioli",
+"Spinach Ravioli",
+"Cheese Ravioli",
+"Four Cheese Ravioli",
+"Pumpkin Ravioli",
+"Beetroot Pasta",
+"Beetroot Ravioli",
+"Spinach Lasagna",
+"Veg Lasagna",
+"Mushroom Lasagna",
+"Paneer Lasagna",
+"Mexican Pasta",
+"Thai Curry Pasta",
+"Cajun Pasta",
+"Creamy Garlic Pasta",
+"Garlic Butter Pasta",
+"Roasted Tomato Pasta",
+"Basil Cream Pasta",
+"Rosemary Mushroom Pasta",
+"Sun Dried Tomato Pasta",
+"Olive Pasta"
+
+],
+
+
+/* =========================================================
+   CHINESE
+   ========================================================= */
+
+Chinese:[
+
+"Veg Hakka Noodles",
+"Schezwan Noodles",
+"Chilli Garlic Noodles",
+"Singapore Noodles",
+"Shanghai Noodles",
+"Pad Thai",
+"Veg Chow Mein",
+"American Chop Suey",
+"Veg Manchurian",
+"Gobi Manchurian",
+"Paneer Chilli",
+"Chilli Mushroom",
+"Chilli Potato",
+"Crispy Corn",
+"Honey Chilli Potato",
+"Spring Rolls",
+"Cheese Spring Rolls",
+"Veg Momos",
+"Fried Momos",
+"Tandoori Momos",
+"Schezwan Momos",
+"Paneer Momos",
+"Chicken Momos",
+"Chicken Fried Momos",
+"Chicken Tandoori Momos",
+"Chicken Hakka Noodles",
+"Chicken Schezwan Noodles",
+"Chicken Chilli Garlic Noodles",
+"Chicken Chow Mein",
+"Chicken American Chop Suey",
+"Chicken Manchurian",
+"Chicken Chilli",
+"Chicken Hot Garlic",
+"Chicken Kung Pao",
+"Chicken Black Pepper",
+"Chicken Honey Chilli",
+"Chicken Fried Rice",
+"Chicken Schezwan Rice",
+"Chicken Burnt Garlic Rice",
+"Chicken Shanghai Rice",
+"Veg Fried Rice",
+"Schezwan Fried Rice",
+"Burnt Garlic Rice",
+"Mushroom Fried Rice",
+"Paneer Fried Rice",
+"Corn Fried Rice",
+"Manchurian Fried Rice",
+"Triple Schezwan Rice",
+"Singapore Rice",
+"Hong Kong Rice",
+"Veg Spring Rolls",
+"Corn Spring Rolls",
+"Mushroom Spring Rolls",
+"Crispy Paneer",
+"Crispy Tofu",
+"Tofu Chilli",
+"Tofu Manchurian",
+"Hot and Sour Soup",
+"Manchow Soup",
+"Sweet Corn Soup",
+"Clear Soup",
+"Tom Yum Soup",
+"Wonton Soup",
+"Veg Wonton",
+"Chicken Wonton",
+"Dragon Chicken",
+"Drums of Heaven",
+"Chicken Lollipop",
+"Crispy Chicken",
+"Honey Chicken",
+"Kung Pao Chicken",
+"Szechuan Chicken",
+"Mongolian Chicken",
+"Black Pepper Chicken",
+"Orange Chicken",
+"Sesame Chicken",
+"Teriyaki Chicken",
+"Chilli Garlic Prawns",
+"Salt Pepper Prawns",
+"Schezwan Prawns",
+"Crispy Prawns",
+"Vegetable Dimsum",
+"Chicken Dimsum",
+"Cheese Dimsum",
+"Edamame",
+"Asian Tofu Bowl",
+"Thai Green Curry",
+"Thai Red Curry",
+"Chilli Basil Noodles",
+"Garlic Pepper Noodles",
+"Wok Tossed Vegetables",
+"Crispy Lotus Stem",
+"Mapo Tofu",
+"Dan Dan Noodles",
+"Beijing Noodles",
+"Cantonese Noodles",
+"Shanghai Fried Rice",
+"Hong Kong Fried Rice",
+"Szechuan Fried Rice",
+"Garlic Pepper Rice",
+"Chilli Garlic Rice",
+"Chinese Bhel"
+
+],
+
+
+/* =========================================================
+   DESSERTS
+   ========================================================= */
+
+Desserts:[
+
+"Gulab Jamun",
+"Rasgulla",
+"Rasmalai",
+"Jalebi",
+"Imarti",
+"Gajar Halwa",
+"Moong Dal Halwa",
+"Sooji Halwa",
+"Badam Halwa",
+"Kaju Katli",
+"Motichoor Ladoo",
+"Besan Ladoo",
+"Boondi Ladoo",
+"Coconut Ladoo",
+"Malpua",
+"Rabri",
+"Kheer",
+"Phirni",
+"Kulfi",
+"Kesar Kulfi",
+"Pista Kulfi",
+"Mango Kulfi",
+"Chocolate Kulfi",
+"Falooda",
+"Royal Falooda",
+"Fruit Falooda",
+"Chocolate Brownie",
+"Walnut Brownie",
+"Fudge Brownie",
+"Brownie Sundae",
+"Chocolate Cake",
+"Red Velvet Cake",
+"Black Forest Cake",
+"Pineapple Cake",
+"Butterscotch Cake",
+"Cheesecake",
+"Blueberry Cheesecake",
+"Strawberry Cheesecake",
+"Chocolate Cheesecake",
+"Tiramisu",
+"Chocolate Mousse",
+"Mango Mousse",
+"Panna Cotta",
+"Creme Brulee",
+"Apple Pie",
+"Banana Pie",
+"Lemon Tart",
+"Fruit Tart",
+"Chocolate Tart",
+"Donut",
+"Chocolate Donut",
+"Glazed Donut",
+"Cinnamon Roll",
+"Churros",
+"Waffles",
+"Chocolate Waffles",
+"Belgian Waffle",
+"Pancakes",
+"Chocolate Pancakes",
+"Ice Cream Sundae",
+"Chocolate Ice Cream",
+"Vanilla Ice Cream",
+"Strawberry Ice Cream",
+"Mango Ice Cream",
+"Pistachio Ice Cream",
+"Cookies and Cream",
+"Salted Caramel Ice Cream",
+"Coffee Ice Cream",
+"Fruit Cream",
+"Custard",
+"Caramel Custard"
+
+],
+
+
+/* =========================================================
+   HEALTHY
+   ========================================================= */
+
+Healthy:[
+
+"Greek Yogurt Bowl",
+"Berry Yogurt Bowl",
+"Granola Bowl",
+"Fruit Granola Bowl",
+"Overnight Oats",
+"Banana Oats",
+"Apple Cinnamon Oats",
+"Chocolate Oats",
+"Protein Oats",
+"Peanut Butter Oats",
+"Avocado Toast",
+"Tomato Avocado Toast",
+"Egg Avocado Toast",
+"Hummus Toast",
+"Paneer Toast",
+"Multigrain Sandwich",
+"Grilled Veg Sandwich",
+"Grilled Chicken Sandwich",
+"Chicken Salad",
+"Caesar Salad",
+"Greek Salad",
+"Garden Salad",
+"Quinoa Salad",
+"Quinoa Bowl",
+"Buddha Bowl",
+"Protein Bowl",
+"Paneer Protein Bowl",
+"Chicken Protein Bowl",
+"Tofu Bowl",
+"Chickpea Bowl",
+"Lentil Bowl",
+"Sprouts Bowl",
+"Moong Sprouts Salad",
+"Fruit Bowl",
+"Tropical Fruit Bowl",
+"Berry Fruit Bowl",
+"Chia Pudding",
+"Mango Chia Pudding",
+"Coconut Chia Pudding",
+"Smoothie Bowl",
+"Acai Bowl",
+"Green Smoothie Bowl",
+"Peanut Butter Smoothie",
+"Berry Smoothie",
+"Mango Smoothie",
+"Green Detox Smoothie",
+"Spinach Smoothie",
+"Protein Smoothie",
+"Veg Soup",
+"Tomato Soup",
+"Lentil Soup",
+"Chicken Clear Soup",
+"Grilled Paneer",
+"Grilled Chicken",
+"Steamed Vegetables",
+"Roasted Vegetables",
+"Sweet Potato Bowl"
+
+],
+
+
+/* =========================================================
+   DRINKS
+   ========================================================= */
+
+Drinks:[
+
+"Masala Chai",
+"Adrak Chai",
+"Elaichi Chai",
+"Kashmiri Kahwa",
+"Green Tea",
+"Lemon Tea",
+"Peach Tea",
+"Iced Tea",
+"Lemon Iced Tea",
+"Peach Iced Tea",
+"Mint Iced Tea",
+"Cold Coffee",
+"Classic Cold Coffee",
+"Mocha",
+"Cafe Latte",
+"Cappuccino",
+"Americano",
+"Espresso",
+"Flat White",
+"Caramel Latte",
+"Vanilla Latte",
+"Hazelnut Latte",
+"Chocolate Shake",
+"Vanilla Shake",
+"Strawberry Shake",
+"Mango Shake",
+"Oreo Shake",
+"KitKat Shake",
+"Brownie Shake",
+"Peanut Butter Shake",
+"Banana Shake",
+"Butterscotch Shake",
+"Kesar Shake",
+"Rose Shake",
+"Pista Shake",
+"Mango Lassi",
+"Sweet Lassi",
+"Salted Lassi",
+"Kesar Lassi",
+"Rose Lassi",
+"Mint Lassi",
+"Chaas",
+"Masala Chaas",
+"Jaljeera",
+"Aam Panna",
+"Nimbu Pani",
+"Mint Lemonade",
+"Strawberry Lemonade",
+"Blueberry Lemonade",
+"Watermelon Juice",
+"Orange Juice",
+"Pineapple Juice",
+"Apple Juice",
+"Mango Juice",
+"Guava Juice",
+"Pomegranate Juice",
+"Carrot Juice",
+"Beetroot Juice",
+"ABC Juice",
+"Green Detox Juice",
+"Coconut Water",
+"Tender Coconut",
+"Virgin Mojito",
+"Blue Lagoon",
+"Fruit Punch",
+"Passion Fruit Cooler",
+"Watermelon Cooler",
+"Mango Cooler",
+"Peach Cooler",
+"Berry Cooler",
+"Lemon Soda",
+"Masala Soda",
+"Ginger Ale",
+"Tonic Water",
+"Sparkling Water",
+"Chocolate Frappe",
+"Caramel Frappe",
+"Vanilla Frappe",
+"Matcha Latte",
+"Iced Matcha",
+"Strawberry Matcha"
+
+]
 
 };
 
@@ -2402,877 +2553,425 @@ Drinks:{
    RESTAURANTS
    ========================================================= */
 
-const restaurants = [
+const RESTAURANTS=[
 
-  "Oven Story",
-
-  "Burger House",
-
-  "Biryani Junction",
-
-  "Pasta Bella",
-
-  "Wok Republic",
-
-  "Sweet Affair",
-
-  "Green Bowl",
-
-  "Sip & Chill",
-
-  "Food Factory",
-
-  "The Food Hub",
-
-  "Spice Kitchen",
-
-  "Urban Tadka"
+"Oven Story",
+"Burger House",
+"Biryani Junction",
+"Pasta Bella",
+"Wok Republic",
+"Sweet Affair",
+"Green Bowl",
+"Sip & Chill",
+"Food Factory",
+"The Food Hub",
+"Spice Kitchen",
+"Urban Tadka"
 
 ];
 
 
 /* =========================================================
-   GENERATE 680+ UNIQUE FOOD ITEMS
+   CATEGORY BASE PRICES
    ========================================================= */
 
-const allFoods = [];
+const BASE_PRICE={
 
-let globalId = 1;
+  Pizza:179,
 
+  Burgers:149,
 
-Object.keys(foodBlueprints).forEach(function(category){
+  Biryani:219,
 
-  const blueprint = foodBlueprints[category];
+  Pasta:189,
 
-  let index = 0;
+  Chinese:159,
 
-  const usedNames = new Set();
+  Desserts:99,
 
+  Healthy:169,
 
-  while(allFoods.filter(
-    function(food){
-      return food.category === category;
-    }
-  ).length < blueprint.count){
+  Drinks:79
 
-
-    const base =
-      blueprint.names[
-        index % blueprint.names.length
-      ];
+};
 
 
-    const variant =
-      blueprint.variants[
-        Math.floor(
-          index / blueprint.names.length
-        ) % blueprint.variants.length
-      ];
+/* =========================================================
+   CREATE FOOD RECORDS
+   ========================================================= */
+
+let foods=[];
 
 
-    let name;
+Object.keys(FOOD_DATA).forEach(
+
+  function(category){
+
+    FOOD_DATA[category].forEach(
+
+      function(name,index){
+
+        const lower=
+          name.toLowerCase();
 
 
-    if(index < blueprint.names.length){
+        const nonVegWords=[
 
-      name = base;
+          "chicken",
+          "mutton",
+          "fish",
+          "prawn",
+          "beef",
+          "lamb",
+          "bacon",
+          "pepperoni",
+          "sausage",
+          "ham",
+          "egg"
 
-    }else{
-
-      name =
-        variant +
-        " " +
-        base;
-
-    }
-
-
-    /*
-      If duplicate happens, add
-      a natural style suffix.
-    */
-
-    if(usedNames.has(name)){
-
-      const styles = [
-
-        "Chef's Choice",
-
-        "House Special",
-
-        "Signature",
-
-        "Deluxe",
-
-        "Royal"
-
-      ];
-
-      name =
-        name +
-        " " +
-        styles[
-          index %
-          styles.length
         ];
 
-    }
+
+        const isVeg=
+          !nonVegWords.some(
+
+            function(word){
+
+              return lower.includes(word);
+
+            }
+
+          );
 
 
-    usedNames.add(name);
+        const id=
+          category.toLowerCase()
+          +"-"
+          +index;
 
 
-    const priceBase = {
-
-      Pizza:179,
-
-      Burgers:149,
-
-      Biryani:219,
-
-      Pasta:189,
-
-      Chinese:159,
-
-      Desserts:99,
-
-      Healthy:169,
-
-      Drinks:79
-
-    }[category];
+        const price=
+          BASE_PRICE[category]
+          +
+          ((index*17)%170);
 
 
-    const price =
-      priceBase +
-      ((index * 17) % 320);
+        const rating=
+          (
+            4.1+
+            ((index*7)%9)/10
+          ).toFixed(1);
 
 
-    const rating =
-      (
-        4.1 +
-        ((index * 7) % 9) / 10
-      ).toFixed(1);
+        /*
+          IMPORTANT:
+
+          Every food gets its OWN
+          unique image seed.
+
+          The exact food name is also
+          part of the image query.
+        */
+
+        const imageSeed=
+          1000+
+          Object.keys(FOOD_DATA)
+          .indexOf(category)*1000+
+          index;
 
 
-    const isVeg =
-      category === "Biryani"
-        ? index % 3 !== 1
-        : category === "Burgers"
-        ? index % 5 !== 0
-        : category === "Chinese"
-        ? index % 4 !== 1
-        : true;
+        foods.push({
 
+          id:id,
 
-    const restaurant =
-      restaurants[
-        index %
-        restaurants.length
-      ];
+          name:name,
 
+          category:category,
 
-    const imageList =
-      images[category];
+          restaurant:
+            RESTAURANTS[
+              index%
+              RESTAURANTS.length
+            ],
 
+          price:price,
 
-    const image =
-      imageList[
-        index %
-        imageList.length
-      ];
+          rating:Number(rating),
 
+          isVeg:isVeg,
 
-    allFoods.push({
+          delivery:
+            18+
+            ((index*3)%25),
 
-      id:"food_" + globalId++,
+          imageSeed:imageSeed
 
-      name:name,
+        });
 
-      category:category,
+      }
 
-      restaurant:restaurant,
-
-      price:price,
-
-      rating:Number(rating),
-
-      veg:isVeg,
-
-      image:image,
-
-      description:
-        "Freshly prepared " +
-        name.toLowerCase() +
-        " made with quality ingredients and EaterGo's delicious standard.",
-
-      time:
-        18 +
-        (index % 28)
-
-    });
-
-
-    index++;
+    );
 
   }
 
-});
+);
 
+
+/* =========================================================
+   TOTAL FOOD COUNT
+   ========================================================= */
 
 console.log(
-  "EATERGO TOTAL FOODS:",
-  allFoods.length
+  "EATERGO TOTAL UNIQUE FOOD RECORDS:",
+  foods.length
 );
+
+
+/* =========================================================
+   IMAGE SOURCE
+   ========================================================= */
+
+
+/*
+   REAL IMAGE SOURCE:
+
+   LoremFlickr serves real Flickr photographs
+   based on the supplied food tags.
+
+   The EXACT food name is converted into
+   search tags.
+
+   Each food gets a different lock value.
+
+   Therefore:
+
+   Margherita Pizza
+       ≠
+   Farmhouse Pizza
+       ≠
+   Paneer Tikka Pizza
+
+   image URL.
+*/
+
+
+function makeImageURL(food,attempt=0){
+
+  const query=
+    food.name
+      .replace(
+        /[^a-zA-Z0-9 ]/g,
+        " "
+      )
+      .trim()
+      .replace(
+        /\s+/g,
+        ","
+      );
+
+
+  const lock=
+    food.imageSeed+
+    attempt*100000;
+
+
+  return:
+
+    "https://loremflickr.com/800/600/"
+    +
+    encodeURIComponent(query)
+    +
+    "?lock="
+    +
+    lock;
+
+}
+
+
+/* =========================================================
+   IMAGE FALLBACK
+
+   If exact dish search fails,
+   use the exact dish + food keyword.
+
+   Still unique lock.
+   ========================================================= */
+
+function imageFallbackURL(food,attempt){
+
+  const query=
+    (
+      food.name+
+      ",food"
+    )
+      .replace(
+        /[^a-zA-Z0-9 ]/g,
+        " "
+      )
+      .trim()
+      .replace(
+        /\s+/g,
+        ","
+      );
+
+
+  const lock=
+    food.imageSeed+
+    attempt*200000;
+
+
+  return:
+
+    "https://loremflickr.com/800/600/"
+    +
+    encodeURIComponent(query)
+    +
+    "?lock="
+    +
+    lock;
+
+}
+
+
+/* =========================================================
+   IMAGE ELEMENT
+   ========================================================= */
+
+function createImage(food){
+
+  const image=
+    document.createElement("img");
+
+
+  image.className=
+    "food-image";
+
+
+  image.alt=
+    food.name;
+
+
+  image.loading=
+    "lazy";
+
+
+  image.decoding=
+    "async";
+
+
+  image.src=
+    makeImageURL(
+      food,
+      0
+    );
+
+
+  image.dataset.attempt=
+    "0";
+
+
+  image.addEventListener(
+
+    "load",
+
+    function(){
+
+      image.classList.add(
+        "loaded"
+      );
+
+      const loader=
+        image.parentElement
+        .querySelector(
+          ".image-loading"
+        );
+
+      if(loader){
+
+        loader.style.display=
+          "none";
+
+      }
+
+    }
+
+  );
+
+
+  image.addEventListener(
+
+    "error",
+
+    function(){
+
+      let attempt=
+        Number(
+          image.dataset.attempt
+        );
+
+
+      attempt++;
+
+
+      /*
+        Try up to 4 different
+        real-source URLs.
+
+        No broken image icon
+        will remain.
+      */
+
+      if(attempt<=4){
+
+        image.dataset.attempt=
+          String(attempt);
+
+
+        image.src=
+          imageFallbackURL(
+            food,
+            attempt
+          );
+
+        return;
+
+      }
+
+
+      /*
+        Last fallback.
+
+        Still a real photo source,
+        still unique lock.
+      */
+
+      image.src=
+        "https://loremflickr.com/800/600/food"
+        +
+        "?lock="
+        +
+        (
+          food.imageSeed+
+          900000
+        );
+
+    }
+
+  );
+
+
+  return image;
+
+}
 
 
 /* =========================================================
    STATE
    ========================================================= */
 
-let currentCategory = "All";
+let activeCategory="All";
 
-let currentSearch = "";
-
-let currentFoods = [...allFoods];
-
-
-/* =========================================================
-   DOM
-   ========================================================= */
-
-const foodGrid =
-  document.getElementById("foodGrid");
-
-const resultTitle =
-  document.getElementById("resultTitle");
-
-const resultCount =
-  document.getElementById("resultCount");
-
-const emptyState =
-  document.getElementById("emptyState");
-
-const searchInput =
-  document.getElementById("searchInput");
-
-const foodType =
-  document.getElementById("foodType");
-
-const priceFilter =
-  document.getElementById("priceFilter");
-
-const sortFilter =
-  document.getElementById("sortFilter");
-
-const toast =
-  document.getElementById("toast");
-
-
-/* =========================================================
-   URL PARAMETERS
-   ========================================================= */
-
-const params =
-  new URLSearchParams(
-    window.location.search
-  );
-
-
-const urlCategory =
-  params.get("category");
-
-
-const urlQuery =
-  params.get("q");
-
-
-const urlRestaurant =
-  params.get("restaurant");
-
-
-if(urlCategory){
-
-  const found =
-    Object.keys(foodBlueprints)
-      .find(
-        function(category){
-
-          return category.toLowerCase() ===
-            urlCategory.toLowerCase();
-
-        }
-      );
-
-
-  if(found){
-
-    currentCategory = found;
-
-  }
-
-}
-
-
-if(urlQuery){
-
-  currentSearch =
-    urlQuery.trim();
-
-  searchInput.value =
-    currentSearch;
-
-}
-
-
-if(urlRestaurant){
-
-  currentSearch =
-    urlRestaurant.trim();
-
-  searchInput.value =
-    urlRestaurant;
-
-}
-
-
-/* =========================================================
-   CATEGORY BUTTONS
-   ========================================================= */
-
-document
-.querySelectorAll(".category-btn")
-.forEach(function(button){
-
-  button.addEventListener(
-    "click",
-    function(){
-
-      document
-      .querySelectorAll(
-        ".category-btn"
-      )
-      .forEach(function(btn){
-
-        btn.classList.remove(
-          "active"
-        );
-
-      });
-
-
-      this.classList.add(
-        "active"
-      );
-
-
-      currentCategory =
-        this.dataset.category;
-
-
-      renderFoods();
-
-    }
-  );
-
-});
-
-
-/* =========================================================
-   SEARCH
-   ========================================================= */
-
-function performSearch(){
-
-  currentSearch =
-    searchInput.value
-    .trim()
-    .toLowerCase();
-
-
-  renderFoods();
-
-}
-
-
-searchInput.addEventListener(
-  "keydown",
-  function(event){
-
-    if(event.key === "Enter"){
-
-      performSearch();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   FILTER EVENTS
-   ========================================================= */
-
-foodType.addEventListener(
-  "change",
-  renderFoods
-);
-
-
-priceFilter.addEventListener(
-  "change",
-  renderFoods
-);
-
-
-sortFilter.addEventListener(
-  "change",
-  renderFoods
-);
-
-
-/* =========================================================
-   RENDER
-   ========================================================= */
-
-function renderFoods(){
-
-  let filtered =
-    [...allFoods];
-
-
-  /* CATEGORY */
-
-  if(currentCategory !== "All"){
-
-    filtered =
-      filtered.filter(
-        function(food){
-
-          return food.category ===
-            currentCategory;
-
-        }
-      );
-
-  }
-
-
-  /* SEARCH */
-
-  if(currentSearch){
-
-    const query =
-      currentSearch.toLowerCase();
-
-
-    filtered =
-      filtered.filter(
-        function(food){
-
-          return (
-
-            food.name
-              .toLowerCase()
-              .includes(query)
-
-            ||
-
-            food.category
-              .toLowerCase()
-              .includes(query)
-
-            ||
-
-            food.restaurant
-              .toLowerCase()
-              .includes(query)
-
-          );
-
-        }
-      );
-
-  }
-
-
-  /* VEG FILTER */
-
-  if(foodType.value === "veg"){
-
-    filtered =
-      filtered.filter(
-        function(food){
-
-          return food.veg;
-
-        }
-      );
-
-  }
-
-
-  if(foodType.value === "nonveg"){
-
-    filtered =
-      filtered.filter(
-        function(food){
-
-          return !food.veg;
-
-        }
-      );
-
-  }
-
-
-  /* PRICE */
-
-  if(priceFilter.value === "under200"){
-
-    filtered =
-      filtered.filter(
-        function(food){
-
-          return food.price < 200;
-
-        }
-      );
-
-  }
-
-
-  if(priceFilter.value === "200-400"){
-
-    filtered =
-      filtered.filter(
-        function(food){
-
-          return food.price >= 200 &&
-                 food.price <= 400;
-
-        }
-      );
-
-  }
-
-
-  if(priceFilter.value === "above400"){
-
-    filtered =
-      filtered.filter(
-        function(food){
-
-          return food.price > 400;
-
-        }
-      );
-
-  }
-
-
-  /* SORT */
-
-  if(sortFilter.value === "rating"){
-
-    filtered.sort(
-      function(a,b){
-
-        return b.rating-a.rating;
-
-      }
-    );
-
-  }
-
-
-  if(sortFilter.value === "low"){
-
-    filtered.sort(
-      function(a,b){
-
-        return a.price-b.price;
-
-      }
-    );
-
-  }
-
-
-  if(sortFilter.value === "high"){
-
-    filtered.sort(
-      function(a,b){
-
-        return b.price-a.price;
-
-      }
-    );
-
-  }
-
-
-  if(sortFilter.value === "name"){
-
-    filtered.sort(
-      function(a,b){
-
-        return a.name.localeCompare(
-          b.name
-        );
-
-      }
-    );
-
-  }
-
-
-  currentFoods =
-    filtered;
-
-
-  resultTitle.textContent =
-    currentCategory === "All"
-      ? "All Food"
-      : currentCategory;
-
-
-  resultCount.textContent =
-    "Showing " +
-    filtered.length +
-    " dishes";
-
-
-  if(!filtered.length){
-
-    foodGrid.innerHTML = "";
-
-    emptyState.style.display =
-      "block";
-
-    return;
-
-  }
-
-
-  emptyState.style.display =
-    "none";
-
-
-  foodGrid.innerHTML =
-    filtered.map(
-      createFoodCard
-    ).join("");
-
-
-  updateCartCount();
-
-}
-
-
-/* =========================================================
-   FOOD CARD
-   ========================================================= */
-
-function createFoodCard(food){
-
-  const cart =
-    getCart();
-
-
-  const cartItem =
-    cart.find(
-      function(item){
-
-        return item.id === food.id;
-
-      }
-    );
-
-
-  const quantity =
-    cartItem
-      ? cartItem.quantity
-      : 0;
-
-
-  return `
-
-    <article
-      class="food-card"
-      data-id="${food.id}">
-
-
-      <div class="food-image">
-
-
-        <img
-          src="${food.image}"
-          alt="${food.name}"
-          loading="lazy">
-
-
-        <span class="food-badge">
-
-          ${food.category}
-
-        </span>
-
-
-        <button
-          class="favourite"
-          onclick="toggleFavourite(this,'${food.id}')">
-
-          ♡
-
-        </button>
-
-
-      </div>
-
-
-      <div class="food-content">
-
-
-        <div class="food-title-row">
-
-
-          <h3 class="food-title">
-
-            ${food.name}
-
-          </h3>
-
-
-          <span class="rating">
-
-            ★ ${food.rating}
-
-          </span>
-
-
-        </div>
-
-
-        <p class="food-description">
-
-          ${food.description}
-
-        </p>
-
-
-        <div class="food-meta">
-
-
-          <span class="veg">
-
-            <span
-              class="${
-                food.veg
-                  ? "veg-dot"
-                  : "nonveg-dot"
-              }">
-            </span>
-
-            ${
-              food.veg
-                ? "Pure Veg"
-                : "Non-Veg"
-            }
-
-          </span>
-
-
-          <span>•</span>
-
-
-          <span>
-            ${food.time} min
-          </span>
-
-
-          <span>•</span>
-
-
-          <span>
-            ${food.restaurant}
-          </span>
-
-
-        </div>
-
-
-        <div class="food-bottom">
-
-
-          <div class="price">
-
-            ₹${food.price}
-
-          </div>
-
-
-          ${
-            quantity > 0
-
-            ?
-
-            `
-
-            <div class="quantity-box">
-
-              <button
-                onclick="changeQuantity('${food.id}',-1)">
-
-                −
-
-              </button>
-
-              <span>
-
-                ${quantity}
-
-              </span>
-
-              <button
-                onclick="changeQuantity('${food.id}',1)">
-
-                +
-
-              </button>
-
-            </div>
-
-            `
-
-            :
-
-            `
-
-            <button
-              class="add-btn"
-              onclick="addToCart('${food.id}')">
-
-              + Add
-
-            </button>
-
-            `
-
-          }
-
-
-        </div>
-
-
-      </div>
-
-
-    </article>
-
-  `;
-
-}
+let searchQuery="";
 
 
 /* =========================================================
@@ -3284,14 +2983,17 @@ function getCart(){
   try{
 
     return JSON.parse(
+
       localStorage.getItem(
         "eatergoCart"
-      )
-    ) || [];
+      )||"[]"
 
-  }catch(error){
+    )||[];
 
-    return [];
+  }
+  catch(error){
+
+    return[];
 
   }
 
@@ -3301,55 +3003,49 @@ function getCart(){
 function saveCart(cart){
 
   localStorage.setItem(
+
     "eatergoCart",
+
     JSON.stringify(cart)
+
   );
 
 }
 
 
-/* =========================================================
-   ADD TO CART
-   ========================================================= */
-
 function addToCart(id){
 
-  const food =
-    allFoods.find(
+  const food=
+    foods.find(
       function(item){
-
-        return item.id === id;
-
+        return item.id===id;
       }
     );
 
 
   if(!food){
-
     return;
-
   }
 
 
-  const cart =
+  const cart=
     getCart();
 
 
-  const existing =
+  const existing=
     cart.find(
       function(item){
-
-        return item.id === id;
-
+        return item.id===id;
       }
     );
 
 
   if(existing){
 
-    existing.quantity++;
+    existing.quantity+=1;
 
-  }else{
+  }
+  else{
 
     cart.push({
 
@@ -3363,7 +3059,11 @@ function addToCart(id){
 
       price:food.price,
 
-      image:food.image,
+      image:
+        makeImageURL(
+          food,
+          0
+        ),
 
       quantity:1
 
@@ -3374,168 +3074,157 @@ function addToCart(id){
 
   saveCart(cart);
 
-
-  showToast(
-    food.name +
-    " added to cart"
-  );
-
+  updateCartCount();
 
   renderFoods();
+
+  showToast(
+    food.name+
+    " added to cart"
+  );
 
 }
 
 
-/* =========================================================
-   QUANTITY
-   ========================================================= */
-
 function changeQuantity(id,change){
 
-  const cart =
+  const cart=
     getCart();
 
 
-  const item =
+  const item=
     cart.find(
       function(product){
-
-        return product.id === id;
-
+        return product.id===id;
       }
     );
 
 
   if(!item){
-
     return;
-
   }
 
 
-  item.quantity += change;
+  item.quantity+=change;
 
 
-  if(item.quantity <= 0){
+  if(item.quantity<=0){
 
-    const index =
+    const index=
       cart.findIndex(
         function(product){
-
-          return product.id === id;
-
+          return product.id===id;
         }
       );
 
 
-    cart.splice(index,1);
+    cart.splice(
+      index,
+      1
+    );
 
   }
 
 
   saveCart(cart);
 
+  updateCartCount();
 
   renderFoods();
 
 }
 
 
-/* =========================================================
-   CART COUNT
-   ========================================================= */
-
 function updateCartCount(){
 
-  const cart =
+  const cart=
     getCart();
 
 
-  const total =
+  const count=
     cart.reduce(
-      function(sum,item){
 
-        return sum +
+      function(total,item){
+
+        return total+
           Number(
-            item.quantity || 0
+            item.quantity||1
           );
 
       },
+
       0
+
     );
 
 
   document.getElementById(
     "cartCount"
-  ).textContent =
-    total > 99
-      ? "99+"
-      : total;
+  ).textContent=
+    count;
 
 }
 
 
-/* =========================================================
-   OPEN CART
-   ========================================================= */
+function goToCart(){
 
-function openCart(){
-
-  window.location.href =
+  window.location.href=
     "cart.html";
 
 }
 
 
 /* =========================================================
-   FAVOURITE
+   FAVOURITES
    ========================================================= */
 
-function toggleFavourite(
-  button,
-  id
-){
+function getFavourites(){
 
-  let favourites =
-    JSON.parse(
+  try{
+
+    return JSON.parse(
+
       localStorage.getItem(
         "eatergoFavourites"
-      )
-    ) || [];
+      )||"[]"
+
+    )||[];
+
+  }
+  catch(error){
+
+    return[];
+
+  }
+
+}
 
 
-  const index =
+function toggleFavourite(id){
+
+  const favourites=
+    getFavourites();
+
+
+  const index=
     favourites.indexOf(id);
 
 
-  if(index === -1){
+  if(index===-1){
 
     favourites.push(id);
-
-    button.classList.add(
-      "active"
-    );
-
-    button.textContent =
-      "♥";
 
     showToast(
       "Added to favourites"
     );
 
-  }else{
+  }
+  else{
 
     favourites.splice(
       index,
       1
     );
-
-    button.classList.remove(
-      "active"
-    );
-
-    button.textContent =
-      "♡";
 
     showToast(
       "Removed from favourites"
@@ -3545,11 +3234,1105 @@ function toggleFavourite(
 
 
   localStorage.setItem(
+
     "eatergoFavourites",
+
     JSON.stringify(
       favourites
     )
+
   );
+
+
+  renderFoods();
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHTML(value){
+
+  return String(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+function getFilteredFoods(){
+
+  let result=
+    foods.slice();
+
+
+  if(
+    activeCategory!=="All"
+  ){
+
+    result=
+      result.filter(
+
+        function(food){
+
+          return food.category===
+            activeCategory;
+
+        }
+
+      );
+
+  }
+
+
+  if(searchQuery){
+
+    const q=
+      searchQuery.toLowerCase();
+
+
+    result=
+      result.filter(
+
+        function(food){
+
+          return (
+
+            food.name
+              .toLowerCase()
+              .includes(q)
+
+            ||
+
+            food.category
+              .toLowerCase()
+              .includes(q)
+
+            ||
+
+            food.restaurant
+              .toLowerCase()
+              .includes(q)
+
+          );
+
+        }
+
+      );
+
+  }
+
+
+  const type=
+    document.getElementById(
+      "typeFilter"
+    ).value;
+
+
+  if(type==="veg"){
+
+    result=
+      result.filter(
+        function(food){
+          return food.isVeg;
+        }
+      );
+
+  }
+
+
+  if(type==="nonveg"){
+
+    result=
+      result.filter(
+        function(food){
+          return !food.isVeg;
+        }
+      );
+
+  }
+
+
+  const price=
+    document.getElementById(
+      "priceFilter"
+    ).value;
+
+
+  if(price!=="all"){
+
+    const parts=
+      price.split("-");
+
+
+    const min=
+      Number(parts[0]);
+
+
+    const max=
+      Number(parts[1]);
+
+
+    result=
+      result.filter(
+
+        function(food){
+
+          return(
+            food.price>=min &&
+            food.price<=max
+          );
+
+        }
+
+      );
+
+  }
+
+
+  const sort=
+    document.getElementById(
+      "sortFilter"
+    ).value;
+
+
+  if(sort==="rating"){
+
+    result.sort(
+
+      function(a,b){
+
+        return b.rating-a.rating;
+
+      }
+
+    );
+
+  }
+
+
+  else if(sort==="low"){
+
+    result.sort(
+
+      function(a,b){
+
+        return a.price-b.price;
+
+      }
+
+    );
+
+  }
+
+
+  else if(sort==="high"){
+
+    result.sort(
+
+      function(a,b){
+
+        return b.price-a.price;
+
+      }
+
+    );
+
+  }
+
+
+  else if(sort==="az"){
+
+    result.sort(
+
+      function(a,b){
+
+        return a.name.localeCompare(
+          b.name
+        );
+
+      }
+
+    );
+
+  }
+
+
+  return result;
+
+}
+
+
+/* =========================================================
+   CREATE FOOD CARD
+   ========================================================= */
+
+function createFoodCard(food){
+
+  const card=
+    document.createElement(
+      "article"
+    );
+
+
+  card.className=
+    "food-card";
+
+
+  const imageWrap=
+    document.createElement(
+      "div"
+    );
+
+
+  imageWrap.className=
+    "food-image-wrap";
+
+
+  const loader=
+    document.createElement(
+      "div"
+    );
+
+
+  loader.className=
+    "image-loading";
+
+
+  loader.innerHTML=
+    '<div class="image-loading-spinner"></div>';
+
+
+  imageWrap.appendChild(
+    loader
+  );
+
+
+  const image=
+    createImage(food);
+
+
+  imageWrap.appendChild(
+    image
+  );
+
+
+  const badge=
+    document.createElement(
+      "span"
+    );
+
+
+  badge.className=
+    "food-badge";
+
+
+  badge.textContent=
+    food.category;
+
+
+  imageWrap.appendChild(
+    badge
+  );
+
+
+  const favorite=
+    document.createElement(
+      "button"
+    );
+
+
+  favorite.className=
+    "favorite";
+
+
+  const favourites=
+    getFavourites();
+
+
+  const isFav=
+    favourites.includes(
+      food.id
+    );
+
+
+  favorite.textContent=
+    isFav?"♥":"♡";
+
+
+  if(isFav){
+
+    favorite.classList.add(
+      "active"
+    );
+
+  }
+
+
+  favorite.onclick=
+    function(){
+
+      toggleFavourite(
+        food.id
+      );
+
+    };
+
+
+  imageWrap.appendChild(
+    favorite
+  );
+
+
+  card.appendChild(
+    imageWrap
+  );
+
+
+  const content=
+    document.createElement(
+      "div"
+    );
+
+
+  content.className=
+    "food-content";
+
+
+  const name=
+    document.createElement(
+      "div"
+    );
+
+
+  name.className=
+    "food-name";
+
+
+  name.textContent=
+    food.name;
+
+
+  content.appendChild(
+    name
+  );
+
+
+  const description=
+    document.createElement(
+      "div"
+    );
+
+
+  description.className=
+    "food-description";
+
+
+  description.textContent=
+    "Freshly prepared "+
+    food.name+
+    " made with quality ingredients.";
+
+
+  content.appendChild(
+    description
+  );
+
+
+  const meta=
+    document.createElement(
+      "div"
+    );
+
+
+  meta.className=
+    "food-meta";
+
+
+  const rating=
+    document.createElement(
+      "span"
+    );
+
+
+  rating.className=
+    "rating";
+
+
+  rating.textContent=
+    "★ "+
+    food.rating;
+
+
+  meta.appendChild(
+    rating
+  );
+
+
+  const type=
+    document.createElement(
+      "span"
+    );
+
+
+  type.className=
+    food.isVeg?
+    "veg":
+    "nonveg";
+
+
+  type.textContent=
+    food.isVeg?
+    "● Pure Veg":
+    "● Non-Veg";
+
+
+  meta.appendChild(
+    type
+  );
+
+
+  const delivery=
+    document.createElement(
+      "span"
+    );
+
+
+  delivery.textContent=
+    "• "+
+    food.delivery+
+    " min";
+
+
+  meta.appendChild(
+    delivery
+  );
+
+
+  content.appendChild(
+    meta
+  );
+
+
+  const restaurant=
+    document.createElement(
+      "div"
+    );
+
+
+  restaurant.className=
+    "restaurant";
+
+
+  restaurant.textContent=
+    "🏪 "+
+    food.restaurant;
+
+
+  content.appendChild(
+    restaurant
+  );
+
+
+  const bottom=
+    document.createElement(
+      "div"
+    );
+
+
+  bottom.className=
+    "food-bottom";
+
+
+  const price=
+    document.createElement(
+      "div"
+    );
+
+
+  price.className=
+    "price";
+
+
+  price.textContent=
+    "₹"+
+    food.price;
+
+
+  bottom.appendChild(
+    price
+  );
+
+
+  const cart=
+    getCart();
+
+
+  const cartItem=
+    cart.find(
+
+      function(item){
+
+        return item.id===
+          food.id;
+
+      }
+
+    );
+
+
+  const quantity=
+    cartItem?
+    cartItem.quantity:
+    0;
+
+
+  if(quantity===0){
+
+    const add=
+      document.createElement(
+        "button"
+      );
+
+
+    add.className=
+      "add-btn";
+
+
+    add.textContent=
+      "+ Add";
+
+
+    add.onclick=
+      function(){
+
+        addToCart(
+          food.id
+        );
+
+      };
+
+
+    bottom.appendChild(
+      add
+    );
+
+  }
+  else{
+
+    const qty=
+      document.createElement(
+        "div"
+      );
+
+
+    qty.className=
+      "quantity";
+
+
+    const minus=
+      document.createElement(
+        "button"
+      );
+
+
+    minus.textContent=
+      "−";
+
+
+    minus.onclick=
+      function(){
+
+        changeQuantity(
+          food.id,
+          -1
+        );
+
+      };
+
+
+    const qtyText=
+      document.createElement(
+        "span"
+      );
+
+
+    qtyText.textContent=
+      quantity;
+
+
+    const plus=
+      document.createElement(
+        "button"
+      );
+
+
+    plus.textContent=
+      "+";
+
+
+    plus.onclick=
+      function(){
+
+        changeQuantity(
+          food.id,
+          1
+        );
+
+      };
+
+
+    qty.appendChild(
+      minus
+    );
+
+    qty.appendChild(
+      qtyText
+    );
+
+    qty.appendChild(
+      plus
+    );
+
+
+    bottom.appendChild(
+      qty
+    );
+
+  }
+
+
+  content.appendChild(
+    bottom
+  );
+
+
+  const credit=
+    document.createElement(
+      "div"
+    );
+
+
+  credit.className=
+    "photo-credit";
+
+
+  credit.textContent=
+    "Real food photo • Flickr source";
+
+
+  content.appendChild(
+    credit
+  );
+
+
+  card.appendChild(
+    content
+  );
+
+
+  return card;
+
+}
+
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+
+function renderFoods(){
+
+  const grid=
+    document.getElementById(
+      "foodGrid"
+    );
+
+
+  const empty=
+    document.getElementById(
+      "emptyState"
+    );
+
+
+  const result=
+    getFilteredFoods();
+
+
+  grid.innerHTML=
+    "";
+
+
+  document.getElementById(
+    "resultCount"
+  ).textContent=
+    result.length+
+    " dishes found";
+
+
+  if(!result.length){
+
+    empty.style.display=
+      "block";
+
+    return;
+
+  }
+
+
+  empty.style.display=
+    "none";
+
+
+  /*
+    DocumentFragment keeps
+    rendering fast even with
+    600+ cards.
+  */
+
+  const fragment=
+    document.createDocumentFragment();
+
+
+  result.forEach(
+
+    function(food){
+
+      fragment.appendChild(
+        createFoodCard(food)
+      );
+
+    }
+
+  );
+
+
+  grid.appendChild(
+    fragment
+  );
+
+}
+
+
+/* =========================================================
+   CATEGORY BUTTONS
+   ========================================================= */
+
+document
+  .querySelectorAll(
+    ".category-btn"
+  )
+  .forEach(
+
+    function(button){
+
+      button.addEventListener(
+
+        "click",
+
+        function(){
+
+          document
+            .querySelectorAll(
+              ".category-btn"
+            )
+            .forEach(
+
+              function(btn){
+
+                btn.classList.remove(
+                  "active"
+                );
+
+              }
+
+            );
+
+
+          this.classList.add(
+            "active"
+          );
+
+
+          activeCategory=
+            this.dataset.category;
+
+
+          updateTitle();
+
+
+          renderFoods();
+
+        }
+
+      );
+
+    }
+
+  );
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+document
+  .getElementById(
+    "searchForm"
+  )
+  .addEventListener(
+
+    "submit",
+
+    function(event){
+
+      event.preventDefault();
+
+
+      searchQuery=
+        document.getElementById(
+          "searchInput"
+        )
+        .value
+        .trim();
+
+
+      updateTitle();
+
+      renderFoods();
+
+    }
+
+  );
+
+
+document
+  .getElementById(
+    "searchInput"
+  )
+  .addEventListener(
+
+    "input",
+
+    function(){
+
+      searchQuery=
+        this.value.trim();
+
+
+      renderFoods();
+
+    }
+
+  );
+
+
+/* =========================================================
+   PAGE TITLE
+   ========================================================= */
+
+function updateTitle(){
+
+  const title=
+    document.getElementById(
+      "pageTitle"
+    );
+
+
+  const subtitle=
+    document.getElementById(
+      "pageSubtitle"
+    );
+
+
+  if(searchQuery){
+
+    title.textContent=
+      'Results for "'+
+      searchQuery+
+      '"';
+
+    subtitle.textContent=
+      "Matching dishes and restaurants";
+
+    return;
+
+  }
+
+
+  if(activeCategory==="All"){
+
+    title.textContent=
+      "All Food";
+
+    subtitle.textContent=
+      foods.length+
+      " dishes available";
+
+  }
+  else{
+
+    title.textContent=
+      activeCategory;
+
+    const count=
+      foods.filter(
+
+        function(food){
+
+          return food.category===
+            activeCategory;
+
+        }
+
+      ).length;
+
+
+    subtitle.textContent=
+      count+
+      " dishes in this category";
+
+  }
+
+}
+
+
+/* =========================================================
+   URL PARAMETERS
+   ========================================================= */
+
+function readURL(){
+
+  const params=
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const category=
+    params.get(
+      "category"
+    );
+
+
+  const query=
+    params.get(
+      "q"
+    );
+
+
+  const restaurant=
+    params.get(
+      "restaurant"
+    );
+
+
+  if(category){
+
+    const matched=
+      Object.keys(
+        FOOD_DATA
+      ).find(
+
+        function(item){
+
+          return item.toLowerCase()===
+            category.toLowerCase();
+
+        }
+
+      );
+
+
+    if(matched){
+
+      activeCategory=
+        matched;
+
+
+      document
+        .querySelectorAll(
+          ".category-btn"
+        )
+        .forEach(
+
+          function(button){
+
+            button.classList.toggle(
+
+              "active",
+
+              button.dataset.category===
+                matched
+
+            );
+
+          }
+
+        );
+
+    }
+
+  }
+
+
+  if(query){
+
+    searchQuery=
+      query;
+
+
+    document.getElementById(
+      "searchInput"
+    ).value=
+      query;
+
+  }
+
+
+  if(restaurant){
+
+    searchQuery=
+      restaurant;
+
+
+    document.getElementById(
+      "searchInput"
+    ).value=
+      restaurant;
+
+  }
+
+
+  updateTitle();
 
 }
 
@@ -3560,7 +4343,13 @@ function toggleFavourite(
 
 function showToast(message){
 
-  toast.textContent =
+  const toast=
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent=
     message;
 
 
@@ -3569,16 +4358,25 @@ function showToast(message){
   );
 
 
-  setTimeout(
-    function(){
-
-      toast.classList.remove(
-        "show"
-      );
-
-    },
-    1800
+  clearTimeout(
+    window.toastTimer
   );
+
+
+  window.toastTimer=
+    setTimeout(
+
+      function(){
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+
+      2200
+
+    );
 
 }
 
@@ -3587,59 +4385,40 @@ function showToast(message){
    INITIALIZE
    ========================================================= */
 
-document
-.querySelectorAll(".category-btn")
-.forEach(function(button){
-
-  if(
-    button.dataset.category ===
-    currentCategory
-  ){
-
-    document
-    .querySelectorAll(
-      ".category-btn"
-    )
-    .forEach(function(btn){
-
-      btn.classList.remove(
-        "active"
-      );
-
-    });
-
-
-    button.classList.add(
-      "active"
-    );
-
-  }
-
-});
-
-
-renderFoods();
+readURL();
 
 updateCartCount();
 
 
-/* =========================================================
-   LIVE CART UPDATE
-   ========================================================= */
+/*
+   Render immediately.
 
-window.addEventListener(
-  "storage",
-  function(){
+   Images then load independently,
+   so one slow photo cannot stop
+   the complete food grid.
+*/
 
-    updateCartCount();
+document.getElementById(
+  "loading"
+).style.display=
+  "none";
 
-    renderFoods();
 
-  }
+updateTitle();
+
+renderFoods();
+
+
+console.log(
+  "EATERGO UNIQUE FOOD ITEMS:",
+  foods.length
+);
+
+console.log(
+  "Every food has its own exact-name image URL."
 );
 
 </script>
 
 </body>
-
 </html>
