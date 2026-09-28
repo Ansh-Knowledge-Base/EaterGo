@@ -2073,128 +2073,169 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
+/* ================= FIREBASE CONFIG ================= */
+
 const firebaseConfig = {
 
   apiKey:
-  "AIzaSyBTPmtNIDaAjbMVTUCKrapXtyCo3xwQd3k",
+    "AIzaSyBTPmtNIDaAjmBVTUCKrapXtyCo3xwQd3k",
 
   authDomain:
-  "eatergo-47a19.firebaseapp.com",
+    "eatergo-47a19.firebaseapp.com",
 
   projectId:
-  "eatergo-47a19",
+    "eatergo-47a19",
 
   storageBucket:
-  "eatergo-47a19.firebasestorage.app",
+    "eatergo-47a19.firebasestorage.app",
 
   messagingSenderId:
-  "1074068458641",
+    "1074068458641",
 
   appId:
-  "1:1074068458641:web:be8eaf986b37fa339b4330",
+    "1:1074068458641:web:be8eaf986b37fa339b4330",
 
   measurementId:
-  "G-4CW92B1QR8"
+    "G-4CW92B1QR8"
 
 };
 
 
+/* ================= INITIALIZE ================= */
+
 const app =
-initializeApp(firebaseConfig);
+  initializeApp(firebaseConfig);
 
 const auth =
-getAuth(app);
+  getAuth(app);
 
 const db =
-getFirestore(app);
+  getFirestore(app);
 
 
-setPersistence(
-  auth,
-  browserLocalPersistence
-).catch(function(error){
+/* ================= AUTH PERSISTENCE ================= */
 
-  console.error(error);
+try {
 
-});
+  await setPersistence(
+    auth,
+    browserLocalPersistence
+  );
 
+  console.log(
+    "EATERGO: Local auth persistence enabled"
+  );
+
+} catch(error) {
+
+  console.error(
+    "EATERGO: Persistence error:",
+    error
+  );
+
+}
+
+
+/* ================= ELEMENTS ================= */
 
 const guestActions =
-document.getElementById("guestActions");
+  document.getElementById("guestActions");
 
 const profileArea =
-document.getElementById("profileArea");
+  document.getElementById("profileArea");
 
 const profileBtn =
-document.getElementById("profileBtn");
+  document.getElementById("profileBtn");
 
 const profileMenu =
-document.getElementById("profileMenu");
+  document.getElementById("profileMenu");
 
 const logoutBtn =
-document.getElementById("logoutBtn");
+  document.getElementById("logoutBtn");
 
 const avatar =
-document.getElementById("avatar");
+  document.getElementById("avatar");
 
 const profileName =
-document.getElementById("profileName");
+  document.getElementById("profileName");
 
 const menuName =
-document.getElementById("menuName");
+  document.getElementById("menuName");
 
 const menuEmail =
-document.getElementById("menuEmail");
+  document.getElementById("menuEmail");
 
 
 /* ================= AUTH STATE ================= */
 
 onAuthStateChanged(
   auth,
-  async function(user){
-console.log("EATERGO AUTH USER:", user);
-    if(user){
+  async function(user) {
+
+    console.log(
+      "EATERGO AUTH USER:",
+      user
+    );
+
+
+    if(user) {
+
+      /* ================= LOGGED IN ================= */
 
       guestActions.style.display =
-      "none";
+        "none";
 
       profileArea.style.display =
-      "block";
+        "block";
 
 
       let name =
-      user.displayName ||
-      "EaterGo Customer";
+        user.displayName ||
+        "EaterGo Customer";
 
       let email =
-      user.email ||
-      "";
+        user.email ||
+        "";
 
 
-      try{
+      /* ================= FIRESTORE PROFILE ================= */
+
+      try {
 
         const snap =
-        await getDoc(
-          doc(db,"users",user.uid)
-        );
+          await getDoc(
+            doc(
+              db,
+              "users",
+              user.uid
+            )
+          );
 
 
-        if(snap.exists()){
+        if(snap.exists()) {
 
           const data =
-          snap.data();
+            snap.data();
 
-          if(data.name){
-            name = data.name;
+
+          if(data.name) {
+
+            name =
+              data.name;
+
           }
 
-          if(data.email){
-            email = data.email;
+
+          if(data.email) {
+
+            email =
+              data.email;
+
           }
 
         }
 
-      }catch(error){
+      } catch(error) {
 
         console.log(
           "Profile Firestore error:",
@@ -2204,36 +2245,40 @@ console.log("EATERGO AUTH USER:", user);
       }
 
 
+      /* ================= PROFILE UI ================= */
+
       profileName.textContent =
-      name;
+        name;
 
       menuName.textContent =
-      name;
+        name;
 
       menuEmail.textContent =
-      email;
+        email;
 
 
-      if(user.photoURL){
+      if(user.photoURL) {
 
         avatar.innerHTML =
-        `<img src="${user.photoURL}" alt="Profile">`;
+          `<img src="${user.photoURL}" alt="Profile">`;
 
-      }else{
+      } else {
 
         avatar.textContent =
-        getInitials(name);
+          getInitials(name);
 
       }
 
 
-    }else{
+    } else {
+
+      /* ================= LOGGED OUT ================= */
 
       guestActions.style.display =
-      "flex";
+        "flex";
 
       profileArea.style.display =
-      "none";
+        "none";
 
     }
 
@@ -2245,11 +2290,13 @@ console.log("EATERGO AUTH USER:", user);
 
 profileBtn.addEventListener(
   "click",
-  function(event){
+  function(event) {
 
     event.stopPropagation();
 
-    profileMenu.classList.toggle("show");
+    profileMenu.classList.toggle(
+      "show"
+    );
 
   }
 );
@@ -2257,11 +2304,17 @@ profileBtn.addEventListener(
 
 document.addEventListener(
   "click",
-  function(event){
+  function(event) {
 
-    if(!profileArea.contains(event.target)){
+    if(
+      !profileArea.contains(
+        event.target
+      )
+    ) {
 
-      profileMenu.classList.remove("show");
+      profileMenu.classList.remove(
+        "show"
+      );
 
     }
 
@@ -2273,18 +2326,21 @@ document.addEventListener(
 
 logoutBtn.addEventListener(
   "click",
-  async function(){
+  async function() {
 
-    try{
+    try {
 
       await signOut(auth);
 
       window.location.href =
-      "index.html";
+        "index.html";
 
-    }catch(error){
+    } catch(error) {
 
-      console.error(error);
+      console.error(
+        "Logout error:",
+        error
+      );
 
       alert(
         "Unable to logout. Please try again."
@@ -2298,18 +2354,20 @@ logoutBtn.addEventListener(
 
 /* ================= HELPERS ================= */
 
-function getInitials(name){
+function getInitials(name) {
 
   return name
-  .split(" ")
-  .filter(Boolean)
-  .slice(0,2)
-  .map(function(word){
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(function(word) {
 
-    return word.charAt(0).toUpperCase();
+      return word
+        .charAt(0)
+        .toUpperCase();
 
-  })
-  .join("");
+    })
+    .join("");
 
 }
 
@@ -2317,153 +2375,162 @@ function getInitials(name){
 /* ================= NAVIGATION ================= */
 
 window.goTo =
-function(page){
+  function(page) {
 
-  window.location.href =
-  page;
+    window.location.href =
+      page;
 
-};
+  };
 
 
 /* ================= RESTAURANT PAGE ================= */
 
-/*
-   ALL RESTAURANT BUTTONS/CARDS
-   GO TO YOUR EXACT RESTAURANT PAGE
-*/
-
 window.openRestaurantPage =
-function(){
+  function() {
 
-  window.location.href =
-  "https://ansh-knowledge-base.github.io/EaterGo/restaurant.html";
+    window.location.href =
+      "https://ansh-knowledge-base.github.io/EaterGo/restaurant.html";
 
-};
+  };
 
 
 /* ================= SEARCH ================= */
 
 window.searchFood =
-function(){
+  function() {
 
-  const input =
-  document.getElementById("heroSearch");
+    const input =
+      document.getElementById(
+        "heroSearch"
+      );
 
-  const query =
-  input.value.trim();
-
-
-  if(!query){
-
-    openRestaurantPage();
-
-    return;
-
-  }
+    const query =
+      input.value.trim();
 
 
-  window.location.href =
-  "search.html?q=" +
-  encodeURIComponent(query);
+    if(!query) {
 
-};
+      openRestaurantPage();
 
-
-document
-.getElementById("heroSearch")
-.addEventListener(
-  "keydown",
-  function(event){
-
-    if(event.key === "Enter"){
-
-      searchFood();
+      return;
 
     }
 
-  }
-);
+
+    window.location.href =
+      "search.html?q=" +
+      encodeURIComponent(query);
+
+  };
+
+
+document
+  .getElementById("heroSearch")
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if(event.key === "Enter") {
+
+        searchFood();
+
+      }
+
+    }
+  );
 
 
 /* ================= FAVOURITE ================= */
 
 window.toggleFavourite =
-function(button){
+  function(button) {
 
-  if(!auth.currentUser){
+    if(!auth.currentUser) {
 
-    window.location.href =
-    "login.html";
+      window.location.href =
+        "login.html";
 
-    return;
+      return;
 
-  }
+    }
 
 
-  if(
-    button.textContent.trim() === "♡"
-  ){
+    if(
+      button.textContent.trim() === "♡"
+    ) {
 
-    button.textContent =
-    "♥";
+      button.textContent =
+        "♥";
 
-  }else{
+    } else {
 
-    button.textContent =
-    "♡";
+      button.textContent =
+        "♡";
 
-  }
+    }
 
-};
+  };
 
 
 /* ================= CART COUNT ================= */
 
-function updateCartCount(){
+function updateCartCount() {
 
   let count = 0;
 
-  try{
+
+  try {
 
     const cart =
-    JSON.parse(
-      localStorage.getItem(
-        "eatergoCart"
-      ) || "[]"
-    );
+      JSON.parse(
+        localStorage.getItem(
+          "eatergoCart"
+        ) || "[]"
+      );
 
 
-    if(Array.isArray(cart)){
+    if(Array.isArray(cart)) {
 
       count =
-      cart.reduce(
-        function(total,item){
+        cart.reduce(
+          function(total, item) {
 
-          return total +
-          Number(item.quantity || 1);
+            return total +
+              Number(
+                item.quantity || 1
+              );
 
-        },
-        0
-      );
+          },
+          0
+        );
 
     }
 
-  }catch(error){
+  } catch(error) {
 
     count = 0;
 
   }
 
 
-  document
-  .getElementById("cartCount")
-  .textContent =
-  count;
+  const cartCount =
+    document.getElementById(
+      "cartCount"
+    );
+
+
+  if(cartCount) {
+
+    cartCount.textContent =
+      count;
+
+  }
 
 }
 
 
 updateCartCount();
+
 
 </script>
 
