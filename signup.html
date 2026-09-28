@@ -874,16 +874,15 @@
   <!-- =========================================
        FIREBASE
        ========================================= -->
+<script type="module">
 
-  <script type="module">
+/* ================= FIREBASE IMPORTS ================= */
 
-    import {
-      initializeApp
-    } from
-      "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
-
-    import {
+import {
   getAuth,
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -891,522 +890,720 @@
   updateProfile,
   setPersistence,
   browserLocalPersistence
-} from
-"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      serverTimestamp
-    } from
-      "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-    /* =========================================
-       FIREBASE CONFIG
-       ========================================= */
+/* ================= FIREBASE CONFIG ================= */
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBTPmtNIDaAjmBVTUCKrapXtyCo3xwQd3k",
-      authDomain: "eatergo-47a19.firebaseapp.com",
-      projectId: "eatergo-47a19",
-      storageBucket: "eatergo-47a19.firebasestorage.app",
-      messagingSenderId: "1074068458641",
-      appId: "1:1074068458641:web:be8eaf986b37fa339b4330",
-      measurementId: "G-4CW92B1QR8"
-    };
+const firebaseConfig = {
 
+  apiKey:
+    "AIzaSyBTPmtNIDaAjmBVTUCKrapXtyCo3xwQd3k",
 
-    /* =========================================
-       INITIALIZE
-       ========================================= */
+  authDomain:
+    "eatergo-47a19.firebaseapp.com",
 
-    const app = initializeApp(firebaseConfig);
+  projectId:
+    "eatergo-47a19",
 
-    const auth = getAuth(app);
-    
-await setPersistence(
-  auth,
-  browserLocalPersistence
-);
-    
-    const db = getFirestore(app);
+  storageBucket:
+    "eatergo-47a19.firebasestorage.app",
+
+  messagingSenderId:
+    "1074068458641",
+
+  appId:
+    "1:1074068458641:web:be8eaf986b37fa339b4330",
+
+  measurementId:
+    "G-4CW92B1QR8"
+
+};
 
 
-    /* =========================================
-       ELEMENTS
-       ========================================= */
+/* ================= INITIALIZE ================= */
 
-    const signupForm =
-      document.getElementById("signupForm");
+const app =
+  initializeApp(firebaseConfig);
 
-    const signupBtn =
-      document.getElementById("signupBtn");
+const auth =
+  getAuth(app);
 
-    const googleBtn =
-      document.getElementById("googleBtn");
-
-    const messageBox =
-      document.getElementById("message");
+const db =
+  getFirestore(app);
 
 
-    /* =========================================
-       MESSAGE
-       ========================================= */
+/* ================= AUTH PERSISTENCE ================= */
 
-    function showMessage(message, type = "error") {
+try {
 
-      messageBox.textContent = message;
+  await setPersistence(
+    auth,
+    browserLocalPersistence
+  );
 
-      messageBox.className =
-        "message show " + type;
+  console.log(
+    "EATERGO: Auth persistence enabled"
+  );
+
+} catch(error) {
+
+  console.error(
+    "EATERGO: Auth persistence error:",
+    error
+  );
+
+}
+
+
+/* ================= ELEMENTS ================= */
+
+const signupForm =
+  document.getElementById("signupForm");
+
+const signupBtn =
+  document.getElementById("signupBtn");
+
+const googleBtn =
+  document.getElementById("googleBtn");
+
+const messageBox =
+  document.getElementById("message");
+
+
+/* ================= MESSAGE ================= */
+
+function showMessage(
+  message,
+  type = "error"
+) {
+
+  messageBox.textContent =
+    message;
+
+  messageBox.className =
+    "message show " + type;
+
+}
+
+
+function clearMessage() {
+
+  messageBox.textContent =
+    "";
+
+  messageBox.className =
+    "message";
+
+}
+
+
+/* ================= LOADING ================= */
+
+function setLoading(loading) {
+
+  signupBtn.disabled =
+    loading;
+
+  googleBtn.disabled =
+    loading;
+
+
+  if(loading) {
+
+    signupBtn.textContent =
+      "Creating your account...";
+
+  } else {
+
+    signupBtn.textContent =
+      "Create EaterGo Account";
+
+  }
+
+}
+
+
+/* ================= PASSWORD TOGGLE ================= */
+
+document
+  .querySelectorAll(".toggle-password")
+  .forEach(function(button) {
+
+    button.addEventListener(
+      "click",
+      function() {
+
+        const targetId =
+          this.dataset.target;
+
+        const input =
+          document.getElementById(
+            targetId
+          );
+
+
+        if(input.type === "password") {
+
+          input.type =
+            "text";
+
+          this.textContent =
+            "🙈";
+
+        } else {
+
+          input.type =
+            "password";
+
+          this.textContent =
+            "👁";
+
+        }
+
+      }
+    );
+
+  });
+
+
+/* ================= EMAIL SIGNUP ================= */
+
+signupForm.addEventListener(
+  "submit",
+  async function(event) {
+
+    event.preventDefault();
+
+    clearMessage();
+
+
+    const name =
+      document
+        .getElementById("name")
+        .value
+        .trim();
+
+
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim();
+
+
+    const phone =
+      document
+        .getElementById("phone")
+        .value
+        .trim();
+
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+
+    const confirmPassword =
+      document
+        .getElementById("confirmPassword")
+        .value;
+
+
+    const terms =
+      document
+        .getElementById("terms")
+        .checked;
+
+
+/* ================= VALIDATION ================= */
+
+    if(name.length < 2) {
+
+      showMessage(
+        "Please enter your full name."
+      );
+
+      return;
 
     }
 
 
-    function clearMessage() {
+    if(!email) {
 
-      messageBox.textContent = "";
+      showMessage(
+        "Please enter your email address."
+      );
 
-      messageBox.className = "message";
+      return;
 
     }
 
 
-    /* =========================================
-       LOADING
-       ========================================= */
+    if(password.length < 6) {
 
-    function setLoading(loading) {
+      showMessage(
+        "Password must contain at least 6 characters."
+      );
 
-      signupBtn.disabled = loading;
+      return;
 
-      googleBtn.disabled = loading;
+    }
 
-      if (loading) {
 
-        signupBtn.textContent =
-          "Creating your account...";
+    if(password !== confirmPassword) {
+
+      showMessage(
+        "Passwords do not match."
+      );
+
+      return;
+
+    }
+
+
+    if(!terms) {
+
+      showMessage(
+        "Please accept the Terms & Conditions and Privacy Policy."
+      );
+
+      return;
+
+    }
+
+
+/* ================= CREATE ACCOUNT ================= */
+
+    try {
+
+      setLoading(true);
+
+
+      console.log(
+        "EATERGO: Creating Firebase account..."
+      );
+
+
+      const userCredential =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+
+      const user =
+        userCredential.user;
+
+
+      console.log(
+        "EATERGO: Account created:",
+        user.uid
+      );
+
+
+/* ================= UPDATE AUTH PROFILE ================= */
+
+      await updateProfile(
+        user,
+        {
+          displayName:
+            name
+        }
+      );
+
+
+      console.log(
+        "EATERGO: Display name updated"
+      );
+
+
+/* ================= SAVE FIRESTORE PROFILE ================= */
+
+      try {
+
+        await setDoc(
+          doc(
+            db,
+            "users",
+            user.uid
+          ),
+          {
+            uid:
+              user.uid,
+
+            name:
+              name,
+
+            email:
+              user.email || "",
+
+            phone:
+              phone || "",
+
+            status:
+              "active",
+
+            provider:
+              "password",
+
+            createdAt:
+              serverTimestamp(),
+
+            updatedAt:
+              serverTimestamp()
+          }
+        );
+
+
+        console.log(
+          "EATERGO: Firestore profile saved"
+        );
+
+
+      } catch(firestoreError) {
+
+        console.error(
+          "EATERGO: Firestore profile error:",
+          firestoreError
+        );
+
+        /*
+          Auth account is already created.
+          Firestore profile failure should NOT
+          prevent the customer from entering EaterGo.
+        */
+
+      }
+
+
+/* ================= VERIFY AUTH SESSION ================= */
+
+      if(auth.currentUser) {
+
+        console.log(
+          "EATERGO: AUTH SESSION CONFIRMED:",
+          auth.currentUser.uid
+        );
 
       } else {
 
-        signupBtn.textContent =
-          "Create EaterGo Account";
+        console.error(
+          "EATERGO: AUTH SESSION NOT FOUND"
+        );
 
       }
+
+
+/* ================= SUCCESS ================= */
+
+      showMessage(
+        "Account created successfully! Redirecting...",
+        "success"
+      );
+
+
+/* ================= REDIRECT ================= */
+
+      setTimeout(
+        function() {
+
+          window.location.replace(
+            "index.html"
+          );
+
+        },
+        800
+      );
+
+
+    } catch(error) {
+
+      console.error(
+        "EATERGO: Signup error:",
+        error
+      );
+
+
+      let message =
+        "Something went wrong. Please try again.";
+
+
+      if(
+        error.code ===
+        "auth/email-already-in-use"
+      ) {
+
+        message =
+          "An account already exists with this email.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/invalid-email"
+      ) {
+
+        message =
+          "Please enter a valid email address.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/weak-password"
+      ) {
+
+        message =
+          "Password is too weak. Use at least 6 characters.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/network-request-failed"
+      ) {
+
+        message =
+          "Network problem. Please check your internet connection.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/operation-not-allowed"
+      ) {
+
+        message =
+          "Email/password sign-up is not enabled in Firebase.";
+
+      }
+
+
+      showMessage(
+        message
+      );
+
+      setLoading(false);
 
     }
 
+  }
+);
 
-    /* =========================================
-       PASSWORD TOGGLE
-       ========================================= */
 
-    document
-      .querySelectorAll(".toggle-password")
-      .forEach(function(button) {
+/* ================= GOOGLE SIGN UP ================= */
 
-        button.addEventListener("click", function() {
+googleBtn.addEventListener(
+  "click",
+  async function() {
 
-          const targetId =
-            this.dataset.target;
+    clearMessage();
 
-          const input =
-            document.getElementById(targetId);
 
-          if (input.type === "password") {
+    try {
 
-            input.type = "text";
+      setLoading(true);
 
-            this.textContent = "🙈";
 
-          } else {
+      const provider =
+        new GoogleAuthProvider();
 
-            input.type = "password";
 
-            this.textContent = "👁";
-
-          }
-
-        });
-
+      provider.setCustomParameters({
+        prompt:
+          "select_account"
       });
 
 
-    /* =========================================
-       EMAIL SIGNUP
-       ========================================= */
+      console.log(
+        "EATERGO: Opening Google sign-in..."
+      );
 
-    signupForm.addEventListener(
-      "submit",
-      async function(event) {
 
-        event.preventDefault();
+      const result =
+        await signInWithPopup(
+          auth,
+          provider
+        );
 
-        clearMessage();
 
+      const user =
+        result.user;
 
-        const name =
-          document.getElementById("name")
-            .value.trim();
 
-        const email =
-          document.getElementById("email")
-            .value.trim();
+      console.log(
+        "EATERGO: Google user:",
+        user.uid
+      );
 
-        const phone =
-          document.getElementById("phone")
-            .value.trim();
 
-        const password =
-          document.getElementById("password")
-            .value;
+/* ================= SAVE GOOGLE PROFILE ================= */
 
-        const confirmPassword =
-          document.getElementById("confirmPassword")
-            .value;
+      try {
 
-        const terms =
-          document.getElementById("terms")
-            .checked;
+        await setDoc(
+          doc(
+            db,
+            "users",
+            user.uid
+          ),
+          {
+            uid:
+              user.uid,
 
+            name:
+              user.displayName ||
+              "EaterGo Customer",
 
-        /* VALIDATION */
+            email:
+              user.email ||
+              "",
 
-        if (name.length < 2) {
+            phone:
+              user.phoneNumber ||
+              "",
 
-          showMessage(
-            "Please enter your full name."
-          );
+            status:
+              "active",
 
-          return;
+            provider:
+              "google.com",
 
-        }
-
-
-        if (!email) {
-
-          showMessage(
-            "Please enter your email address."
-          );
-
-          return;
-
-        }
-
-
-        if (password.length < 6) {
-
-          showMessage(
-            "Password must contain at least 6 characters."
-          );
-
-          return;
-
-        }
-
-
-        if (password !== confirmPassword) {
-
-          showMessage(
-            "Passwords do not match."
-          );
-
-          return;
-
-        }
-
-
-        if (!terms) {
-
-          showMessage(
-            "Please accept the Terms & Conditions and Privacy Policy."
-          );
-
-          return;
-
-        }
-
-
-        try {
-
-          setLoading(true);
-
-
-          /* CREATE AUTH ACCOUNT */
-
-          const userCredential =
-            await createUserWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-
-
-          const user =
-            userCredential.user;
-
-
-          /* SAVE DISPLAY NAME */
-
-          await updateProfile(
-            user,
-            {
-              displayName: name
-            }
-          );
-
-
-          /* SAVE FIRESTORE PROFILE */
-
-          await setDoc(
-            doc(db, "users", user.uid),
-            {
-              uid: user.uid,
-              name: name,
-              email: user.email || "",
-              phone: phone || "",
-              status: "active",
-              provider: "password",
-              createdAt: serverTimestamp(),
-              updatedAt: serverTimestamp()
-            }
-          );
-
-
-          showMessage(
-            "Account created successfully! Redirecting...",
-            "success"
-          );
-
-
-          setTimeout(function() {
-
-            window.location.href =
-              "index.html";
-
-          }, 1000);
-
-
-        } catch (error) {
-
-          console.error(
-            "Signup error:",
-            error
-          );
-
-
-          let message =
-            "Something went wrong. Please try again.";
-
-
-          if (
-            error.code ===
-            "auth/email-already-in-use"
-          ) {
-
-            message =
-              "An account already exists with this email.";
-
+            updatedAt:
+              serverTimestamp()
+          },
+          {
+            merge:
+              true
           }
-
-          else if (
-            error.code ===
-            "auth/invalid-email"
-          ) {
-
-            message =
-              "Please enter a valid email address.";
-
-          }
-
-          else if (
-            error.code ===
-            "auth/weak-password"
-          ) {
-
-            message =
-              "Password is too weak. Use at least 6 characters.";
-
-          }
-
-          else if (
-            error.code ===
-            "auth/network-request-failed"
-          ) {
-
-            message =
-              "Network problem. Please check your internet connection.";
-
-          }
-
-          else if (
-            error.code ===
-            "permission-denied"
-          ) {
-
-            message =
-              "Account created, but the profile could not be saved. Please check Firestore rules.";
-
-          }
+        );
 
 
-          showMessage(message);
+      } catch(firestoreError) {
 
-          setLoading(false);
-
-        }
+        console.error(
+          "EATERGO: Google Firestore error:",
+          firestoreError
+        );
 
       }
-    );
 
 
-    /* =========================================
-       GOOGLE SIGN IN
-       ========================================= */
+/* ================= VERIFY GOOGLE SESSION ================= */
 
-    googleBtn.addEventListener(
-      "click",
-      async function() {
+      if(auth.currentUser) {
 
-        clearMessage();
-
-        try {
-
-          setLoading(true);
-
-
-          const provider =
-            new GoogleAuthProvider();
-
-
-          provider.setCustomParameters({
-            prompt: "select_account"
-          });
-
-
-          const result =
-            await signInWithPopup(
-              auth,
-              provider
-            );
-
-
-          const user =
-            result.user;
-
-
-          /* SAVE / UPDATE PROFILE */
-
-          await setDoc(
-            doc(db, "users", user.uid),
-            {
-              uid: user.uid,
-              name:
-                user.displayName ||
-                "EaterGo Customer",
-              email:
-                user.email || "",
-              phone:
-                user.phoneNumber || "",
-              status: "active",
-              provider: "google.com",
-              updatedAt: serverTimestamp()
-            },
-            {
-              merge: true
-            }
-          );
-
-
-          showMessage(
-            "Google account connected! Redirecting...",
-            "success"
-          );
-
-
-          setTimeout(function() {
-
-            window.location.href =
-              "index.html";
-
-          }, 900);
-
-
-        } catch (error) {
-
-          console.error(
-            "Google signup error:",
-            error
-          );
-
-
-          let message =
-            "Google sign-in failed. Please try again.";
-
-
-          if (
-            error.code ===
-            "auth/popup-closed-by-user"
-          ) {
-
-            message =
-              "Google sign-in was cancelled.";
-
-          }
-
-          else if (
-            error.code ===
-            "auth/popup-blocked"
-          ) {
-
-            message =
-              "Your browser blocked the Google popup. Please allow popups for EaterGo.";
-
-          }
-
-          else if (
-            error.code ===
-            "auth/unauthorized-domain"
-          ) {
-
-            message =
-              "This website domain is not authorized in Firebase. Please add the EaterGo GitHub domain in Firebase Authorized Domains.";
-
-          }
-
-          else if (
-            error.code ===
-            "auth/account-exists-with-different-credential"
-          ) {
-
-            message =
-              "An account already exists with this email using another sign-in method.";
-
-          }
-
-          else if (
-            error.code ===
-            "auth/network-request-failed"
-          ) {
-
-            message =
-              "Network problem. Please check your internet connection.";
-
-          }
-
-
-          showMessage(message);
-
-          setLoading(false);
-
-        }
+        console.log(
+          "EATERGO: GOOGLE SESSION CONFIRMED:",
+          auth.currentUser.uid
+        );
 
       }
-    );
 
-  </script>
+
+      showMessage(
+        "Google account connected! Redirecting...",
+        "success"
+      );
+
+
+      setTimeout(
+        function() {
+
+          window.location.replace(
+            "index.html"
+          );
+
+        },
+        800
+      );
+
+
+    } catch(error) {
+
+      console.error(
+        "EATERGO: Google signup error:",
+        error
+      );
+
+
+      let message =
+        "Google sign-in failed. Please try again.";
+
+
+      if(
+        error.code ===
+        "auth/popup-closed-by-user"
+      ) {
+
+        message =
+          "Google sign-in was cancelled.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/popup-blocked"
+      ) {
+
+        message =
+          "Your browser blocked the Google popup. Please allow popups for EaterGo.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/unauthorized-domain"
+      ) {
+
+        message =
+          "This website domain is not authorized in Firebase.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/account-exists-with-different-credential"
+      ) {
+
+        message =
+          "An account already exists with this email using another sign-in method.";
+
+      }
+
+      else if(
+        error.code ===
+        "auth/network-request-failed"
+      ) {
+
+        message =
+          "Network problem. Please check your internet connection.";
+
+      }
+
+
+      showMessage(
+        message
+      );
+
+      setLoading(false);
+
+    }
+
+  }
+);
+
+</script>
 
 </body>
 </html>
