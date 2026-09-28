@@ -1455,50 +1455,6 @@ a{
 }
 
 
-/* =========================================================
-   IMAGE LOADING
-   ========================================================= */
-
-.image-loading{
-
-  width:100%;
-
-  height:100%;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  background:
-    linear-gradient(
-      90deg,
-      #eeeeee 25%,
-      #f8f8f8 50%,
-      #eeeeee 75%
-    );
-
-  background-size:200% 100%;
-
-  animation:
-    shimmer 1.4s infinite;
-
-}
-
-
-@keyframes shimmer{
-
-  from{
-    background-position:200% 0;
-  }
-
-  to{
-    background-position:-200% 0;
-  }
-
-}
-
 </style>
 
 </head>
@@ -3031,108 +2987,160 @@ const toast =
 
 
 /* =========================================================
-   IMAGE URL
+   REAL FOOD IMAGE SYSTEM
    ========================================================= */
+
+const categoryImageUrls = {
+  Pizza:"https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=900&q=85",
+  Burgers:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=85",
+  Biryani:"https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=900&q=85",
+  Pasta:"https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=900&q=85",
+  Chinese:"https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=900&q=85",
+  Desserts:"https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=85",
+  Healthy:"https://images.unsplash.com/photo-1543362906-acfc16c67564?auto=format&fit=crop&w=900&q=85",
+  Drinks:"https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=900&q=85"
+};
 
 function getImageUrl(food){
-
-  const query =
-    encodeURIComponent(
-      food.name +
-      " " +
-      food.category +
-      " food"
-    );
-
-
-  return (
-
-    "https://loremflickr.com/800/600/" +
-
-    query +
-
-    "?lock=" +
-
-    food.imageId +
-
-    "&random=" +
-
-    food.imageId
-
-  );
-
+  return categoryImageUrls[food.category] || categoryImageUrls.Pizza;
 }
-
-
-/* =========================================================
-   IMAGE FALLBACK
-   ========================================================= */
-
-function getFallbackImage(food){
-
-  const query =
-    encodeURIComponent(
-      food.category +
-      " food"
-    );
-
-
-  return (
-
-    "https://loremflickr.com/800/600/" +
-
-    query +
-
-    "?lock=" +
-
-    (
-      10000 +
-      food.imageId
-    ) +
-
-    "&random=" +
-
-    (
-      10000 +
-      food.imageId
-    )
-
-  );
-
-}
-
-
-/* =========================================================
-   IMAGE ERROR HANDLER
-   ========================================================= */
 
 function handleImageError(img,food){
-
-  if(
-    img.dataset.fallback === "1"
-  ){
-
-    img.src =
-      "https://placehold.co/800x600/f4f4f4/777?text=" +
-
-      encodeURIComponent(
-        food.name
-      );
-
-    return;
-
-  }
-
-
-  img.dataset.fallback =
-    "1";
-
-
-  img.src =
-    getFallbackImage(food);
-
+  if(!img || !food) return;
+  if(img.dataset.fallbackUsed === "1") return;
+  img.dataset.fallbackUsed = "1";
+  img.src = getImageUrl(food);
 }
 
+const realImageCache = new Map();
+const realImageQueue = [];
+let realImageBusy = 0;
+const REAL_IMAGE_CONCURRENCY = 6;
+
+function cleanFoodName(name){
+  return String(name || "").replace(/\s+/g," ").trim();
+}
+
+async function findRealFoodImage(foodName){
+  const name = cleanFoodName(foodName);
+  if(!name) return null;
+
+  const key = name.toLowerCase();
+  if(realImageCache.has(key)) return realImageCache.get(key);
+
+  const queries = [
+    '"' + name + '" food',
+    '"' + name + '" dish',
+    name + ' food'
+  ];
+
+  for(const query of queries){
+    try{
+      const url =
+        "https://commons.wikimedia.org/w/api.php" +
+        "?action=query" +
+        "&generator=search" +
+        "&gsrsearch=" + encodeURIComponent(query) +
+        "&gsrnamespace=6" +
+        "&gsrlimit=10" +
+        "&prop=imageinfo" +
+        "&iiprop=url" +
+        "&iiurlwidth=900" +
+        "&format=json" +
+        "&origin=*";
+
+      const response = await fetch(url,{cache:"force-cache"});
+      if(!response.ok) continue;
+
+      const data = await response.json();
+      if(!data.query || !data.query.pages) continue;
+
+      const pages = Object.values(data.query.pages);
+      const words = name.toLowerCase()
+        .replace(/[^a-z0-9 ]/g," ")
+        .split(/\s+/)
+        .filter(w => w.length >= 4);
+
+      pages.sort((a,b) => {
+        const at = String(a.title || "").toLowerCase();
+        const bt = String(b.title || "").toLowerCase();
+        const as = words.reduce((n,w)=>n+(at.includes(w)?2:0),0);
+        const bs = words.reduce((n,w)=>n+(bt.includes(w)?2:0),0);
+        return bs-as;
+      });
+
+      for(const page of pages){
+        const info = page.imageinfo && page.imageinfo[0];
+        if(!info) continue;
+        const image = info.thumburl || info.url;
+        if(image){
+          realImageCache.set(key,image);
+          return image;
+        }
+      }
+    }catch(error){
+      console.warn("Real food image search failed:",name,error);
+    }
+  }
+
+  return null;
+}
+
+function queueRealFoodImage(img,food){
+  if(!img || !food) return;
+  if(img.dataset.realImageQueued === "1") return;
+
+  img.dataset.realImageQueued = "1";
+  realImageQueue.push({img,food});
+  processRealImageQueue();
+}
+
+function processRealImageQueue(){
+  while(realImageBusy < REAL_IMAGE_CONCURRENCY && realImageQueue.length){
+    const item = realImageQueue.shift();
+    realImageBusy++;
+
+    findRealFoodImage(item.food.name)
+      .then(url => {
+        if(!url) return;
+        if(item.img.dataset.foodName !== item.food.name) return;
+
+        const tester = new Image();
+        tester.onload = () => {
+          if(item.img.dataset.foodName !== item.food.name) return;
+          item.img.src = url;
+          item.img.alt = item.food.name;
+          item.img.dataset.realImageLoaded = "1";
+        };
+        tester.onerror = () => {};
+        tester.src = url;
+      })
+      .catch(error => console.warn("Food image error:",error))
+      .finally(() => {
+        realImageBusy--;
+        processRealImageQueue();
+      });
+  }
+}
+
+function processRealFoodImages(){
+  document.querySelectorAll(".food-card[data-food-id]").forEach(card => {
+    const id = Number(card.dataset.foodId);
+    const food = foods.find(item => Number(item.id) === id);
+    const img = card.querySelector(".food-image img");
+    if(!food || !img) return;
+
+    img.dataset.foodName = food.name;
+    img.alt = food.name;
+
+    if(!img.dataset.initialized){
+      img.dataset.initialized = "1";
+      img.src = getImageUrl(food);
+    }
+
+    queueRealFoodImage(img,food);
+  });
+}
 
 /* =========================================================
    RENDER FOOD
@@ -3396,15 +3404,12 @@ function renderFoods(){
 
             <div class="food-image">
 
-              <div class="image-loading">
-              </div>
-
               <img
                 src="${getImageUrl(food)}"
                 alt="${escapeHtml(food.name)}"
                 loading="lazy"
+                data-food-name="${escapeHtml(food.name)}"
                 onerror="handleImageError(this,foods.find(f=>f.id===${food.id}))"
-                onload="this.previousElementSibling.style.display='none'"
               >
 
 
@@ -4533,6 +4538,10 @@ updateCartCount();
 
 renderFoods();
 
+setTimeout(processRealFoodImages,150);
+setTimeout(processRealFoodImages,1000);
+setTimeout(processRealFoodImages,2500);
+
 
 /* =========================================================
    DEBUG
@@ -4548,543 +4557,3 @@ console.log(
 );
 
 </script>
-
-<!-- =========================================================
-     EATERGO REAL FOOD IMAGE SYSTEM
-     DO NOT REMOVE
-========================================================= -->
-
-<script>
-
-(function(){
-
-  /*
-    Real food image source:
-    Wikimedia Commons
-    Search is performed using the actual dish name.
-  */
-
-  const IMAGE_WIDTH = 900;
-
-  const imageCache = {};
-
-  function cleanFoodName(name){
-
-    return name
-      .replace(/\s+/g, " ")
-      .replace(/^[^A-Za-z0-9]+/, "")
-      .trim();
-
-  }
-
-
-  /*
-    Find the food name from the card.
-    This supports the existing EaterGo food-card structure
-    without changing the card design.
-  */
-
-  function getFoodName(card){
-
-    const selectors = [
-
-      ".food-name",
-      ".dish-name",
-      ".item-name",
-      ".menu-name",
-      ".card-title",
-      ".food-title",
-      "[data-food-name]",
-      "[data-name]"
-
-    ];
-
-    for(const selector of selectors){
-
-      const element =
-        card.querySelector(selector);
-
-      if(element){
-
-        const value =
-          element.getAttribute("data-food-name") ||
-          element.getAttribute("data-name") ||
-          element.textContent;
-
-        if(value && value.trim()){
-
-          return cleanFoodName(value);
-
-        }
-
-      }
-
-    }
-
-
-    /*
-      Fallback:
-      Find the largest meaningful text inside card.
-    */
-
-    const possible =
-      Array.from(
-        card.querySelectorAll(
-          "h1,h2,h3,h4,h5,.name,strong,b"
-        )
-      );
-
-    for(const element of possible){
-
-      const text =
-        cleanFoodName(element.textContent);
-
-      if(
-        text &&
-        text.length > 2 &&
-        text.length < 100
-      ){
-
-        return text;
-
-      }
-
-    }
-
-    return "";
-
-  }
-
-
-  /*
-    Get the image element.
-  */
-
-  function getImageElement(card){
-
-    let img =
-      card.querySelector(
-        ".food-image img, .dish-image img, .item-image img, img"
-      );
-
-    return img || null;
-
-  }
-
-
-  /*
-    Wikimedia Commons search.
-  */
-
-  async function findRealFoodImage(foodName){
-
-    if(!foodName){
-
-      return null;
-
-    }
-
-
-    if(imageCache[foodName]){
-
-      return imageCache[foodName];
-
-    }
-
-
-    const queries = [
-
-      foodName + " food",
-      foodName + " dish",
-      foodName
-
-    ];
-
-
-    for(const query of queries){
-
-      try{
-
-        const api =
-          "https://commons.wikimedia.org/w/api.php" +
-          "?action=query" +
-          "&generator=search" +
-          "&gsrsearch=" +
-          encodeURIComponent(query) +
-          "&gsrnamespace=6" +
-          "&gsrlimit=8" +
-          "&prop=imageinfo" +
-          "&iiprop=url" +
-          "&iiurlwidth=" + IMAGE_WIDTH +
-          "&format=json" +
-          "&origin=*";
-
-
-        const response =
-          await fetch(api, {
-            cache: "force-cache"
-          });
-
-
-        if(!response.ok){
-
-          continue;
-
-        }
-
-
-        const data =
-          await response.json();
-
-
-        if(!data.query || !data.query.pages){
-
-          continue;
-
-        }
-
-
-        const pages =
-          Object.values(data.query.pages);
-
-
-        /*
-          Prefer images whose Wikimedia filename
-          actually contains words from the dish name.
-        */
-
-        const words =
-          foodName
-            .toLowerCase()
-            .split(/\s+/)
-            .filter(
-              word =>
-                word.length >= 4
-            );
-
-
-        pages.sort(function(a,b){
-
-          const aTitle =
-            (a.title || "").toLowerCase();
-
-          const bTitle =
-            (b.title || "").toLowerCase();
-
-
-          const aScore =
-            words.reduce(
-              (score,word) =>
-                score +
-                (aTitle.includes(word) ? 1 : 0),
-              0
-            );
-
-
-          const bScore =
-            words.reduce(
-              (score,word) =>
-                score +
-                (bTitle.includes(word) ? 1 : 0),
-              0
-            );
-
-
-          return bScore - aScore;
-
-        });
-
-
-        for(const page of pages){
-
-          if(
-            page.imageinfo &&
-            page.imageinfo[0]
-          ){
-
-            const info =
-              page.imageinfo[0];
-
-
-            const url =
-              info.thumburl ||
-              info.url;
-
-
-            if(url){
-
-              imageCache[foodName] =
-                url;
-
-              return url;
-
-            }
-
-          }
-
-        }
-
-      }
-
-      catch(error){
-
-        console.warn(
-          "Food image search failed:",
-          foodName,
-          error
-        );
-
-      }
-
-    }
-
-
-    return null;
-
-  }
-
-
-  /*
-    Put the real image into the card.
-  */
-
-  async function loadRealFoodImage(card){
-
-    const foodName =
-      getFoodName(card);
-
-
-    if(!foodName){
-
-      return;
-
-    }
-
-
-    const img =
-      getImageElement(card);
-
-
-    if(!img){
-
-      return;
-
-    }
-
-
-    /*
-      Don't wait for image loading before
-      displaying the food cards.
-    */
-
-    const originalAlt =
-      img.getAttribute("alt") || "";
-
-
-    img.dataset.realFoodImage =
-      foodName;
-
-
-    const realImage =
-      await findRealFoodImage(foodName);
-
-
-    if(!realImage){
-
-      return;
-
-    }
-
-
-    /*
-      Prevent a late request from changing
-      an already reused card.
-    */
-
-    if(
-      img.dataset.realFoodImage !== foodName
-    ){
-
-      return;
-
-    }
-
-
-    img.onload =
-      function(){
-
-        img.classList.add(
-          "real-food-image-loaded"
-        );
-
-      };
-
-
-    img.onerror =
-      async function(){
-
-        /*
-          If Wikimedia image fails,
-          keep the existing image instead
-          of creating a broken image icon.
-        */
-
-        img.onerror = null;
-
-      };
-
-
-    img.src =
-      realImage;
-
-
-    img.alt =
-      foodName;
-
-  }
-
-
-  /*
-    Process all currently visible food cards.
-  */
-
-  function processFoodCards(){
-
-    const selectors = [
-
-      ".food-card",
-      ".dish-card",
-      ".menu-card",
-      ".food-item",
-      ".menu-item",
-      "[data-food-id]",
-      "[data-food-name]"
-
-    ];
-
-
-    let cards = [];
-
-
-    selectors.forEach(function(selector){
-
-      document
-        .querySelectorAll(selector)
-        .forEach(function(card){
-
-          if(!cards.includes(card)){
-
-            cards.push(card);
-
-          }
-
-        });
-
-    });
-
-
-    /*
-      Extra fallback:
-      Find cards inside common grid containers.
-    */
-
-    if(!cards.length){
-
-      document
-        .querySelectorAll(
-          ".food-grid article, .menu-grid article, .results-grid article"
-        )
-        .forEach(function(card){
-
-          if(!cards.includes(card)){
-
-            cards.push(card);
-
-          }
-
-        });
-
-    }
-
-
-    cards.forEach(function(card){
-
-      loadRealFoodImage(card);
-
-    });
-
-  }
-
-
-  /*
-    Watch for dynamically generated cards.
-    This is important because your 599 food
-    cards are generated by JavaScript.
-  */
-
-  const observer =
-    new MutationObserver(function(){
-
-      processFoodCards();
-
-    });
-
-
-  observer.observe(
-    document.body,
-    {
-      childList:true,
-      subtree:true
-    }
-  );
-
-
-  /*
-    Initial run.
-  */
-
-  if(
-    document.readyState === "loading"
-  ){
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      processFoodCards
-    );
-
-  }
-
-  else{
-
-    processFoodCards();
-
-  }
-
-
-  /*
-    Run again after the catalogue has
-    finished rendering.
-  */
-
-  setTimeout(
-    processFoodCards,
-    500
-  );
-
-  setTimeout(
-    processFoodCards,
-    1500
-  );
-
-  setTimeout(
-    processFoodCards,
-    3000
-  );
-
-
-})();
-
-</script>
-  
-</body>
-</html>
